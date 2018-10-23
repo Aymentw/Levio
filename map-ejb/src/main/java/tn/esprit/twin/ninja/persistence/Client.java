@@ -8,9 +8,11 @@ import javax.persistence.GenerationType;
 enum clientCategory {
 	privateCat, publicCat;
 }
+
 enum clientType {
 	currentClient, newClient, finishedContract;
 }
+
 @Entity
 public class Client {
 	@Id
