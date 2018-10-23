@@ -3,10 +3,7 @@ package tn.esprit.twin.ninja.persistence;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "ressource")
@@ -21,6 +18,8 @@ public class Ressource extends User implements Serializable {
 	private List<Leave> leaves;
 	@ManyToMany(mappedBy = "ressources")
 	private List<Skill> skills;
+	@ManyToOne
+	private Mandate mandate;
 
 	
 	
@@ -96,4 +95,11 @@ public class Ressource extends User implements Serializable {
 		this.skills = skills;
 	}
 
+	public Mandate getMandate() {
+		return mandate;
+	}
+
+	public void setMandate(Mandate mandate) {
+		this.mandate = mandate;
+	}
 }
