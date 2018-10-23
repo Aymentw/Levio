@@ -27,3 +27,8 @@ hs_err_pid*
 .classpath
 .project
 .settings/
+
+# Manifest & Pom properties
+
+*.MF
+**/pom.properties

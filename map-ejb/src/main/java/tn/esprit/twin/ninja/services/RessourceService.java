@@ -14,7 +14,7 @@ import tn.esprit.twin.ninja.persistence.Skill;
 @Stateless
 public class RessourceService implements RessourceServiceLocal{
 	
-	@PersistenceContext(unitName="imputation-ejb")
+	@PersistenceContext(unitName="LevioMap-ejb")
 	EntityManager em;
 
 	@Override
