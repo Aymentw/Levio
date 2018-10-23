@@ -1,5 +1,7 @@
 package tn.esprit.twin.ninja.persistence;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ enum clientType {
 }
 
 @Entity
-public class Client {
+public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
