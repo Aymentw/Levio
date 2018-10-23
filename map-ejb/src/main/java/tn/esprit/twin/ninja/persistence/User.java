@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class User implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
 	protected String last_name;
 	protected String first_name;

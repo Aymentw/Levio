@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import tn.esprit.twin.ninja.interfaces.LeaveServiceLocal;
 import tn.esprit.twin.ninja.persistence.Leave;
 
+
+@Stateless
 public class LeaveService implements LeaveServiceLocal {
 	
 	@PersistenceContext(unitName="LevioMap-ejb")

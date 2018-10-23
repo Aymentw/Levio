@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class Leave implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Temporal(TemporalType.DATE)
 	private Date start_date;

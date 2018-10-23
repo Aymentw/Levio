@@ -71,6 +71,7 @@ atlassian-ide-plugin.xml
  
 *.pydevproject
 .project
+.settings/
 .metadata
 *.tmp
 *.bak
@@ -80,6 +81,14 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+######################
+# Manifest & Pom properties
+######################
+
+*.MF
+**/pom.properties
+
 
 # External tool builders
 .externalToolBuilders/
@@ -102,3 +111,6 @@ derby.log
 ######################
 
 .factorypath
+
+/.settings/
+/.project
