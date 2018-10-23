@@ -82,7 +82,9 @@ local.properties
 .settings/
 .loadpath
 
+######################
 # Manifest & Pom properties
+######################
 
 *.MF
 **/pom.properties
