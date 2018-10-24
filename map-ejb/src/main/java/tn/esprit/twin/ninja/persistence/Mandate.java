@@ -16,10 +16,10 @@ public class Mandate implements Serializable {
     private Date StartDate;
     @Temporal(TemporalType.DATE)
     private Date EndDate;
-
     private float Montant ;
-    @OneToMany(mappedBy = "mandate")
-    private List<Ressource> listRessource;
+    
+    @ManyToOne
+    private Ressource ressource;
 
     public int getId() {
         return id;
@@ -53,11 +53,13 @@ public class Mandate implements Serializable {
         Montant = montant;
     }
 
-    public List<Ressource> getListRessource() {
-        return listRessource;
-    }
+	public Ressource getRessource() {
+		return ressource;
+	}
 
-    public void setListRessource(List<Ressource> listRessource) {
-        this.listRessource = listRessource;
-    }
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
+
+
 }

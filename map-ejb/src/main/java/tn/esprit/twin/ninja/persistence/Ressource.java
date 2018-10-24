@@ -18,8 +18,8 @@ public class Ressource extends User implements Serializable {
 	private List<Leave> leaves;
 	@ManyToMany(mappedBy = "ressources")
 	private List<Skill> skills;
-	@ManyToOne
-	private Mandate mandate;
+	@OneToMany (mappedBy = "ressource")
+	private List<Mandate> mandate;
 
 	
 	
@@ -95,11 +95,12 @@ public class Ressource extends User implements Serializable {
 		this.skills = skills;
 	}
 
-	public Mandate getMandate() {
+	public List<Mandate> getMandate() {
 		return mandate;
 	}
 
-	public void setMandate(Mandate mandate) {
+	public void setMandate(List<Mandate> mandate) {
 		this.mandate = mandate;
 	}
+	
 }
