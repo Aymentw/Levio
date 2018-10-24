@@ -22,7 +22,7 @@ public class RessourceService implements RessourceServiceLocal{
 	@Override
 	public void addRessource(Ressource r) {
 		
-		em.persist(r);	
+		em.persist(r);
 	}
 
 	@Override
