@@ -32,8 +32,22 @@ public class Project implements Serializable{
 	private String photo;
 	
 	@ManyToOne
-	private Client clients;
+	private Client client;
+	@OneToMany (mappedBy="project")
+	List<Mandate> mandates;
 	
+	public Client getClients() {
+		return client;
+	}
+	public void setClients(Client client) {
+		this.client = client;
+	}
+	public List<Mandate> getMandates() {
+		return mandates;
+	}
+	public void setMandates(List<Mandate> mandates) {
+		this.mandates = mandates;
+	}
 	public int getId() {
 		return id;
 	}
