@@ -47,6 +47,11 @@ public class MandateServices implements MandateServicesRemote {
     }
 
     @Override
+    public void CalculateFees() {
+
+    }
+
+    @Override
     public void DisplayHistory() {
 
     }

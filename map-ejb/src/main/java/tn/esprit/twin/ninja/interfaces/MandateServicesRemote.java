@@ -12,6 +12,7 @@ public interface MandateServicesRemote {
     public List<Mandate> getMandateByResource(int resourceId);
 
     public void AssignResource();
+    public void CalculateFees();
 
     public void DisplayHistory();
     public void ArchiveHistory();
