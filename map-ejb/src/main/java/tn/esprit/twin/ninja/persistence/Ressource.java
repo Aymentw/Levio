@@ -11,6 +11,7 @@ public class Ressource extends User implements Serializable {
 
 	private int seniority;
 	private String sector;
+	@Enumerated (EnumType.STRING)
 	private RessourceState state;
 	private String profile;
 	private String contract_type;

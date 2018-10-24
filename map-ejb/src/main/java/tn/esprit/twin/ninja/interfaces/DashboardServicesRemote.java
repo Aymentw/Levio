@@ -4,6 +4,7 @@ import javax.ejb.Remote;
 
 @Remote
 public interface DashboardServicesRemote {
-public int getNumberFreelancers();
-public int getNumberEmloyees();
+public Long getNumberFreelancers();
+public Long getNumberEmployees();
+public Long getNumberEmployeesInMandates();
 }
