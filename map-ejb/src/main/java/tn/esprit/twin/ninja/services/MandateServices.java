@@ -33,7 +33,7 @@ public class MandateServices implements MandateServicesRemote {
     @Override
     public List<Mandate> getMandateByResource(int resourceId) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.listRessource=:resId", Mandate.class);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.ressource=:resId", Mandate.class);
         query.setParameter("resId", resourceId);
         List<Mandate> results = query.getResultList();
         return results;
