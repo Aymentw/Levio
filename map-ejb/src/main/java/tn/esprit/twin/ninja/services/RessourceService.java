@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.RessourceServiceLocal;
+import tn.esprit.twin.ninja.persistence.Client;
+import tn.esprit.twin.ninja.persistence.Message;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 
@@ -85,5 +87,12 @@ public class RessourceService implements RessourceServiceLocal{
 		return null;
 	}
 
-
+	@Override
+	public void sendMessageToClient(Message message, int clientId) {
+		Client client = em.find(Client.class, clientId);
+		message.setTarget("CLIENT");
+		em.merge(message);
+		//send an email to the client email with the message body 
+		
+	}
 }
