@@ -7,12 +7,13 @@ import javax.persistence.PersistenceContext;
 import tn.esprit.twin.ninja.interfaces.ClientServiceRemote;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Message;
+import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Request;
 
 @Stateless
 public class ClientService implements ClientServiceRemote{
 
-	@PersistenceContext
+	@PersistenceContext(unitName="LevioMap-ejb")
 	private EntityManager em;
 
 	@Override
@@ -28,6 +29,18 @@ public class ClientService implements ClientServiceRemote{
 		message.setTarget("RESOURCE");
 		em.merge(message);
 		//send an email to the resource email with the message body 
+	}
+
+	@Override
+	public void addClient(Client c) {
+		em.persist(c);
+		
+	}
+
+	@Override
+	public void deleteClient(int idClient) {
+		em.remove(em.find(Client.class, idClient));
+		
 	}
 
 	
