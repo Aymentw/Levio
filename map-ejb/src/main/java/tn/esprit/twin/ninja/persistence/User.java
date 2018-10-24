@@ -11,12 +11,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	protected int id;
 	protected String last_name;
 	protected String first_name;
@@ -24,9 +23,17 @@ public class User implements Serializable {
 	protected String photo;
 	protected boolean archived;
 	protected String type;
+	protected String role;
+	
+	
+	public String getRole() {
+		return role;
+	}
 
-	
-	
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public User() {
 		super();
 	}

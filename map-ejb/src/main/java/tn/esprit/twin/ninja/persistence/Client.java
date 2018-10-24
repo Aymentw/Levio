@@ -1,9 +1,14 @@
 package tn.esprit.twin.ninja.persistence;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.GenerationType;
+import tn.esprit.twin.ninja.persistence.Request;
 
 enum clientCategory {
 	privateCat, publicCat;
@@ -14,17 +19,24 @@ enum clientType {
 }
 
 @Entity
-public class Client {
+public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private clientCategory category;
 	private clientType type;
-	
+	@ManyToMany
+	private List<Request> requests;
 	
 	public Integer getId() {
 		return id;
+	}
+	public List<Request> getRequests() {
+		return requests;
+	}
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
 	}
 	public void setId(Integer id) {
 		this.id = id;
