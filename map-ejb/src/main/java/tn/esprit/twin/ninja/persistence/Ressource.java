@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"leaves","skills","mandate"})
+@JsonIgnoreProperties({ "leaves", "skills", "mandate" })
 @Entity
 public class Ressource extends User implements Serializable {
 
@@ -17,18 +17,15 @@ public class Ressource extends User implements Serializable {
 	private RessourceState state;
 	private String profile;
 	private String contract_type;
-	
-	
+
 	@OneToMany(mappedBy = "ressource")
 	private List<Leave> leaves;
-	
-	@ManyToMany(mappedBy = "ressources")
+
+	@OneToMany(mappedBy = "ressource")
 	private List<Skill> skills;
-	@OneToMany (mappedBy = "ressource")
+	@OneToMany(mappedBy = "ressource")
 	private List<Mandate> mandate;
 
-	
-	
 	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();
@@ -108,5 +105,5 @@ public class Ressource extends User implements Serializable {
 	public void setMandate(List<Mandate> mandate) {
 		this.mandate = mandate;
 	}
-	
+
 }

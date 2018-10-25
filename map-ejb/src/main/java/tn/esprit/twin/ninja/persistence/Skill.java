@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Skill implements Serializable {
@@ -18,8 +17,8 @@ public class Skill implements Serializable {
 	private int id;
 	private String name;
 	private int rating;
-	@ManyToMany
-	private List<Ressource> ressources;
+	@ManyToOne
+	private Ressource ressource;
 
 	public Skill() {
 		super();
@@ -49,12 +48,14 @@ public class Skill implements Serializable {
 		this.rating = rating;
 	}
 
-	public List<Ressource> getRessources() {
-		return ressources;
+	public Ressource getRessource() {
+		return ressource;
 	}
 
-	public void setRessources(List<Ressource> ressources) {
-		this.ressources = ressources;
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
 	}
+
+
 
 }
