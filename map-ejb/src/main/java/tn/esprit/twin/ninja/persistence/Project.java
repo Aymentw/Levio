@@ -82,5 +82,12 @@ public class Project implements Serializable{
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	public Client getClients() {
+		return clients;
+	}
+	public void setClients(Client clients) {
+		this.clients = clients;
+	}
+	
 
 }

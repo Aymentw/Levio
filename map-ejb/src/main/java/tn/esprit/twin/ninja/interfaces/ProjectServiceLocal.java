@@ -8,5 +8,6 @@ public interface ProjectServiceLocal {
 	
 	public void addProject(Project p);
 	public void deleteProject(int idProject);
-	public void updateProject(int idProject);
+	public void updateProject(Project p);
+	public void affectProjecttoClient(int projectId, int clientId);
 }
