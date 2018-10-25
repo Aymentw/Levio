@@ -1,5 +1,6 @@
 package tn.esprit.twin.ninja.services;
 
+import tn.esprit.twin.ninja.interfaces.MandateServicesLocal;
 import tn.esprit.twin.ninja.interfaces.MandateServicesRemote;
 import tn.esprit.twin.ninja.persistence.Mandate;
 
@@ -10,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 @Stateless
-public class MandateServices implements MandateServicesRemote {
+public class MandateServices implements MandateServicesRemote, MandateServicesLocal {
     @PersistenceContext(unitName="LevioMap-ejb")
     EntityManager em;
 
@@ -24,7 +25,7 @@ public class MandateServices implements MandateServicesRemote {
     @Override
     public List<Mandate> SearchMandateByDate(Date date) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate>=:date and m.EndDate<=:date", Mandate.class);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate<=:date and m.EndDate>=:date", Mandate.class);
         query.setParameter("date", date);
         List<Mandate> results = query.getResultList();
         return results;
@@ -33,7 +34,7 @@ public class MandateServices implements MandateServicesRemote {
     @Override
     public List<Mandate> getMandateByResource(int resourceId) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.listRessource=:resId", Mandate.class);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.ressource=:resId", Mandate.class);
         query.setParameter("resId", resourceId);
         List<Mandate> results = query.getResultList();
         return results;

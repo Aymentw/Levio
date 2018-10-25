@@ -20,8 +20,19 @@ public class Mandate implements Serializable {
     
     @ManyToOne
     private Ressource ressource;
+    @ManyToOne
+    private Project project;
+    
 
-    public int getId() {
+    public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public int getId() {
         return id;
     }
 

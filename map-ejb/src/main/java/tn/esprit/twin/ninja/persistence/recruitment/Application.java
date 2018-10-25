@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table
 
@@ -25,14 +30,15 @@ public class Application implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Temporal(TemporalType.TIMESTAMP )
-	private Date date_app;
+	private Date date_app= new Date();
 	@Enumerated(EnumType.STRING)
-	private State state;
-	@OneToOne
+	private State state=State.notApplay;
+	@OneToOne(cascade=CascadeType.PERSIST)
 	private Folder folder;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Test> listTest;
 	@OneToMany(mappedBy="application")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Interview> listInterview;
 	
 	public int getId() {

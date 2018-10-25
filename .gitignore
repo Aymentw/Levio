@@ -114,3 +114,6 @@ derby.log
 
 /.settings/
 /.project
+map-ear/target/m2e-wtp/ear-resources/META-INF/maven/tn.esprit.twin.ninja/map-ear/pom.properties
+map-ejb/.classpath
+map-ejb/.classpath
