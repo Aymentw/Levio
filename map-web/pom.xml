@@ -29,22 +29,13 @@
 			<type>ejb</type>
 			<scope>provided</scope>
 		</dependency>
-<<<<<<< HEAD
-=======
-
 		<!-- resteasy -->
->>>>>>> b53d4f9a549d4cc2c680c7931ca954dc9e7363ae
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
 			<version>3.0.19.Final</version>
 			<scope>provided</scope>
 		</dependency>
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> b53d4f9a549d4cc2c680c7931ca954dc9e7363ae
 	</dependencies>
 
 	<build>
