@@ -8,8 +8,8 @@ import tn.esprit.twin.ninja.persistence.Ressource;
 public interface RessourceServiceLocal {
 	
 	public void addRessource(Ressource r);
-	public void updateRessource(int ressourceId);
 	public void deleteRessource(int ressourceId);
+	public 	void updateRessource(Ressource res);
 	public List<Ressource> getAllRessources();
 	public Ressource getRessourceById(int ressourceId);
 	public void addSkills(int skillId);
@@ -18,6 +18,7 @@ public interface RessourceServiceLocal {
 	public void evaluateSkills();
 	public List<Ressource> getRessourcesBySkill();
 	public void sendMessageToClient(Message message, int clientId);
+
 
 
 }

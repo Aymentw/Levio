@@ -5,21 +5,27 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"leaves","skills","mandate"})
 @Entity
-@DiscriminatorValue(value = "ressource")
 public class Ressource extends User implements Serializable {
 
 	private int seniority;
 	private String sector;
+	@Enumerated(EnumType.STRING)
 	private RessourceState state;
 	private String profile;
 	private String contract_type;
+	
+	
 	@OneToMany(mappedBy = "ressource")
 	private List<Leave> leaves;
+	
 	@ManyToMany(mappedBy = "ressources")
 	private List<Skill> skills;
-	@ManyToOne
-	private Mandate mandate;
+	@OneToMany (mappedBy = "ressource")
+	private List<Mandate> mandate;
 
 	
 	
@@ -95,11 +101,12 @@ public class Ressource extends User implements Serializable {
 		this.skills = skills;
 	}
 
-	public Mandate getMandate() {
+	public List<Mandate> getMandate() {
 		return mandate;
 	}
 
-	public void setMandate(Mandate mandate) {
+	public void setMandate(List<Mandate> mandate) {
 		this.mandate = mandate;
 	}
+	
 }

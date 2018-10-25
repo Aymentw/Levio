@@ -28,6 +28,7 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Achraf/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.0/jackson-annotations-2.8.0.jar">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -35,6 +36,14 @@
 			<attribute name="maven.groupId" value="com.fasterxml.jackson.core"/>
 			<attribute name="maven.artifactId" value="jackson-annotations"/>
 			<attribute name="maven.version" value="2.8.0"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Aymen/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.2/jackson-annotations-2.9.2.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.fasterxml.jackson.core"/>
+			<attribute name="maven.artifactId" value="jackson-annotations"/>
+			<attribute name="maven.version" value="2.9.2"/>
+>>>>>>> b53d4f9a549d4cc2c680c7931ca954dc9e7363ae
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
