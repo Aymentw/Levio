@@ -3,14 +3,25 @@ package tn.esprit.twin.ninja.persistence.recruitment;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.jms.JMSSessionMode;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 
 @Entity
 @Table
@@ -18,33 +29,26 @@ public class Folder implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String letterEmpUser;
-	private String letterEmpAdmin;
-
+	@OneToOne
+	private Letter letterEmpUser;
 	@Enumerated(EnumType.STRING)
-	private StateFolder stateFolder;
+	private StateFolder stateFolder=StateFolder.notComplited;
 	@Enumerated(EnumType.STRING)
-	private StateMinister stateMinister;
-	@Enumerated(EnumType.STRING)
-	private StateLetter stateLetter;
-	@OneToOne(mappedBy="folder")
+	private StateMinister stateMinister=StateMinister.notSend;
+	@OneToOne(mappedBy="folder",cascade=CascadeType.PERSIST)
+	@JsonBackReference
 	private Application application;
 	
 	
 	
 	
-	public String getLetterEmpUser() {
+	public Letter getLetterEmpUser() {
 		return letterEmpUser;
 	}
-	public void setLetterEmpUser(String letterEmpUser) {
+	public void setLetterEmpUser(Letter letterEmpUser) {
 		this.letterEmpUser = letterEmpUser;
 	}
-	public String getLetterEmpAdmin() {
-		return letterEmpAdmin;
-	}
-	public void setLetterEmpAdmin(String letterEmpAdmin) {
-		this.letterEmpAdmin = letterEmpAdmin;
-	}
+	
 	
 	public StateMinister getStateMinister() {
 		return stateMinister;
@@ -52,12 +56,7 @@ public class Folder implements Serializable {
 	public void setStateMinister(StateMinister stateMinister) {
 		this.stateMinister = stateMinister;
 	}
-	public StateLetter getStateLetter() {
-		return stateLetter;
-	}
-	public void setStateLetter(StateLetter stateLetter) {
-		this.stateLetter = stateLetter;
-	}
+	
 	public int getId() {
 		return id;
 	}
@@ -76,13 +75,13 @@ public class Folder implements Serializable {
 	public void setApplication(Application application) {
 		this.application = application;
 	}
-	public Folder(String letterEmpAdmin,String letterEmpUser, StateFolder stateFolder, StateMinister stateMinister, StateLetter stateLetter) {
+	public Folder(Letter letterEmpUser, StateFolder stateFolder, StateMinister stateMinister) {
 		super();
-		this.letterEmpAdmin = letterEmpAdmin;
+		
 		this.letterEmpUser = letterEmpUser;
 		this.stateFolder = stateFolder;
 		this.stateMinister = stateMinister;
-		this.stateLetter = stateLetter;
+		
 	}
 	public Folder() {
 		super();

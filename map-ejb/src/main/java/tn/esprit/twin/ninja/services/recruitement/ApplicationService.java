@@ -1,11 +1,16 @@
 package tn.esprit.twin.ninja.services.recruitement;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.recruitement.ApplicationServiceLocal;
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
+import tn.esprit.twin.ninja.persistence.recruitment.Folder;
+import tn.esprit.twin.ninja.persistence.recruitment.State;
 
 @Stateless
 public class ApplicationService implements ApplicationServiceLocal {
@@ -13,26 +18,55 @@ public class ApplicationService implements ApplicationServiceLocal {
 	private EntityManager em;
 	@Override
 	public int addApplication(Application a) {
+		Folder f= new Folder();
+		a.setFolder(f);
 		em.persist(a);
 		return a.getId();
 	}
 
 	@Override
 	public Application getApplication(int idRessource) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return em.find(Application.class, idRessource);
 	}
 
 	@Override
-	public int deleteApplication(int idApplication) {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean deleteApplication(int idApplication) {
+		Application a = em.find(Application.class, idApplication);
+		try {
+			em.remove(a);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public int setStateApplication(int idApplication) {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean setStateApplication(Application application) {
+		try {em.merge(application);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+		
 	}
+
+	@Override
+	public List<Application> getAllApplication() {
+		Query query = em.createQuery("SELECT a from Application a");	
+		//query.getResultList().stream().forEach(p->System.out.println("eeeeeee"));
+		return query.getResultList();
+		
+	}
+
+	@Override
+	public List<Application> getApplicationByState(State state) {
+		Query query = em.createQuery("SELECT a from Application a where a.state=:state");	
+		query.setParameter("state", state);
+		//query.getResultList().stream().forEach(p->System.out.println("eeeeeee"));
+		return query.getResultList();
+	}
+	
 
 }
