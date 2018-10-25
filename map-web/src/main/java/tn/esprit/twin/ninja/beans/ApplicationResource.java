@@ -22,7 +22,7 @@ import tn.esprit.twin.ninja.persistence.recruitment.State;
 @Path("application")
 @RequestScoped
 public class ApplicationResource {
-	@EJB(beanName = "ApplicationService")
+	@EJB//(beanName = "ApplicationService")
 	ApplicationServiceLocal ApplicationService;
 	@POST
 	//@Consumes(MediaType.APPLICATION_JSON)
