@@ -36,12 +36,7 @@ public class Project implements Serializable{
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
 	
-	public Client getClients() {
-		return client;
-	}
-	public void setClients(Client client) {
-		this.client = client;
-	}
+	
 	public List<Mandate> getMandates() {
 		return mandates;
 	}
@@ -96,12 +91,13 @@ public class Project implements Serializable{
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	public Client getClients() {
-		return clients;
+	public Client getClient() {
+		return client;
 	}
-	public void setClients(Client clients) {
-		this.clients = clients;
+	public void setClient(Client client) {
+		this.client = client;
 	}
+
 	
 
 }
