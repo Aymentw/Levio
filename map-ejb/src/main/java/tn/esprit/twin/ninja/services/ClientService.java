@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import tn.esprit.twin.ninja.interfaces.ClientServiceLocal;
 import tn.esprit.twin.ninja.interfaces.ClientServiceRemote;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Message;
@@ -11,7 +13,7 @@ import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Request;
 
 @Stateless
-public class ClientService implements ClientServiceRemote{
+public class ClientService implements ClientServiceRemote, ClientServiceLocal{
 
 	@PersistenceContext(unitName="LevioMap-ejb")
 	private EntityManager em;
