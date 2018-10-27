@@ -1,5 +1,6 @@
 package tn.esprit.twin.ninja.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -29,15 +30,7 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public void updateRessource(Ressource res) {
 
-		Ressource r = em.find(Ressource.class, res.getId());
-		r.setFirst_name(res.getFirst_name());
-		r.setLast_name(res.getLast_name());
-		r.setContract_type(res.getContract_type());
-		r.setSector(res.getSector());
-		r.setSeniority(res.getSeniority());
-		r.setState(res.getState());
-
-		em.merge(r);
+		em.merge(res);
 
 	}
 
@@ -58,26 +51,33 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public Ressource getRessourceById(int ressourceId) {
 
-		return em.createQuery("SELECT * FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
+		return em.createQuery("SELECT r FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
 				.setParameter("ressourceId", ressourceId).getSingleResult();
 	}
 
 	@Override
-	public void addSkills(int skillId) {
+	public void addSkills(int ressourceId, int skillId) {
+		Ressource r = em.find(Ressource.class, ressourceId);
+		Skill s = em.find(Skill.class, skillId);
+		s.setRessource(r);
+	}
+
+	@Override
+	public void updateSkills(int ressourceId, int skillId, Skill skill) {
+		Ressource r = em.find(Ressource.class, ressourceId);
+		Skill s = em.find(Skill.class, skillId);
 
 	}
 
 	@Override
-	public void updateSkills(int ressourceId) {
-		// TODO Auto-generated method stub
+	public void deleteSkills(int skillId, int ressourceId) {
+		Skill s = em.find(Skill.class, skillId);
+		Ressource r = em.find(Ressource.class, ressourceId);
+			r.getSkills().remove(s);
 
-	}
+		}
 
-	@Override
-	public void deleteSkills() {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void evaluateSkills() {
