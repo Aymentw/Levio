@@ -33,6 +33,10 @@ public class Skill implements Serializable {
 		return ressource;
 	}
 
+	public SkillName getName() {
+		return name;
+	}
+
 	public void setName(SkillName name) {
 		this.name = name;
 	}
