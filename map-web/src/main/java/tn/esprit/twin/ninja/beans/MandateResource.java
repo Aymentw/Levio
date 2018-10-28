@@ -33,6 +33,7 @@ public class MandateResource {
 			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date FDate;
+			//String resourceId=""+resid;
 			String resourceId=String.valueOf(resid);
 			
 		if ((resourceId == null) && (date == null))
