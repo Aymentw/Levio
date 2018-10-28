@@ -51,10 +51,10 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
  
     	mand.setStartDate(projetEntity.getStart_date());
     	mand.setEndDate(projetEntity.getEnd_date());
+    	mand.setProject(projetEntity);
+    	mand.setRessource(resourceEntity);
     	em.persist(mand);
-    	projetEntity.getMandates().add(mand);
-    	resourceEntity.getMandate().add(mand);
-
+    
     }
 
     @Override
