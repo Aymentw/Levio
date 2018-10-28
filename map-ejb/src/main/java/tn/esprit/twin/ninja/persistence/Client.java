@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.GenerationType;
 import tn.esprit.twin.ninja.persistence.Request;
 
@@ -26,6 +29,7 @@ public class Client implements Serializable {
 	private String name;
 	private clientCategory category;
 	private clientType type;
+	@JsonIgnore
 	@ManyToMany
 	private List<Request> requests;
 	

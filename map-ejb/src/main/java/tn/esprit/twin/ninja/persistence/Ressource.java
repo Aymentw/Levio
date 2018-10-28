@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"leaves","skills","mandate"})
@@ -24,6 +25,7 @@ public class Ressource extends User implements Serializable {
 	
 	@ManyToMany(mappedBy = "ressources")
 	private List<Skill> skills;
+	@JsonIgnore
 	@OneToMany (mappedBy = "ressource")
 	private List<Mandate> mandate;
 

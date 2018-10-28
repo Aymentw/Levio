@@ -3,7 +3,8 @@ package tn.esprit.twin.ninja.services;
 import tn.esprit.twin.ninja.interfaces.MandateServicesLocal;
 import tn.esprit.twin.ninja.interfaces.MandateServicesRemote;
 import tn.esprit.twin.ninja.persistence.Mandate;
-
+import tn.esprit.twin.ninja.persistence.Project;
+import tn.esprit.twin.ninja.persistence.Ressource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +26,7 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     @Override
     public List<Mandate> SearchMandateByDate(Date date) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate<=:date and m.EndDate>=:date", Mandate.class);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate>=:date and m.EndDate<=:date", Mandate.class);
         query.setParameter("date", date);
         List<Mandate> results = query.getResultList();
         return results;
@@ -43,7 +44,16 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
 
 
     @Override
-    public void AssignResource() {
+    public void AssignResource(int projetId,int resourceId) {
+    	Project projetEntity = em.find(Project.class, projetId);
+    	Ressource resourceEntity = em.find(Ressource.class, resourceId);
+    	Mandate mand=new Mandate();
+ 
+    	mand.setStartDate(projetEntity.getStart_date());
+    	mand.setEndDate(projetEntity.getEnd_date());
+    	em.persist(mand);
+    	projetEntity.getMandates().add(mand);
+    	resourceEntity.getMandate().add(mand);
 
     }
 
@@ -53,13 +63,16 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     }
 
     @Override
-    public void DisplayHistory() {
-
+    public List<Mandate> DisplayHistory() {
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.EndDate<=CURRENT_DATE", Mandate.class);
+        List<Mandate> results = query.getResultList();
+        return results;
     }
 
     @Override
-    public void ArchiveHistory() {
-
+    public void ArchiveHistory(int mandateID) {
+    	Mandate mandateEntity = em.find(Mandate.class, mandateID);
+    	mandateEntity.setArchived(true);
     }
 
     @Override

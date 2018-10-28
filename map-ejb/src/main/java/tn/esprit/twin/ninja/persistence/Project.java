@@ -1,6 +1,7 @@
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 enum projectType {
 	currentClient, newClient, finishedContract;
@@ -33,8 +36,9 @@ public class Project implements Serializable{
 	
 	@ManyToOne
 	private Client client;
+	@JsonIgnore
 	@OneToMany (mappedBy="project")
-	List<Mandate> mandates;
+	List<Mandate> mandates= new ArrayList<Mandate>(); ;
 	
 	public Client getClients() {
 		return client;

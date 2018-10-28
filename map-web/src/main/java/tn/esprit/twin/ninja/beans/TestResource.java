@@ -1,4 +1,4 @@
-package tn.esprit.webservices;
+package tn.esprit.twin.ninja.beans;
 
 import java.util.List;
 

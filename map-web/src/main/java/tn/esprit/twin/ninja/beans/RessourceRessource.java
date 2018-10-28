@@ -74,7 +74,9 @@ public class RessourceRessource {
 	@Path("{ressourceId}/{skillId}")
 	public Response addSkillsToRessource(@PathParam("ressourceId") int ressourceId,@PathParam("skillId") int skillId) {
 		
-		ressourceService.addSkills(ressourceId, skillId);
+		//ressourceService.addSkills(ressourceId, skillId);
+		ressourceService.addSkills(skillId);
+
 		return Response.status(Status.OK).build();
 
 
@@ -86,7 +88,8 @@ public class RessourceRessource {
 	@Path("updateSkills/{ressourceId}/{skillId}")
 	public Response updateRessourceSkill(@PathParam("ressourceId") int ressourceId,@PathParam("skillId") int skillId,Skill skill) {
 		
-		ressourceService.updateSkills(ressourceId, skillId, skill);
+	//	ressourceService.updateSkills(ressourceId, skillId, skill);
+		ressourceService.updateSkills(ressourceId);
 		return Response.status(Status.OK).build();
 
 
