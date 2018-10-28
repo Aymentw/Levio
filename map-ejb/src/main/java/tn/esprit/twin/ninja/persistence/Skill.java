@@ -3,16 +3,15 @@ package tn.esprit.twin.ninja.persistence;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 public class Skill implements Serializable {
@@ -20,13 +19,11 @@ public class Skill implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Enumerated(EnumType.STRING)
 	private SkillName name;
 	private int rating;
-	@ManyToOne
-	
+	@ManyToOne	
 	private Ressource ressource;
-
+	
 	public Skill() {
 		super();
 	}
@@ -52,9 +49,6 @@ public class Skill implements Serializable {
 		this.id = id;
 	}
 
-	public SkillName getName() {
-		return name;
-	}
 
 	public int getRating() {
 		return rating;

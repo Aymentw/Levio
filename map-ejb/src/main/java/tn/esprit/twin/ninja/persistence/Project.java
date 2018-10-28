@@ -1,6 +1,7 @@
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 enum projectType {
 	currentClient, newClient, finishedContract;
@@ -39,6 +42,7 @@ public class Project implements Serializable{
 	private String photo;
 	@ManyToOne
 	private Client client;
+	@JsonIgnore
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
 	@OneToMany(mappedBy="project")
@@ -50,6 +54,13 @@ public class Project implements Serializable{
 	}
 	public void setRessources(List<Ressource> ressources) {
 		this.ressources = ressources;
+	}
+		
+	public Client getClients() {
+		return client;
+	}
+	public void setClients(Client client) {
+		this.client = client;
 	}
 	public List<Mandate> getMandates() {
 		return mandates;
@@ -105,13 +116,5 @@ public class Project implements Serializable{
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	public Client getClient() {
-		return client;
-	}
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	
 
 }

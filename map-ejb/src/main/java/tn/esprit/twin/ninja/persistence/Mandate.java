@@ -1,22 +1,33 @@
 package tn.esprit.twin.ninja.persistence;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
+@JsonRootName("Mandate")
 @Entity
 @Table(name="Mandate")
 public class Mandate implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Temporal(TemporalType.DATE)
     private Date StartDate;
     @Temporal(TemporalType.DATE)
     private Date EndDate;
+    @Temporal(TemporalType.DATE)
+    private Date ActualEndDate ;
+    @Column(nullable = true)
     private float Montant ;
+    @Column(nullable = true)
+    private Boolean Archived=false;
     
     @ManyToOne
     private Ressource ressource;
@@ -70,6 +81,22 @@ public class Mandate implements Serializable {
 
 	public void setRessource(Ressource ressource) {
 		this.ressource = ressource;
+	}
+
+	public Date getActualEndDate() {
+		return ActualEndDate;
+	}
+
+	public void setActualEndDate(Date actualEndDate) {
+		ActualEndDate = actualEndDate;
+	}
+
+	public Boolean getArchived() {
+		return Archived;
+	}
+
+	public void setArchived(Boolean archived) {
+		Archived = archived;
 	}
 
 

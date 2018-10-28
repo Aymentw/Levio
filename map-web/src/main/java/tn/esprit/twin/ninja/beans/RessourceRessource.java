@@ -87,6 +87,7 @@ public class RessourceRessource {
 	public Response addSkillsToRessource(@PathParam("ressourceId") int ressourceId,@PathParam("skillId") int skillId) {
 		
 		ressourceService.addSkills(ressourceId, skillId);
+
 		return Response.status(Status.OK).build();
 
 

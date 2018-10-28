@@ -30,7 +30,15 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public void updateRessource(Ressource res) {
 
-		em.merge(res);
+		Ressource r = em.find(Ressource.class, res.getId());
+		r.setFirst_name(res.getFirst_name());
+		r.setLast_name(res.getLast_name());
+		r.setContract_type(res.getContract_type());
+		r.setSector(res.getSector());
+		r.setSeniority(res.getSeniority());
+		r.setState(res.getState());
+
+		em.merge(r);
 
 	}
 
@@ -51,7 +59,7 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public Ressource getRessourceById(int ressourceId) {
 
-		return em.createQuery("SELECT r FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
+		return em.createQuery("SELECT * FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
 				.setParameter("ressourceId", ressourceId).getSingleResult();
 	}
 
@@ -73,10 +81,9 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public void updateSkills(Skill skill) {
 		Skill s = em.find(Skill.class, skill.getId());
-		em.merge(s);
-
+		em.merge(s);	
 	}
-
+	
 	@Override
 	public void deleteSkills(int skillId) {
 		Skill s = em.find(Skill.class, skillId);

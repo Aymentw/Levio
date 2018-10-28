@@ -9,9 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -30,7 +31,8 @@ public class Ressource extends User implements Serializable {
 	private List<Leave> leaves;
 	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)	
 	private List<Skill> skills;
-	@OneToMany(mappedBy = "ressource")
+	@JsonIgnore
+	@OneToMany (mappedBy = "ressource")
 	private List<Mandate> mandate;
 	@ManyToOne
 	private Project project;
@@ -42,6 +44,20 @@ public class Ressource extends User implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	
+	
+	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
+			List<Leave> leaves, List<Skill> skills) {
+		super();
+		this.seniority = seniority;
+		this.sector = sector;
+		this.state = state;
+		this.profile = profile;
+		this.contract_type = contract_type;
+		this.leaves = leaves;
+		this.skills = skills;
 	}
 
 	public Ressource() {
@@ -113,5 +129,5 @@ public class Ressource extends User implements Serializable {
 	public void setMandate(List<Mandate> mandate) {
 		this.mandate = mandate;
 	}
-
+	
 }
