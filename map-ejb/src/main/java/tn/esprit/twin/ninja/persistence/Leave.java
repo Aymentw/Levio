@@ -12,8 +12,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-@Table(name="`Leave`")
+@Table(name = "`Leave`")
 public class Leave implements Serializable {
 
 	@Id
@@ -50,6 +54,7 @@ public class Leave implements Serializable {
 		this.end_date = end_date;
 	}
 
+	@JsonBackReference(value="RessourceLeaves")
 	public Ressource getRessource() {
 		return ressource;
 	}

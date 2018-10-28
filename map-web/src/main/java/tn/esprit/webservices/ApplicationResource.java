@@ -32,7 +32,6 @@ public class ApplicationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	
 	public Response aaaApplication(Application a){
 		ApplicationService.addApplication(a);
 			return Response.status(Status.CREATED).entity(a).build();

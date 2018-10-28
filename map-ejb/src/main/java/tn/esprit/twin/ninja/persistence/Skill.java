@@ -1,12 +1,15 @@
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -16,13 +19,30 @@ public class Skill implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String name;
+	private SkillName name;
 	private int rating;
-	@ManyToMany
-	private List<Ressource> ressources;
-
+	@ManyToOne	
+	private Ressource ressource;
+	
 	public Skill() {
 		super();
+	}
+
+	@JsonBackReference(value="RessourceSkills")
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public SkillName getName() {
+		return name;
+	}
+
+	public void setName(SkillName name) {
+		this.name = name;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
 	}
 
 	public int getId() {
@@ -33,13 +53,6 @@ public class Skill implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public int getRating() {
 		return rating;
@@ -47,14 +60,6 @@ public class Skill implements Serializable {
 
 	public void setRating(int rating) {
 		this.rating = rating;
-	}
-
-	public List<Ressource> getRessources() {
-		return ressources;
-	}
-
-	public void setRessources(List<Ressource> ressources) {
-		this.ressources = ressources;
 	}
 
 }

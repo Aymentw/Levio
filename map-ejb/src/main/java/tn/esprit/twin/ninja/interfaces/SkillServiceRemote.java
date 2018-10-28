@@ -9,6 +9,8 @@ import tn.esprit.twin.ninja.persistence.Skill;
 @Remote
 public interface SkillServiceRemote {
 
+	public void addSkill(Skill s);
+
 	public List<Skill> getAllSkills();
 
 }

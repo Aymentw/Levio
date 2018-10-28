@@ -26,6 +26,8 @@ public class Interview implements Serializable {
 	private TypeInterview typeInterview;
 	@ManyToOne
 	private Application application;
+	@Enumerated(EnumType.STRING)
+	private StateInterview stateInterview;
 	public int getId() {
 		return id;
 	}

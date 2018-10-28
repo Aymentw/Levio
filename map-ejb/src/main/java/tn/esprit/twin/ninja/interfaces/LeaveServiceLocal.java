@@ -11,5 +11,4 @@ public interface LeaveServiceLocal {
 	public void deleteLeave(int leaveId);
 	public List<Leave> getAllLeave();
 	
-	
-}
+	}

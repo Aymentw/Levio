@@ -20,8 +20,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 @Entity
 @Table
 
@@ -35,12 +39,18 @@ public class Application implements Serializable {
 	private State state=State.notApplay;
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private Folder folder;
-	@ManyToMany(fetch=FetchType.EAGER)
-	private List<Test> listTest;
+	@OneToMany(mappedBy="application",fetch=FetchType.EAGER)
+	private List<ApplicationTest> listTest;
 	@OneToMany(mappedBy="application")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Interview> listInterview;
 	
+	public List<ApplicationTest> getListTest() {
+		return listTest;
+	}
+	public void setListTest(List<ApplicationTest> listTest) {
+		this.listTest = listTest;
+	}
 	public int getId() {
 		return id;
 	}
@@ -65,12 +75,7 @@ public class Application implements Serializable {
 	public void setFolder(Folder folder) {
 		this.folder = folder;
 	}
-	public List<Test> getListTest() {
-		return listTest;
-	}
-	public void setListTest(List<Test> listTest) {
-		this.listTest = listTest;
-	}
+	
 	public List<Interview> getListInterview() {
 		return listInterview;
 	}
@@ -84,6 +89,11 @@ public class Application implements Serializable {
 	}
 	public Application() {
 		super();
+	}
+	public void addTest(Test test){
+		ApplicationTest ap= new ApplicationTest(this, test);
+		listTest.add(ap);
+		test.getListApllication().add(ap);
 	}
 	
 	

@@ -38,7 +38,7 @@ public class ProjectResource {
 	@Path("update")
 	public String updateProject(Project p){
 			
-		projectLocal.updateProject(p);
+		projectLocal.updateProject(p.getId());
 		return "project updated";
 	}
 	
@@ -58,7 +58,7 @@ public class ProjectResource {
 	@Path("affect/{projectId}/{clientId}")
 	public String affectProjecttoClient(@PathParam ("projectId")int projectId, @PathParam ("clientId")int clientId)
 	{
-		projectLocal.affectProjecttoClient(projectId, clientId);
+		//projectLocal.affectProjecttoClient(projectId, clientId);
 		return "ok";
 	}
 	

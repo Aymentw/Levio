@@ -3,12 +3,24 @@ package tn.esprit.twin.ninja.persistence.recruitment;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 
@@ -18,16 +30,19 @@ public class Test implements Serializable {
 	private int id;
 	private String typeTest;
 	private String version;
-	private double note;
 	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Question> listQuestion;
+	@JsonIgnore
+	@OneToMany(mappedBy="test", cascade= CascadeType.ALL, orphanRemoval=true)
+	private List<ApplicationTest> listApllication;
 	
 	
-	public double getNote() {
-		return note;
+	public List<ApplicationTest> getListApllication() {
+		return listApllication;
 	}
-	public void setNote(double note) {
-		this.note = note;
+	public void setListApllication(List<ApplicationTest> listApllication) {
+		this.listApllication = listApllication;
 	}
 	public int getId() {
 		return id;
@@ -54,6 +69,12 @@ public class Test implements Serializable {
 	}
 	public Test() {
 		super();
+	}
+	public List<Question> getListQuestion() {
+		return listQuestion;
+	}
+	public void setListQuestion(List<Question> listQuestion) {
+		this.listQuestion = listQuestion;
 	}
 	
 

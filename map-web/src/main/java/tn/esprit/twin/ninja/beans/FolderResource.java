@@ -1,4 +1,4 @@
-package tn.esprit.webservices;
+package tn.esprit.twin.ninja.beans;
 
 import java.util.List;
 
@@ -88,6 +88,8 @@ public class FolderResource {
 			return Response.ok(folderService.getFolder(idapplication),MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}
+	
+	
 	
 
 }

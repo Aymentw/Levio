@@ -117,3 +117,9 @@ derby.log
 map-ear/target/m2e-wtp/ear-resources/META-INF/maven/tn.esprit.twin.ninja/map-ear/pom.properties
 map-ejb/.classpath
 map-ejb/.classpath
+map-ear/target/m2e-wtp/ear-resources/META-INF/maven/tn.esprit.twin.ninja/map-ear/pom.properties
+map-ejb/pom.xml
+map-ejb/src/main/resources/META-INF/persistence.xml
+map-ejb/target/classes/META-INF/maven/tn.esprit.twin.ninja/map-ejb/pom.xml
+map-ejb/target/classes/META-INF/persistence.xml
+map-web/target/m2e-wtp/web-resources/META-INF/maven/tn.esprit.twin.ninja/map-web/pom.properties

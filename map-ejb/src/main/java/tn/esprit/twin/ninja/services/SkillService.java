@@ -22,5 +22,11 @@ public class SkillService implements SkillServiceLocal {
 		return null;
 	}
 
+	@Override
+	public void addSkill(Skill s) {
+		em.persist(s);
+		
+	}
+
 
 }
