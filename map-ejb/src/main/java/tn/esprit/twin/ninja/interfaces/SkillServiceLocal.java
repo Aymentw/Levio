@@ -6,6 +6,7 @@ import tn.esprit.twin.ninja.persistence.Skill;
 
 public interface SkillServiceLocal {
 	
+	public void addSkill(Skill s);
 	public List<Skill> getAllSkills();
 	
 

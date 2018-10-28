@@ -12,10 +12,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 enum projectType {
 	currentClient, newClient, finishedContract;
 }
 
+@JsonIgnoreProperties({ "mandates"})
 @Entity
 @Table(name="project")
 public class Project implements Serializable{
@@ -30,13 +37,20 @@ public class Project implements Serializable{
 	private Date end_date;
 	private String adress;
 	private String photo;
-	
 	@ManyToOne
 	private Client client;
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
+	@OneToMany(mappedBy="project")
+	private List<Ressource> ressources;
 	
-	
+	@JsonManagedReference(value="RessourceProject")
+	public List<Ressource> getRessources() {
+		return ressources;
+	}
+	public void setRessources(List<Ressource> ressources) {
+		this.ressources = ressources;
+	}
 	public List<Mandate> getMandates() {
 		return mandates;
 	}
