@@ -9,5 +9,8 @@ import tn.esprit.twin.ninja.persistence.Leave;
 @Remote
 public interface LeaveServiceRemote {
 
+	public List<Leave> getAllLeave();
+
+	
 	
 }

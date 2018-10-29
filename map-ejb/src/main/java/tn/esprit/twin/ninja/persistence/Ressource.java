@@ -104,7 +104,6 @@ public class Ressource extends User implements Serializable {
 		this.contract_type = contract_type;
 	}
 
-	@JsonManagedReference(value="RessourceLeaves")
 	public List<Leave> getLeaves() {
 		return leaves;
 	}
@@ -113,7 +112,7 @@ public class Ressource extends User implements Serializable {
 		this.leaves = leaves;
 	}
 
-	@JsonManagedReference(value="RessourceSkills")
+
 	public List<Skill> getSkills() {
 		return skills;
 	}
