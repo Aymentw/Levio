@@ -8,6 +8,7 @@ import tn.esprit.twin.ninja.persistence.Ressource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +27,8 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     @Override
     public List<Mandate> SearchMandateByDate(Date date) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate>=:date and m.EndDate<=:date", Mandate.class);
-        query.setParameter("date", date);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.StartDate<=:date and m.EndDate>=:date", Mandate.class);
+        query.setParameter("date", date,TemporalType.DATE);
         List<Mandate> results = query.getResultList();
         return results;
     }
@@ -35,7 +36,7 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     @Override
     public List<Mandate> getMandateByResource(int resourceId) {
 
-        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.ressource=:resId", Mandate.class);
+        TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m where m.ressource.id=:resId", Mandate.class);
         query.setParameter("resId", resourceId);
         List<Mandate> results = query.getResultList();
         return results;
