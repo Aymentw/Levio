@@ -44,7 +44,14 @@ public class Application implements Serializable {
 	@OneToMany(mappedBy="application")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Interview> listInterview;
+	private String Description;
 	
+	public String getDescription() {
+		return Description;
+	}
+	public void setDescription(String description) {
+		Description = description;
+	}
 	public List<ApplicationTest> getListTest() {
 		return listTest;
 	}

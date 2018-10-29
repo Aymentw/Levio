@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 
@@ -24,6 +26,7 @@ public class Question implements Serializable{
 	private String choice4;
 	private String validChoise;
 	@ManyToMany(mappedBy="listQuestion")
+	@JsonIgnore
 	private List<Test> listTest;
 	public int getId() {
 		return id;
