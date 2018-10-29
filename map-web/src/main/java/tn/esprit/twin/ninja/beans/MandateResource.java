@@ -48,7 +48,8 @@ public class MandateResource {
 			else
 				return Response.ok(mandateService.getAll(), MediaType.APPLICATION_JSON).build();
 
-		} else if ((resid != null) && (dateM == null)) {
+		} 
+		else if ((resid != null) && (dateM == null)) {
 			int resourceId = Integer.parseInt(resid);
 			
 			if (mandateService.getMandateByResource(resourceId) == null)
@@ -101,6 +102,27 @@ public class MandateResource {
 			@PathParam(value = "resourceId") int resourceId) {
 		mandateService.AssignResource(projetId, resourceId);
 		return Response.status(Status.OK).build();
+
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("delete/{mandateid}")
+	public Response deleteMandate(@PathParam(value = "mandateid") int mandateid) {
+		mandateService.ArchiveMandate(mandateid);
+		return Response.status(Status.OK).build();
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("archive")
+	public Response getArchivedMandate() throws ParseException {
+
+		if (!mandateService.ArchivedMandate().isEmpty())
+			return Response.ok(mandateService.ArchivedMandate(), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
 
 	}
 

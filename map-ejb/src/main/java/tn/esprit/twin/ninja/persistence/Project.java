@@ -47,6 +47,7 @@ public class Project implements Serializable{
 	@JsonIgnore
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
+	@JsonIgnore
 	@OneToMany(mappedBy="project")
 	private List<Ressource> ressources;
 	
