@@ -1,3 +1,4 @@
+
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class Project implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private String name;
 	private projectType type;
 	private int num_ressource_all;
 	private int num_ressource_levio;
@@ -56,6 +58,12 @@ public class Project implements Serializable{
 		this.ressources = ressources;
 	}
 		
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Client getClients() {
 		return client;
 	}

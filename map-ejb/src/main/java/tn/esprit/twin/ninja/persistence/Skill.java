@@ -39,7 +39,6 @@ public class Skill implements Serializable {
 	}
 
 
-
 	public SkillName getName() {
 		return name;
 	}
