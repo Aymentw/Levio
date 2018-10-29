@@ -12,10 +12,12 @@ public interface MandateServicesLocal {
     public List<Mandate> SearchMandateByDate(Date date);
     public List<Mandate> getMandateByResource(int resourceId);
 
-    public void AssignResource();
-    public void CalculateFees();
+    public void AssignResource(int projetId,int resourceId);
+    public void CalculateFees(int mandateID,float taux,float NbrH);
 
-    public void DisplayHistory();
-    public void ArchiveHistory();
+    public List<Mandate> DisplayHistory();
+    public List<Mandate> ArchivedMandate();
+    public void ArchiveMandate(int mandateID);
     public void TrackResource();
+    public String SendMail(String username,String password,String from,String to,String subject,String msg);
 }

@@ -7,7 +7,7 @@ import tn.esprit.twin.ninja.persistence.Message;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 
-public interface RessourceServiceLocal {
+public interface RessourceServiceRemote {
 
 	public void addRessource(Ressource r);
 

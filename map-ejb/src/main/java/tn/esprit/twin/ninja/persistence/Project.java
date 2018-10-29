@@ -1,6 +1,8 @@
+
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +14,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 enum projectType {
 	currentClient, newClient, finishedContract;
 }
 
+@JsonIgnoreProperties({ "mandates"})
 @Entity
 @Table(name="project")
 public class Project implements Serializable{
@@ -23,6 +34,7 @@ public class Project implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private String name;
 	private projectType type;
 	private int num_ressource_all;
 	private int num_ressource_levio;
@@ -30,12 +42,29 @@ public class Project implements Serializable{
 	private Date end_date;
 	private String adress;
 	private String photo;
-	
 	@ManyToOne
 	private Client client;
+	@JsonIgnore
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
+	@JsonIgnore
+	@OneToMany(mappedBy="project")
+	private List<Ressource> ressources;
 	
+	@JsonManagedReference(value="RessourceProject")
+	public List<Ressource> getRessources() {
+		return ressources;
+	}
+	public void setRessources(List<Ressource> ressources) {
+		this.ressources = ressources;
+	}
+		
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Client getClients() {
 		return client;
 	}

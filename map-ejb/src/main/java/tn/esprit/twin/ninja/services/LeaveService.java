@@ -16,29 +16,12 @@ public class LeaveService implements LeaveServiceLocal {
 	@PersistenceContext(unitName="LevioMap-ejb")
 	EntityManager em;
 
-	@Override
-	public void addLeave(int ressourceId, Leave l) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateLeave(int leaveId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteLeave(int leaveId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public List<Leave> getAllLeave() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT l from Leave l", Leave.class).getResultList();
+		
 	}
 
-
+	
 }
