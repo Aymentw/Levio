@@ -24,4 +24,7 @@ public void reportResource(int ressourceId) throws IOException;
 public List<Object>mostUsedSkills();
 public List<Object> mostProfitProject();
 public List<Object> mostProfitClient();
+public float mandateEfficiency(int mandateId);
+public float resourceEfficiency(int resourceId);
+public float projectEfficiency(int projectID);
 }
