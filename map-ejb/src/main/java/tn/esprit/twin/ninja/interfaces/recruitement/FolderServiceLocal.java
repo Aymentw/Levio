@@ -23,6 +23,6 @@ public interface FolderServiceLocal {
 	public boolean setStateFolder(int idApplication, StateFolder stateF);
 	public Folder getFolder(int idApplication);
 	public List<Folder> getAllFolder();
-	public boolean sendEmail();
+	public boolean sendEmail(int idr);
 
 }

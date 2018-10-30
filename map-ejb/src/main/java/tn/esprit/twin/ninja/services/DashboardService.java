@@ -1,9 +1,5 @@
 package tn.esprit.twin.ninja.services;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import io.woo.htmltopdf.HtmlToPdf;
 import io.woo.htmltopdf.HtmlToPdfObject;
-import tn.esprit.twin.ninja.interfaces.DashboardServicesLocal;
+import tn.esprit.twin.ninja.interfaces.DashboardServicesRemote;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Mandate;
@@ -21,7 +18,7 @@ import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 @Stateless
-public class DashboardService implements DashboardServicesLocal {
+public class DashboardService implements DashboardServicesRemote {
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -110,7 +107,7 @@ public class DashboardService implements DashboardServicesLocal {
 		}
 		else if(o instanceof Project){
 			Project p =(Project)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=satisfaction";
+			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=satisfactionn";
 			Query q = em.createQuery(sql);
 			count =(Long) q.getSingleResult();
 			}
@@ -134,7 +131,7 @@ public class DashboardService implements DashboardServicesLocal {
 	public int numberOfResourcesToClient(int clientId) {//ok
 		Client c=em.find(Client.class, clientId);
 		int numRes=0;
-		String sql = "Select p from Project p where p.client.id="+clientId;
+		String sql = "Select p from Peoject p where p.client.id="+c.getId();
 		Query q = em.createQuery(sql);
 		List<Project> projects  =(List<Project>) q.getResultList();
 		for (Project p : projects){
@@ -168,7 +165,7 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="Start Date : "+m.getStartDate()+"<br>";
 			html+="End Date : "+m.getEndDate()+"<br>";
 			html+="Charges : "+m.getMontant()+"<br>";
-			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClient().getName()+"\"<br>";
+			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClients().getName()+"\"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
 		html+="Skills : <br>";
@@ -178,13 +175,9 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="Rating : "+s.getRating()+"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
-		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-		bw.write(html);
-		bw.close();
-		/*HtmlToPdf.create()
+		HtmlToPdf.create()
 	    .object(HtmlToPdfObject.forHtml(html))
-	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");*/
+	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
 	}
 
 	@Override
@@ -250,3 +243,4 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 	
 }
+

@@ -3,21 +3,12 @@ package tn.esprit.twin.ninja.beans;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import tn.esprit.twin.ninja.interfaces.ClientServiceLocal;
 import tn.esprit.twin.ninja.persistence.Client;
-import tn.esprit.twin.ninja.persistence.Project;
 
 @Path("client")
 @RequestScoped
@@ -25,7 +16,6 @@ public class ClientResource {
 
 	@EJB(beanName = "ClientService")
 	ClientServiceLocal clientLocal;
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
@@ -33,46 +23,6 @@ public class ClientResource {
 			
 		clientLocal.addClient(c);
 		return "client added";
-	}
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("update")
-	public String updateProject(Client c){
-			
-		clientLocal.updateClient(c);
-		return "client updated";
-	}
-	
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("delete")
-	public String DeleteClient(Client client) {
-		
-		clientLocal.deleteClient(client);
-		return "client deleted";	
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("clients")
-	public Response getAllClients()
-	{
-		if (!clientLocal.getAllClients().isEmpty())
-			return Response.ok(clientLocal.getAllClients()).build();
-		return Response.status(Status.NOT_FOUND).build();
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{idClient}")
-	public Response getClientById(@PathParam("idClient") int idClient) {
-		if (clientLocal.getClientById(idClient) == null)
-			return Response.status(Status.NOT_FOUND).build();
-		return Response.ok(clientLocal.getClientById(idClient)).build();
 	}
 
 }
