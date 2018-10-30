@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +30,16 @@ public class Leave implements Serializable {
 	private Date start_date;
 	@Temporal(TemporalType.DATE)
 	private Date end_date;
+	@Enumerated(EnumType.STRING)
+	private TypeLeave type;
+	public TypeLeave getType() {
+		return type;
+	}
+
+	public void setType(TypeLeave type) {
+		this.type = type;
+	}
+
 	@ManyToOne
 	private Ressource ressource;
 
