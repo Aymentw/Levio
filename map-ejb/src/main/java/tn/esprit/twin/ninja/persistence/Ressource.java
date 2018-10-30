@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import tn.esprit.twin.ninja.persistence.recruitment.Application;
+
 @JsonIgnoreProperties({ "mandate"})
 @Entity
 public class Ressource extends User implements Serializable {
@@ -31,9 +33,11 @@ public class Ressource extends User implements Serializable {
 	private RessourceState state;
 	private String profile;
 	private String contract_type;
-	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ressource")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Leave> leaves;
-	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)	
+	@OneToMany(mappedBy = "ressource")	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> skills;
 	@JsonIgnore
 	@OneToMany (mappedBy = "ressource")
@@ -45,6 +49,9 @@ public class Ressource extends User implements Serializable {
 	@OneToMany(mappedBy="assigned")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Ressource> listAssigned;
+	@OneToMany(mappedBy="ressource")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Application> listApplication;
 
 	@JsonBackReference(value="RessourceProject")
 	public Project getProject() {
@@ -153,5 +160,14 @@ public class Ressource extends User implements Serializable {
 	public void setListAssigned(List<Ressource> listAssigned) {
 		this.listAssigned = listAssigned;
 	}
+
+	public List<Application> getListApplication() {
+		return listApplication;
+	}
+
+	public void setListApplication(List<Application> listApplication) {
+		this.listApplication = listApplication;
+	}
+	
 	
 }

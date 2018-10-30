@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.recruitement.FolderServiceLocal;
+import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
 import tn.esprit.twin.ninja.persistence.recruitment.Folder;
 import tn.esprit.twin.ninja.persistence.recruitment.Letter;
@@ -92,9 +93,9 @@ public class FolderService implements FolderServiceLocal {
 	}
 
 	@Override
-	public boolean sendEmail() {
-		//SendMinisterMail.sendMail("achraf.douss@esprit.tn", "aqw147123", "achrafdouss1994@gmail.com", "aaaaa", "zazazaz");
-		return true;
+	public boolean sendEmail(int ida) {
+		
+		return SendMinisterMail.sendMail(em.find(Application.class, ida));
 	}
 
 	
