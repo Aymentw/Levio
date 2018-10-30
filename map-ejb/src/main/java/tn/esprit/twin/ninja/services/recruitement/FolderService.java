@@ -93,7 +93,7 @@ public class FolderService implements FolderServiceLocal {
 
 	@Override
 	public boolean sendEmail() {
-		SendMinisterMail.sendMail("achraf.douss@esprit.tn", "aqw147123", "achrafdouss1994@gmail.com", "aaaaa", "zazazaz");
+		//SendMinisterMail.sendMail("achraf.douss@esprit.tn", "aqw147123", "achrafdouss1994@gmail.com", "aaaaa", "zazazaz");
 		return true;
 	}
 

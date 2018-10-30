@@ -41,7 +41,8 @@ public class Application implements Serializable {
 	private State state=State.notApplay;
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private Folder folder;
-	@OneToMany(mappedBy="application",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="application")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ApplicationTest> listTest;
 	@OneToMany(mappedBy="application")
 	@LazyCollection(LazyCollectionOption.FALSE)

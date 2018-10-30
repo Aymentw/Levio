@@ -30,7 +30,8 @@ public class JobOffer implements Serializable {
 	private String experience;
 	private String function;
 	private int nbPoste;
-	@OneToMany(mappedBy = "jobOffer", fetch = FetchType.EAGER)	
+	@OneToMany(mappedBy = "jobOffer")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> listSkills;
 	@OneToMany(mappedBy="jobOffer")
 	@LazyCollection(LazyCollectionOption.FALSE)
