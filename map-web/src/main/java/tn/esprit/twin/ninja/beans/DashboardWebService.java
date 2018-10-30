@@ -51,4 +51,10 @@ public class DashboardWebService {
 	public Response mostProfitClient(){
 		return Response.ok(dashboardService.mostProfitClient(),MediaType.APPLICATION_JSON).build();
 	}
+	@Path("numresmandates")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberEmployeesInMandates() {
+		return Response.ok(dashboardService.getNumberEmployeesInMandates(),MediaType.APPLICATION_JSON).build();
+	}
 }
