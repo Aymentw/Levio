@@ -34,9 +34,6 @@ public class Client implements Serializable {
 	private clientCategory category;
 	@Enumerated(EnumType.STRING)
 	private clientType type;
-	@JsonIgnore
-	@ManyToMany
-	private clientType type;
 	private boolean archived;
 	@JsonIgnore
 	@ManyToMany

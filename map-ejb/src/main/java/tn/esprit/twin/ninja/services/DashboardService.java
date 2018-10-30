@@ -168,7 +168,7 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="Start Date : "+m.getStartDate()+"<br>";
 			html+="End Date : "+m.getEndDate()+"<br>";
 			html+="Charges : "+m.getMontant()+"<br>";
-			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClients().getName()+"\"<br>";
+			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClient().getName()+"\"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
 		html+="Skills : <br>";
