@@ -1,11 +1,9 @@
-
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -62,6 +60,7 @@ public class Project implements Serializable{
 	@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
+
 	}
 
 	public int getId() {
@@ -163,5 +162,4 @@ public class Project implements Serializable{
 	public void setRessources(List<Ressource> ressources) {
 		this.ressources = ressources;
 	}
-	
 }
