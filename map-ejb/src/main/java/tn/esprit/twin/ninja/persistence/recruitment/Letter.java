@@ -9,8 +9,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import tn.esprit.twin.ninja.persistence.Ressource;
 
@@ -21,22 +24,25 @@ public class Letter implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Enumerated(EnumType.STRING)
-	private StateLetter stateLetter;
+	private Typel type;
 	private String contratType;
 	private float salary;
-	@OneToOne(mappedBy="letterEmpUser",cascade=CascadeType.PERSIST)
+	@ManyToOne
+	@JsonIgnore
 	private Folder folder;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public StateLetter getStateLetter() {
-		return stateLetter;
+	
+	public Typel getType() {
+		return type;
 	}
-	public void setStateLetter(StateLetter stateLetter) {
-		this.stateLetter = stateLetter;
+	public void setType(Typel type) {
+		this.type = type;
 	}
 	public String getContratType() {
 		return contratType;
@@ -64,6 +70,7 @@ public class Letter implements Serializable {
 	public void setFolder(Folder folder) {
 		this.folder = folder;
 	}
+	
 	
 	
 	

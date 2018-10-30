@@ -16,5 +16,6 @@ public boolean deleteApplication(int idApplication);
 public boolean setStateApplication(Application application);
 public List<Application> getAllApplication();
 public List<Application> getApplicationByState(State state);
+public boolean assignRessource(int idr,int idp);
 
 }

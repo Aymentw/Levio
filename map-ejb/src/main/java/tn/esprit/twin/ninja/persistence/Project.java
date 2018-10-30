@@ -1,12 +1,12 @@
-
 package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,19 +21,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 enum projectType {
 	currentClient, newClient, finishedContract;
 }
 
-@JsonIgnoreProperties({ "mandates" })
+@JsonIgnoreProperties({ "mandates"})
 @Entity
-@Table(name = "project")
-public class Project implements Serializable {
-
+@Table(name="project")
+public class Project implements Serializable{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	@Enumerated(EnumType.STRING)
 	private projectType type;
 	private int num_ressource_all;
 	private int num_ressource_levio;
@@ -41,44 +43,20 @@ public class Project implements Serializable {
 	private Date end_date;
 	private String adress;
 	private String photo;
+	private boolean archived;
 	@ManyToOne
 	private Client client;
 	@JsonIgnore
-	@OneToMany(mappedBy = "project")
+	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
-	@OneToMany(mappedBy = "project")
+	@JsonIgnore
+	@OneToMany(mappedBy="project")
 	private List<Ressource> ressources;
-
+	
+	@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
-	}
 
-	public void setRessources(List<Ressource> ressources) {
-		this.ressources = ressources;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Client getClients() {
-		return client;
-	}
-
-	public void setClients(Client client) {
-		this.client = client;
-	}
-
-	public List<Mandate> getMandates() {
-		return mandates;
-	}
-
-	public void setMandates(List<Mandate> mandates) {
-		this.mandates = mandates;
 	}
 
 	public int getId() {
@@ -87,6 +65,14 @@ public class Project implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public projectType getType() {
@@ -145,4 +131,31 @@ public class Project implements Serializable {
 		this.photo = photo;
 	}
 
+	public boolean isArchived() {
+		return archived;
+	}
+
+	public void setArchived(boolean archived) {
+		this.archived = archived;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public List<Mandate> getMandates() {
+		return mandates;
+	}
+
+	public void setMandates(List<Mandate> mandates) {
+		this.mandates = mandates;
+	}
+
+	public void setRessources(List<Ressource> ressources) {
+		this.ressources = ressources;
+	}
 }

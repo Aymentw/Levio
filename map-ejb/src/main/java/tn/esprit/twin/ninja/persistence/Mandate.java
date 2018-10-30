@@ -2,6 +2,7 @@ package tn.esprit.twin.ninja.persistence;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
@@ -18,17 +19,20 @@ public class Mandate implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date StartDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date EndDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date ActualEndDate ;
     @Column(nullable = true)
     private float Montant ;
     @Column(nullable = true)
     private Boolean Archived=false;
-    
+  
     @ManyToOne
     private Ressource ressource;
     @ManyToOne

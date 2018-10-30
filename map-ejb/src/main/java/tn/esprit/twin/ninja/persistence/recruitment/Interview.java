@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 
@@ -25,9 +27,23 @@ public class Interview implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TypeInterview typeInterview;
 	@ManyToOne
+	@JsonIgnore
 	private Application application;
 	@Enumerated(EnumType.STRING)
-	private StateInterview stateInterview;
+	private StateInterview stateInterview=StateInterview.Request;
+	
+	public Application getApplication() {
+		return application;
+	}
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+	public StateInterview getStateInterview() {
+		return stateInterview;
+	}
+	public void setStateInterview(StateInterview stateInterview) {
+		this.stateInterview = stateInterview;
+	}
 	public int getId() {
 		return id;
 	}
