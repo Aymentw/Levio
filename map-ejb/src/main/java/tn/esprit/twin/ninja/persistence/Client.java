@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,7 +36,14 @@ public class Client implements Serializable {
 	private clientType type;
 	@JsonIgnore
 	@ManyToMany
+	private clientType type;
+	private boolean archived;
+	@JsonIgnore
+	@ManyToMany
 	private List<Request> requests;
+	@JsonIgnore
+	@OneToMany(mappedBy="client")
+	private List<Project> projects;
 	
 	public Integer getId() {
 		return id;
@@ -66,6 +74,12 @@ public class Client implements Serializable {
 	}
 	public void setType(clientType type) {
 		this.type = type;
+	}
+	public boolean isArchived() {
+		return archived;
+	}
+	public void setArchived(boolean archived) {
+		this.archived = archived;
 	}
 	
 	
