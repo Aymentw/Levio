@@ -57,4 +57,37 @@ public class DashboardWebService {
 	public Response getNumberEmployeesInMandates() {
 		return Response.ok(dashboardService.getNumberEmployeesInMandates(),MediaType.APPLICATION_JSON).build();
 	}
+	@Path("numemployees")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberEmployees() {
+		return Response.ok(dashboardService.getNumberEmployees(),MediaType.APPLICATION_JSON).build();
+	}
+	@Path("numfreelancers")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberFreelancers() {
+		return Response.ok(dashboardService.getNumberFreelancers(),MediaType.APPLICATION_JSON).build(); 
+	}
+	@Path("mandateeff/{mandateId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response mandateEfficiency(@PathParam(value="mandateId") int mandateId) {
+		return Response.ok(dashboardService.mandateEfficiency(mandateId),MediaType.APPLICATION_JSON).build(); 
+
+	}
+	@Path("projecteff/{projectId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response projectEfficiency(@PathParam(value="projectId") int projectId) {
+		return Response.ok(dashboardService.projectEfficiency(projectId),MediaType.APPLICATION_JSON).build(); 
+
+	}
+	@Path("reseff/{resourceId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response resourceEfficiency(@PathParam(value="resourceId") int resourceId) {
+		return Response.ok(dashboardService.resourceEfficiency(resourceId),MediaType.APPLICATION_JSON).build(); 
+
+	}
 }
