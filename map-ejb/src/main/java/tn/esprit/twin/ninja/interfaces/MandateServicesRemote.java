@@ -17,4 +17,7 @@ public interface MandateServicesRemote {
     public List<Mandate> DisplayHistory();
     public void ArchiveHistory(int mandateID);
     public void TrackResource();
+    public String SendMail(String username,String password,String from,String to,String subject,String msg);
+    public void EditMandate(Mandate m);
+
 }

@@ -56,10 +56,30 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     	em.persist(mand);
     
     }
+    
+     @Override
+    public void EditMandate(Mandate m)
+    {
+    	Mandate mand = em.find(Mandate.class, m.getId());
+    	if(m.getStartDate()!=null)
+    	mand.setStartDate(m.getStartDate());
+    	if(m.getEndDate()!=null)
+    	mand.setEndDate(m.getEndDate());
+    	if(m.getMontant()>0)
+    	mand.setMontant(m.getMontant());
+
+    	em.merge(mand);
+    }
 
     @Override
     public void CalculateFees() {
+    	
+    }
 
+    public void CalculateFees(int mandateID,float taux,float NbrH) {
+    	Mandate mandateEntity = em.find(Mandate.class, mandateID);
+    	float montant=taux*NbrH; 
+    	mandateEntity.setMontant(montant);
     }
 
     @Override
@@ -79,4 +99,10 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     public void TrackResource() {
 
     }
+
+	@Override
+	public String SendMail(String username, String password, String from, String to, String subject, String msg) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
