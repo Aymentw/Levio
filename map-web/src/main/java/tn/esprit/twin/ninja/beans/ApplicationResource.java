@@ -84,5 +84,14 @@ public class ApplicationResource {
 			return Response.ok(l,MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("assignp/{idr}/{idp}")
+	public Response assignP(@PathParam("idr") int idr,@PathParam("idp") int idp) {
+		if (ApplicationService.assignRessource(idr, idp))
+			return Response.status(Status.OK).entity(idr).build();
+		return Response.status(Status.BAD_REQUEST).build();
+	}
 	
 }

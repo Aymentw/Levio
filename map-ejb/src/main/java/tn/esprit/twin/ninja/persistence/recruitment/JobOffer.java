@@ -5,15 +5,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 @Entity
 @Table
@@ -26,9 +29,25 @@ public class JobOffer implements Serializable {
 	private Date beginning;
 	private String experience;
 	private String function;
-	@ManyToMany
-	@LazyCollection(LazyCollectionOption.FALSE)
+	private int nbPoste;
+	@OneToMany(mappedBy = "jobOffer", fetch = FetchType.EAGER)	
 	private List<Skill> listSkills;
+	@OneToMany(mappedBy="jobOffer")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Application> listApplicant;
+	
+	public int getNbPoste() {
+		return nbPoste;
+	}
+	public void setNbPoste(int nbPoste) {
+		this.nbPoste = nbPoste;
+	}
+	public List<Application> getListApplicant() {
+		return listApplicant;
+	}
+	public void setListApplicant(List<Application> listApplicant) {
+		this.listApplicant = listApplicant;
+	}
 	public int getId() {
 		return id;
 	}

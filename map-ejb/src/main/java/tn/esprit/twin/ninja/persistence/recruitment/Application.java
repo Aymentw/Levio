@@ -26,6 +26,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 
@@ -45,7 +47,17 @@ public class Application implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Interview> listInterview;
 	private String Description;
+	@ManyToOne
+	@JsonIgnore
+	private JobOffer jobOffer;
 	
+	
+	public JobOffer getJobOffer() {
+		return jobOffer;
+	}
+	public void setJobOffer(JobOffer jobOffer) {
+		this.jobOffer = jobOffer;
+	}
 	public String getDescription() {
 		return Description;
 	}

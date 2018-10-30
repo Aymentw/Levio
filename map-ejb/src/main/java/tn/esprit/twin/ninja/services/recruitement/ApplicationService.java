@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.recruitement.ApplicationServiceLocal;
+import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
 import tn.esprit.twin.ninja.persistence.recruitment.Folder;
 import tn.esprit.twin.ninja.persistence.recruitment.State;
@@ -66,6 +67,19 @@ public class ApplicationService implements ApplicationServiceLocal {
 		query.setParameter("state", state);
 		//query.getResultList().stream().forEach(p->System.out.println("eeeeeee"));
 		return query.getResultList();
+	}
+
+	@Override
+	public boolean assignRessource(int idr, int idp) {
+		try {
+			Ressource r=em.find(Ressource.class, idr);
+			Ressource p=em.find(Ressource.class, idr);
+			r.setAssigned(p);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
 	}
 	
 

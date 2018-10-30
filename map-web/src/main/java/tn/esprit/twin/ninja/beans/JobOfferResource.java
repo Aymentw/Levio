@@ -82,14 +82,14 @@ public class JobOfferResource {
 		return Response.status(Status.NOT_FOUND).build();
 	}
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getjobofferbyskills")
-	public Response getJobOfferBySkills(Ressource ressource) {
-		List<JobOffer> l =jobofferLocal.getJobOfferBySkills(ressource);
-		
+	public Response getJobOfferBySkills(@QueryParam("id") int id) {
+		List<JobOffer> l =jobofferLocal.getJobOfferBySkills(id);
+		l.stream().forEach(p->System.out.println(p.getId()));
 
-		if (!(jobofferLocal.getJobOfferBySkills(ressource).isEmpty()))
+		if (!(jobofferLocal.getJobOfferBySkills(id).isEmpty()))
 			return Response.ok(l,MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}

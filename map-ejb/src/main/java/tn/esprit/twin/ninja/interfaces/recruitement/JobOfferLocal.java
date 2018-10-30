@@ -13,6 +13,6 @@ public interface JobOfferLocal {
 	public boolean removeJobOffer(int idJobOffer);
 	public JobOffer getJobOffer(int idJobOffer);
 	public List<JobOffer> getAllJobOffer();
-	public List<JobOffer> getJobOfferBySkills(Ressource ressource);
+	public List<JobOffer> getJobOfferBySkills(int ressource);
 
 }

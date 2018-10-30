@@ -11,5 +11,6 @@ public interface LetterServiceLocal {
 	public boolean setLetterEmpUser(int idFolder,Letter letter);
 	public boolean setLetterEmpAdmin(int idFolder,Letter letter);	
 	public boolean setStateLetter(int idFolder);
+	
 
 }

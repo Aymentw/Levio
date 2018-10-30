@@ -14,6 +14,7 @@ import tn.esprit.twin.ninja.persistence.recruitment.Letter;
 import tn.esprit.twin.ninja.persistence.recruitment.StateFolder;
 import tn.esprit.twin.ninja.persistence.recruitment.StateLetter;
 import tn.esprit.twin.ninja.persistence.recruitment.StateMinister;
+import tn.esprit.twin.ninja.utils.SendMinisterMail;
 
 @Stateless
 public class FolderService implements FolderServiceLocal {
@@ -88,6 +89,12 @@ public class FolderService implements FolderServiceLocal {
 			return false;
 		}
 		
+	}
+
+	@Override
+	public boolean sendEmail() {
+		SendMinisterMail.sendMail("achraf.douss@esprit.tn", "aqw147123", "achrafdouss1994@gmail.com", "aaaaa", "zazazaz");
+		return true;
 	}
 
 	
