@@ -66,6 +66,23 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     	SendMail("notifmaplevio@gmail.com","NinjaC0ders","notifmaplevio@gmail.com","slimen.mami@esprit.tn","Assign Notification","You have new assignation ");
     
     }
+    
+     @Override
+    public void EditMandate(Mandate m)
+    {
+    	Mandate mand = em.find(Mandate.class, m.getId());
+    	if(m.getStartDate()!=null)
+    	mand.setStartDate(m.getStartDate());
+    	if(m.getEndDate()!=null)
+    	mand.setEndDate(m.getEndDate());
+    	if(m.getMontant()>0)
+    	mand.setMontant(m.getMontant());
+
+    	em.merge(mand);
+    
+    	
+	
+    }
 
     @Override
     public void CalculateFees(int mandateID,float taux,float NbrH) {
