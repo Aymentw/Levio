@@ -154,4 +154,5 @@ public class Ressource extends User implements Serializable {
 		this.listAssigned = listAssigned;
 	}
 	
+	
 }
