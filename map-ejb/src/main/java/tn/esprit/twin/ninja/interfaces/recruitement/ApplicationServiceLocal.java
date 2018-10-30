@@ -10,13 +10,11 @@ import tn.esprit.twin.ninja.persistence.recruitment.State;
 
 @Local
 public interface ApplicationServiceLocal {
+public int addApplication(Application a);
 public Application getApplication(int idRessource);
 public boolean deleteApplication(int idApplication);
 public boolean setStateApplication(Application application);
 public List<Application> getAllApplication();
 public List<Application> getApplicationByState(State state);
-public boolean assignRessource(int idr,int idp);
-public List<Application> getApplicationId(int idressource);
-public int addApplication(Application a, int idJob, int idRess);
 
 }

@@ -8,10 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.recruitement.ApplicationServiceLocal;
-import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
 import tn.esprit.twin.ninja.persistence.recruitment.Folder;
-import tn.esprit.twin.ninja.persistence.recruitment.JobOffer;
 import tn.esprit.twin.ninja.persistence.recruitment.State;
 
 @Stateless
@@ -19,9 +17,7 @@ public class ApplicationService implements ApplicationServiceLocal {
 	@PersistenceContext(unitName = "LevioMap-ejb")
 	private EntityManager em;
 	@Override
-	public int addApplication(Application a,int idRess,int idJob) {
-		a.setJobOffer(em.find(JobOffer.class, idJob));
-		a.setRessource(em.find(Ressource.class, idRess));
+	public int addApplication(Application a) {
 		Folder f= new Folder();
 		a.setFolder(f);
 		em.persist(a);
@@ -29,9 +25,9 @@ public class ApplicationService implements ApplicationServiceLocal {
 	}
 
 	@Override
-	public Application getApplication(int idApplication) {
+	public Application getApplication(int idRessource) {
 		
-		return em.find(Application.class, idApplication);
+		return em.find(Application.class, idRessource);
 	}
 
 	@Override
@@ -70,25 +66,6 @@ public class ApplicationService implements ApplicationServiceLocal {
 		query.setParameter("state", state);
 		//query.getResultList().stream().forEach(p->System.out.println("eeeeeee"));
 		return query.getResultList();
-	}
-
-	@Override
-	public boolean assignRessource(int idr, int idp) {
-		try {
-			Ressource r=em.find(Ressource.class, idr);
-			Ressource p=em.find(Ressource.class, idr);
-			r.setAssigned(p);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-		
-	}
-
-	@Override
-	public List<Application> getApplicationId(int idressource) {
-		
-		return em.find(Ressource.class, idressource).getListApplication();
 	}
 	
 

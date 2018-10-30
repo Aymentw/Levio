@@ -36,7 +36,7 @@ public class Ressource extends User implements Serializable {
 	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Leave> leaves;
-	@OneToMany(mappedBy = "ressource")	
+	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> skills;
 	@JsonIgnore
@@ -53,28 +53,12 @@ public class Ressource extends User implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
 
-	@JsonBackReference(value="RessourceProject")
-	public Project getProject() {
-		return project;
-	}
 
 	public void setProject(Project project) {
 		this.project = project;
 	}
 
 	
-	
-	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
-			List<Leave> leaves, List<Skill> skills) {
-		super();
-		this.seniority = seniority;
-		this.sector = sector;
-		this.state = state;
-		this.profile = profile;
-		this.contract_type = contract_type;
-		this.leaves = leaves;
-		this.skills = skills;
-	}
 
 	public Ressource() {
 		super();
@@ -169,5 +153,27 @@ public class Ressource extends User implements Serializable {
 		this.listApplication = listApplication;
 	}
 	
+
+	@JsonBackReference(value="RessourceProject")
+	public Project getProject() {
+		return project;
+	}
+
+	
+	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
+			List<Leave> leaves, List<Skill> skills) {
+		super();
+		this.seniority = seniority;
+		this.sector = sector;
+		this.state = state;
+		this.profile = profile;
+		this.contract_type = contract_type;
+		this.leaves = leaves;
+		this.skills = skills;
+	}
+
 	
 }
+
+
+

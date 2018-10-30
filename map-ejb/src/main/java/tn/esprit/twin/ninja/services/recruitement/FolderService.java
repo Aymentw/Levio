@@ -8,14 +8,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import tn.esprit.twin.ninja.interfaces.recruitement.FolderServiceLocal;
-import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
 import tn.esprit.twin.ninja.persistence.recruitment.Folder;
 import tn.esprit.twin.ninja.persistence.recruitment.Letter;
 import tn.esprit.twin.ninja.persistence.recruitment.StateFolder;
 import tn.esprit.twin.ninja.persistence.recruitment.StateLetter;
 import tn.esprit.twin.ninja.persistence.recruitment.StateMinister;
-import tn.esprit.twin.ninja.utils.SendMinisterMail;
 
 @Stateless
 public class FolderService implements FolderServiceLocal {
@@ -90,12 +88,6 @@ public class FolderService implements FolderServiceLocal {
 			return false;
 		}
 		
-	}
-
-	@Override
-	public boolean sendEmail(int ida) {
-		
-		return SendMinisterMail.sendMail(em.find(Application.class, ida));
 	}
 
 	
