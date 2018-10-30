@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -32,8 +33,12 @@ public class Skill implements Serializable {
 	private SkillName name;
 	@Column(nullable=true)
 	private int rating;
-	@ManyToOne	
+	@ManyToOne
 	private Ressource ressource;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "request_id")
+	private Request request;
 	@ManyToOne
 	@JsonIgnore
 	JobOffer jobOffer;
@@ -41,8 +46,12 @@ public class Skill implements Serializable {
 	public Skill() {
 		super();
 	}
-
-	
+	public Request getRequest() {
+		return request;
+	}
+	public void setRequest(Request request) {
+		this.request = request;
+	}
 	public Ressource getRessource() {
 		return ressource;
 	}

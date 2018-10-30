@@ -9,6 +9,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin.ninja.interfaces.MandateServicesLocal;
+import tn.esprit.twin.ninja.persistence.Mandate;
 
 @Path("mandate")
 @RequestScoped
@@ -111,6 +113,17 @@ public class MandateResource {
 	@Path("delete/{mandateid}")
 	public Response deleteMandate(@PathParam(value = "mandateid") int mandateid) {
 		mandateService.ArchiveMandate(mandateid);
+		return Response.status(Status.OK).build();
+
+	}
+
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("edit")
+	public Response editMandate(Mandate m) {
+		mandateService.EditMandate(m);
 		return Response.status(Status.OK).build();
 
 	}
