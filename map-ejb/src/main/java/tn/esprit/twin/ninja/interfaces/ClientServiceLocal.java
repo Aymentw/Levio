@@ -18,5 +18,6 @@ public interface ClientServiceLocal {
 	public void respondToAMessage(int conversationId,int currencClient, Message message) throws MessagingException;
 	public List<Conversation> getConversationByType(int currentClient, MessageType messageType);
 	public List<Conversation> getConversationBySubject(String subject, int currentClient);
+	
 
 }

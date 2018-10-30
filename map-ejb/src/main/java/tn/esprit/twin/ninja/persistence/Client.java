@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +14,9 @@ import tn.esprit.twin.ninja.persistence.Request;
 
 enum clientCategory {
 	privateCat, publicCat;
+}
+enum clientType {
+	currentClient, newClient, finishedContract;
 }
 
 
@@ -23,6 +28,7 @@ public class Client extends User implements Serializable {
 	@ManyToMany
 	private List<Request> requests;
 	
+
 	public List<Request> getRequests() {
 		return requests;
 	}
@@ -46,4 +52,5 @@ public class Client extends User implements Serializable {
 	}	
 	
 }
+
 	

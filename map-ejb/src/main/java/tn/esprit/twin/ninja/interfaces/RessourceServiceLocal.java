@@ -56,4 +56,9 @@ public interface RessourceServiceLocal {
 	public List<Ressource> getRessourceBySkills(Set<Skill> skills);
 
 
+
+
+
+
+
 }
