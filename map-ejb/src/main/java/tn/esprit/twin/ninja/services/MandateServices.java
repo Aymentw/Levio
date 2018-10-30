@@ -87,7 +87,7 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     @Override
     public void CalculateFees(int mandateID,float taux,float NbrH) {
     	Mandate mandateEntity = em.find(Mandate.class, mandateID);
-    	float montant=taux*NbrH;
+    	float montant=taux*NbrH; 
     	mandateEntity.setMontant(montant);
     }
 
