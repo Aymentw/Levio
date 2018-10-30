@@ -1,5 +1,9 @@
 package tn.esprit.twin.ninja.services;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -7,10 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import io.woo.htmltopdf.HtmlToPdf;
 import io.woo.htmltopdf.HtmlToPdfObject;
-import tn.esprit.twin.ninja.interfaces.DashboardServicesRemote;
+import tn.esprit.twin.ninja.interfaces.DashboardServicesLocal;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Mandate;
@@ -18,7 +21,7 @@ import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 @Stateless
-public class DashboardService implements DashboardServicesRemote {
+public class DashboardService implements DashboardServicesLocal {
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -107,7 +110,7 @@ public class DashboardService implements DashboardServicesRemote {
 		}
 		else if(o instanceof Project){
 			Project p =(Project)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=satisfactionn";
+			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=satisfaction";
 			Query q = em.createQuery(sql);
 			count =(Long) q.getSingleResult();
 			}
@@ -128,9 +131,10 @@ public class DashboardService implements DashboardServicesRemote {
 	}
 
 	@Override
-	public int numberOfResourcesToClient(Client c) {
+	public int numberOfResourcesToClient(int clientId) {
+		Client c=em.find(Client.class, clientId);
 		int numRes=0;
-		String sql = "Select p from Peoject p where p.client.id="+c.getId();
+		String sql = "Select p from Project p where p.client.id="+clientId;
 		Query q = em.createQuery(sql);
 		List<Project> projects  =(List<Project>) q.getResultList();
 		for (Project p : projects){
@@ -143,7 +147,7 @@ public class DashboardService implements DashboardServicesRemote {
 	}
 
 	@Override
-	public void reportResource(int ressourceId) {
+	public void reportResource(int ressourceId) throws IOException {
 		Ressource r=em.find(Ressource.class, ressourceId);
 		String html="<html><head><style></style></head><body>";
 		html+="<p>First name : "+r.getFirst_name()+"</p><br>";
@@ -164,7 +168,7 @@ public class DashboardService implements DashboardServicesRemote {
 			html+="Start Date : "+m.getStartDate()+"<br>";
 			html+="End Date : "+m.getEndDate()+"<br>";
 			html+="Charges : "+m.getMontant()+"<br>";
-			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClients().getName()+"\"<br>";
+			html+="Project "+m.getProject().getName()+" for Client \""+m.getProject().getClient().getName()+"\"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
 		html+="Skills : <br>";
@@ -174,17 +178,37 @@ public class DashboardService implements DashboardServicesRemote {
 			html+="Rating : "+s.getRating()+"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
-		HtmlToPdf.create()
+		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		bw.write(html);
+		bw.close();
+		/*HtmlToPdf.create()
 	    .object(HtmlToPdfObject.forHtml(html))
-	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
+	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");*/
 	}
 
 	@Override
 	public List<Object> mostUsedSkills() {
-		String sql = "SELECT s.name,COUNT(s.id) as value_occurrence FROM Skill s GROUP BY s.name ORDER BY value_occurrence DESC LIMIT 5;";
+		String sql = "SELECT s.name,COUNT(s.id) as value_occurrence FROM Skill s GROUP BY s.name ORDER BY value_occurrence DESC";
 		Query q = em.createQuery(sql);
+		q.setMaxResults(5);
+		List<Object> mostSkills=(List<Object>) q.getResultList();
+		return mostSkills;
+	}
+	@Override
+	public List<Object> mostProfitProject() {
+		String sql = "SELECT m.project.name,SUM(m.Montant) as sum_profit FROM Mandate m GROUP BY m.project ORDER BY sum_profit DESC";
+		Query q = em.createQuery(sql);
+		q.setMaxResults(5);
+		List<Object> mostSkills=(List<Object>) q.getResultList();
+		return mostSkills;
+	}
+	@Override
+	public List<Object> mostProfitClient() {
+		String sql = "SELECT m.project.client.name,COUNT(distinct m.ressource) as num_res FROM Mandate m GROUP BY m.project.client ORDER BY num_res DESC";
+		Query q = em.createQuery(sql);
+		q.setMaxResults(5);
 		List<Object> mostSkills=(List<Object>) q.getResultList();
 		return mostSkills;
 	}
 }
-

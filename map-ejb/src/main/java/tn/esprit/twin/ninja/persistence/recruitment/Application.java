@@ -26,6 +26,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 
@@ -39,12 +41,30 @@ public class Application implements Serializable {
 	private State state=State.notApplay;
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private Folder folder;
-	@OneToMany(mappedBy="application",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="application")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ApplicationTest> listTest;
 	@OneToMany(mappedBy="application")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Interview> listInterview;
+	private String Description;
+	@ManyToOne
+	@JsonIgnore
+	private JobOffer jobOffer;
 	
+	
+	public JobOffer getJobOffer() {
+		return jobOffer;
+	}
+	public void setJobOffer(JobOffer jobOffer) {
+		this.jobOffer = jobOffer;
+	}
+	public String getDescription() {
+		return Description;
+	}
+	public void setDescription(String description) {
+		Description = description;
+	}
 	public List<ApplicationTest> getListTest() {
 		return listTest;
 	}

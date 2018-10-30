@@ -11,6 +11,14 @@ public interface SkillServiceRemote {
 
 	public void addSkill(Skill s);
 
-	public List<Skill> getAllSkills();
+	public boolean updateSkills(Skill skill);
+
+	public boolean affectSkills(int ressourceId, int skillId);
+
+	public boolean deleteSkills(int skillId);
+
+	public boolean evaluateSkills(Skill skill);
+
+	public List<Skill> getBestSkills();
 
 }

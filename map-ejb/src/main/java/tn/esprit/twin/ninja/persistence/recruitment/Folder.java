@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,8 +30,10 @@ public class Folder implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@OneToOne
-	private Letter letterEmpUser;
+	@OneToMany(mappedBy="folder",cascade=CascadeType.PERSIST)
+	private List<Letter> listeLetter;
+	@Enumerated(EnumType.STRING)
+	private StateLetter stateLetter=StateLetter.notSigned;
 	@Enumerated(EnumType.STRING)
 	private StateFolder stateFolder=StateFolder.notComplited;
 	@Enumerated(EnumType.STRING)
@@ -42,12 +45,7 @@ public class Folder implements Serializable {
 	
 	
 	
-	public Letter getLetterEmpUser() {
-		return letterEmpUser;
-	}
-	public void setLetterEmpUser(Letter letterEmpUser) {
-		this.letterEmpUser = letterEmpUser;
-	}
+	
 	
 	
 	public StateMinister getStateMinister() {
@@ -75,16 +73,21 @@ public class Folder implements Serializable {
 	public void setApplication(Application application) {
 		this.application = application;
 	}
-	public Folder(Letter letterEmpUser, StateFolder stateFolder, StateMinister stateMinister) {
-		super();
 		
-		this.letterEmpUser = letterEmpUser;
-		this.stateFolder = stateFolder;
-		this.stateMinister = stateMinister;
-		
-	}
 	public Folder() {
 		super();
+	}
+	public List<Letter> getListeLetter() {
+		return listeLetter;
+	}
+	public void setListeLetter(List<Letter> listeLetter) {
+		this.listeLetter = listeLetter;
+	}
+	public StateLetter getStateLetter() {
+		return stateLetter;
+	}
+	public void setStateLetter(StateLetter stateLetter) {
+		this.stateLetter = stateLetter;
 	}
 	
 	
