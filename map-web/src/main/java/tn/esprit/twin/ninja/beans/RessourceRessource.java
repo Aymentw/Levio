@@ -31,7 +31,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import tn.esprit.twin.ninja.interfaces.RessourceServiceLocal;
 import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Ressource;
-import tn.esprit.twin.ninja.persistence.Skill;
 
 @Path("/ressource")
 @RequestScoped
