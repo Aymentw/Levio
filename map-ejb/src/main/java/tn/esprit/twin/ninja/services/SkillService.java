@@ -17,9 +17,8 @@ public class SkillService implements SkillServiceLocal {
 	EntityManager em;
 
 	@Override
-	public List<Skill> getAllSkills() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Skill> getBestSkills() {
+		return em.createQuery("SELECT s FROM Skill s ORDER BY s.rating DESC",Skill.class).getResultList();
 	}
 
 	@Override

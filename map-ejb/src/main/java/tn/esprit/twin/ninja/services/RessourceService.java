@@ -28,25 +28,34 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public void updateRessource(Ressource res) {
+	public boolean updateRessource(Ressource res) {
+		try {
+			Ressource r = em.find(Ressource.class, res.getId());
+			r.setFirst_name(res.getFirst_name());
+			r.setLast_name(res.getLast_name());
+			r.setContract_type(res.getContract_type());
+			r.setSector(res.getSector());
+			r.setSeniority(res.getSeniority());
+			r.setState(res.getState());
 
-		Ressource r = em.find(Ressource.class, res.getId());
-		r.setFirst_name(res.getFirst_name());
-		r.setLast_name(res.getLast_name());
-		r.setContract_type(res.getContract_type());
-		r.setSector(res.getSector());
-		r.setSeniority(res.getSeniority());
-		r.setState(res.getState());
+			em.merge(r);
 
-		em.merge(r);
-
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void deleteRessource(Ressource res) {
-		Ressource r = em.find(Ressource.class, res.getId());
-		r.setArchived(true);
+	public boolean deleteRessource(Ressource res) {
+		try {
+			Ressource r = em.find(Ressource.class, res.getId());
+			r.setArchived(true);
+			return true;
 
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -59,7 +68,7 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public Ressource getRessourceById(int ressourceId) {
 
-		return em.createQuery("SELECT * FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
+		return em.createQuery("SELECT r FROM Ressource r WHERE r.id=:ressourceId", Ressource.class)
 				.setParameter("ressourceId", ressourceId).getSingleResult();
 	}
 
@@ -72,31 +81,49 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public void addSkills(int ressourceId, int skillId) {
-		Ressource r = em.find(Ressource.class, ressourceId);
-		Skill s = em.find(Skill.class, skillId);
-		s.setRessource(r);
+	public boolean addSkills(int ressourceId, int skillId) {
+		try {
+			Ressource r = em.find(Ressource.class, ressourceId);
+			Skill s = em.find(Skill.class, skillId);
+			s.setRessource(r);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void updateSkills(Skill skill) {
-		Skill s = em.find(Skill.class, skill.getId());
-		em.merge(s);	
-	}
-	
-	@Override
-	public void deleteSkills(int skillId) {
-		Skill s = em.find(Skill.class, skillId);
-		em.remove(s);
-
+	public boolean updateSkills(Skill skill) {
+		try {
+			Skill s = em.find(Skill.class, skill.getId());
+			em.merge(s);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void evaluateSkills(Skill skill) {
-		Skill s = em.find(Skill.class, skill.getId());
-		s.setRating(skill.getRating());
+	public boolean deleteSkills(int skillId) {
+		try {
+			Skill s = em.find(Skill.class, skillId);
+			em.remove(s);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
+	@Override
+	public boolean evaluateSkills(Skill skill) {
+		try {
+			Skill s = em.find(Skill.class, skill.getId());
+			s.setRating(skill.getRating());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Override
 	public void sendMessageToClient(Message message, int clientId) {
@@ -108,35 +135,50 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public void affectRessourceToProject(int projectId, int ressourceId) {
-
-		Project p = em.find(Project.class, projectId);
-		Ressource r = em.find(Ressource.class, ressourceId);
-		r.setProject(p);
-
+	public boolean affectRessourceToProject(int projectId, int ressourceId) {
+		try {
+			Project p = em.find(Project.class, projectId);
+			Ressource r = em.find(Ressource.class, ressourceId);
+			r.setProject(p);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void addLeave(int ressourceId, Leave l) {
+	public boolean addLeave(int ressourceId, Leave l) {
 		Ressource r = em.find(Ressource.class, ressourceId);
+		if (l.getStart_date().compareTo(l.getEnd_date()) > 0 || l.getStart_date().compareTo(l.getEnd_date()) == 0) {
+			return false;
+		}
 		em.persist(l);
 		l.setRessource(r);
+		return true;
 
 	}
 
 	@Override
-	public void updateLeave(Leave l) {
-		Leave leave = em.find(Leave.class, l.getId());
-		leave.setStart_date(l.getStart_date());
-		leave.setEnd_date(l.getEnd_date());
-
+	public boolean updateLeave(Leave l) {
+		try {
+			Leave leave = em.find(Leave.class, l.getId());
+			leave.setStart_date(l.getStart_date());
+			leave.setEnd_date(l.getEnd_date());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void deleteLeave(int leaveId) {
-		Leave l = em.find(Leave.class, leaveId);
-		em.remove(l);
-
+	public boolean deleteLeave(int leaveId) {
+		try {
+			Leave l = em.find(Leave.class, leaveId);
+			em.remove(l);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override

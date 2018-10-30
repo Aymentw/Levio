@@ -9,6 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import javax.persistence.*;
@@ -36,6 +40,11 @@ public class Ressource extends User implements Serializable {
 	private List<Mandate> mandate;
 	@ManyToOne
 	private Project project;
+	@ManyToOne
+	private Ressource assigned;
+	@OneToMany(mappedBy="assigned")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Ressource> listAssigned;
 
 	@JsonBackReference(value="RessourceProject")
 	public Project getProject() {
@@ -104,7 +113,6 @@ public class Ressource extends User implements Serializable {
 		this.contract_type = contract_type;
 	}
 
-	@JsonManagedReference(value="RessourceLeaves")
 	public List<Leave> getLeaves() {
 		return leaves;
 	}
@@ -113,7 +121,7 @@ public class Ressource extends User implements Serializable {
 		this.leaves = leaves;
 	}
 
-	@JsonManagedReference(value="RessourceSkills")
+
 	public List<Skill> getSkills() {
 		return skills;
 	}
@@ -128,6 +136,22 @@ public class Ressource extends User implements Serializable {
 
 	public void setMandate(List<Mandate> mandate) {
 		this.mandate = mandate;
+	}
+
+	public Ressource getAssigned() {
+		return assigned;
+	}
+
+	public void setAssigned(Ressource assigned) {
+		this.assigned = assigned;
+	}
+
+	public List<Ressource> getListAssigned() {
+		return listAssigned;
+	}
+
+	public void setListAssigned(List<Ressource> listAssigned) {
+		this.listAssigned = listAssigned;
 	}
 	
 }

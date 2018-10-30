@@ -2,36 +2,51 @@ package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import tn.esprit.twin.ninja.persistence.recruitment.JobOffer;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 public class Skill implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Enumerated(EnumType.STRING)
 	private SkillName name;
+	@Column(nullable=true)
 	private int rating;
 	@ManyToOne	
 	private Ressource ressource;
+	@ManyToOne
+	@JsonIgnore
+	JobOffer jobOffer;
 	
 	public Skill() {
 		super();
 	}
 
-	@JsonBackReference(value="RessourceSkills")
+	
 	public Ressource getRessource() {
 		return ressource;
 	}
+
 
 	public SkillName getName() {
 		return name;
@@ -61,5 +76,16 @@ public class Skill implements Serializable {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+
+	public JobOffer getJobOffer() {
+		return jobOffer;
+	}
+
+
+	public void setJobOffer(JobOffer jobOffer) {
+		this.jobOffer = jobOffer;
+	}
+	
 
 }

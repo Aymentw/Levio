@@ -46,7 +46,7 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 	public void affectProjecttoClient(int projectId, int clientId) {
 		Project p = em.find(Project.class, projectId);
 		Client c = em.find(Client.class, clientId);
-		p.setClients(c);
+		p.setClient(c);
 		//em.merge(p);
 	}
 

@@ -24,20 +24,21 @@ import tn.esprit.twin.ninja.interfaces.MandateServicesLocal;
 public class MandateResource {
 	@EJB(beanName = "MandateServices")
 	MandateServicesLocal mandateService;
-	
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllRessources(@QueryParam(value = "resourceId") int resid,@QueryParam(value = "date") Date date) throws ParseException {
-		 
-			String pattern = "yyyy-MM-dd";
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-			Date FDate;
-			//String resourceId=""+resid;
-			String resourceId=String.valueOf(resid);
-			
-		if ((resourceId == null) && (date == null))
-		{
+	public Response getAllRessources(@QueryParam(value = "resourceId") String resid,
+			@QueryParam(value = "dateM") String dateM) throws ParseException {
+
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		
+	
+	
+
+		if ((resid == null) && (dateM == null)) {
+		
 			if (mandateService.getAll() == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 
@@ -45,26 +46,26 @@ public class MandateResource {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Pas de contenu").build();
 
 			else
-				return Response.ok(mandateService.getAll(),MediaType.APPLICATION_JSON).build();
-	
-		}else if ((resourceId != null) && (date == null))
-		{
-			if (mandateService.getMandateByResource(resid) == null)
+				return Response.ok(mandateService.getAll(), MediaType.APPLICATION_JSON).build();
+
+		} 
+		else if ((resid != null) && (dateM == null)) {
+			int resourceId = Integer.parseInt(resid);
+			
+			if (mandateService.getMandateByResource(resourceId) == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 
-			if (mandateService.getMandateByResource(resid).size() == 0)
+			if (mandateService.getMandateByResource(resourceId).size() == 0)
 				return Response.status(Response.Status.BAD_REQUEST).entity("Pas de contenu").build();
 
 			else
-				return Response.ok(mandateService.getMandateByResource(resid),MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
-	
-		}else if ((resourceId == null) && (date != null))
+				return Response.ok(mandateService.getMandateByResource(resourceId), MediaType.APPLICATION_JSON)
+						.header("Access-Control-Allow-Origin", "*").build();
+
+		} else if ((resid == null) && (dateM != null) ) 
 		{
-			try {
-				FDate = simpleDateFormat.parse(date.toString());
-			} catch (Exception e) {
-				return Response.status(Status.BAD_REQUEST).build();
-			}
+			Date FDate = simpleDateFormat.parse(dateM);
+			
 			if (mandateService.SearchMandateByDate(FDate) == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 
@@ -72,39 +73,56 @@ public class MandateResource {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Pas de contenu").build();
 
 			else
-				return Response.ok(mandateService.SearchMandateByDate(FDate),MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
-	
+				return Response.ok(mandateService.SearchMandateByDate(FDate), MediaType.APPLICATION_JSON)
+						.header("Access-Control-Allow-Origin", "*").build();
+
 		}
-		
+
 		else
-			return Response.status(Response.Status.BAD_REQUEST).entity("Requete eronnÃ©e").build();
-		
-		 
+			return Response.status(Response.Status.BAD_REQUEST).entity("Requete eronnée").build();
 
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("history")
 	public Response getHistory() throws ParseException {
 
 		if (!mandateService.DisplayHistory().isEmpty())
-			return Response.ok(mandateService.DisplayHistory(),MediaType.APPLICATION_JSON).build();
+			return Response.ok(mandateService.DisplayHistory(), MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
+
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("assign/{projetId}/{resourceId}")
+	public Response AssignResource(@PathParam(value = "projetId") int projetId,
+			@PathParam(value = "resourceId") int resourceId) {
+		mandateService.AssignResource(projetId, resourceId);
+		return Response.status(Status.OK).build();
 
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("assign/{projetId}/{resourceId}")
-	public Response AssignResource(@PathParam(value="projetId") int projetId,@PathParam(value="resourceId") int resourceId) {
-		
-	 
-		mandateService.AssignResource(projetId, resourceId);
+	@Path("delete/{mandateid}")
+	public Response deleteMandate(@PathParam(value = "mandateid") int mandateid) {
+		mandateService.ArchiveMandate(mandateid);
 		return Response.status(Status.OK).build();
 
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("archive")
+	public Response getArchivedMandate() throws ParseException {
+
+		if (!mandateService.ArchivedMandate().isEmpty())
+			return Response.ok(mandateService.ArchivedMandate(), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
 
 	}
 
