@@ -46,7 +46,7 @@ public class FolderResource {
 			return Response.status(Status.OK).entity(folderService.getStateFolder(idApplication)).build();
 		
 	}
-	@GET
+	@PUT
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("setstateminister/{idapplication}/{state}")
@@ -88,16 +88,8 @@ public class FolderResource {
 			return Response.ok(folderService.getFolder(idapplication),MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}
-	@GET
-	//@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("sendmail/{ida}")
-	public Response sendmail(@PathParam("ida") int ida) {
-		if (folderService.sendEmail(ida))
-			return Response.status(Status.OK).entity(ida).build();
-		return Response.status(Status.BAD_REQUEST).build();
 	
-	}
+	
 	
 
 }

@@ -1,16 +1,15 @@
 package tn.esprit.twin.ninja.interfaces;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 
-@Local
-public interface DashboardServicesLocal {
+@Remote
+public interface DashboardServicesRemote {
 public Long getNumberFreelancers();
 public Long getNumberEmployees();
 public Long getNumberEmployeesInMandates();
@@ -19,12 +18,7 @@ public Long getNumberEmployeesAdministration();
 public Long reclamationsPerTarget(Object o);
 public Long satisfactionsPerTarget(Object o);
 public float satisfactionRate(Object o);
-public int numberOfResourcesToClient(int clientId);
-public void reportResource(int ressourceId) throws IOException;
+public int numberOfResourcesToClient(Client c);
+public void reportResource(int ressourceId);
 public List<Object>mostUsedSkills();
-public List<Object> mostProfitProject();
-public List<Object> mostProfitClient();
-public float mandateEfficiency(int mandateId);
-public float resourceEfficiency(int resourceId);
-public float projectEfficiency(int projectID);
 }

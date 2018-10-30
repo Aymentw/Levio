@@ -1,9 +1,5 @@
 package tn.esprit.twin.ninja.services;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +10,7 @@ import javax.persistence.Query;
 
 import io.woo.htmltopdf.HtmlToPdf;
 import io.woo.htmltopdf.HtmlToPdfObject;
-import tn.esprit.twin.ninja.interfaces.DashboardServicesLocal;
+import tn.esprit.twin.ninja.interfaces.DashboardServicesRemote;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Mandate;
@@ -22,12 +18,12 @@ import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 @Stateless
-public class DashboardService implements DashboardServicesLocal {
+public class DashboardService implements DashboardServicesRemote {
 	@PersistenceContext
 	private EntityManager em;
 	
 	@Override
-	public Long getNumberFreelancers() {//ok
+	public Long getNumberFreelancers() {
 		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.contract_type='freelancer'";
 		Query q = em.createQuery(sql);
 		Long count =(Long) q.getSingleResult();
@@ -35,7 +31,7 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 
 	@Override
-	public Long getNumberEmployees() {//ok
+	public Long getNumberEmployees() {
 		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.contract_type='employee'";
 		Query q = em.createQuery(sql);
 		Long count =(Long) q.getSingleResult();
@@ -43,7 +39,7 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 
 	@Override
-	public Long getNumberEmployeesInMandates() {//ok
+	public Long getNumberEmployeesInMandates() {
 		Long leavescounter=new Long(0);
 		Date d=new Date();
 		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.state='notAvailable' or r.state='soonAvailable'";
@@ -132,8 +128,7 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 
 	@Override
-	public int numberOfResourcesToClient(int clientId) {//ok
-		Client c=em.find(Client.class, clientId);
+	public int numberOfResourcesToClient(Client c) {
 		int numRes=0;
 		String sql = "Select p from Peoject p where p.client.id="+c.getId();
 		Query q = em.createQuery(sql);
@@ -148,7 +143,7 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 
 	@Override
-	public void reportResource(int ressourceId) throws IOException {//okish
+	public void reportResource(int ressourceId) {
 		Ressource r=em.find(Ressource.class, ressourceId);
 		String html="<html><head><style></style></head><body>";
 		html+="<p>First name : "+r.getFirst_name()+"</p><br>";
@@ -179,75 +174,17 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="Rating : "+s.getRating()+"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
-		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-		bw.write(html);
-		bw.close();
-		/*HtmlToPdf.create()
+		HtmlToPdf.create()
 	    .object(HtmlToPdfObject.forHtml(html))
-	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");*/
+	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
 	}
 
 	@Override
-	public List<Object> mostUsedSkills() {//ok
-		String sql = "SELECT s.name,COUNT(s.id) as value_occurrence FROM Skill s GROUP BY s.name ORDER BY value_occurrence DESC";
+	public List<Object> mostUsedSkills() {
+		String sql = "SELECT s.name,COUNT(s.id) as value_occurrence FROM Skill s GROUP BY s.name ORDER BY value_occurrence DESC LIMIT 5;";
 		Query q = em.createQuery(sql);
-		q.setMaxResults(5);
 		List<Object> mostSkills=(List<Object>) q.getResultList();
 		return mostSkills;
 	}
-	@Override
-	public List<Object> mostProfitProject() {//ok
-		String sql = "SELECT m.project.name,SUM(m.Montant) as sum_profit FROM Mandate m GROUP BY m.project ORDER BY sum_profit DESC";
-		Query q = em.createQuery(sql);
-		q.setMaxResults(5);
-		List<Object> mostSkills=(List<Object>) q.getResultList();
-		return mostSkills;
-	}
-	@Override
-	public List<Object> mostProfitClient() {//ok
-		String sql = "SELECT m.project.client.name,COUNT(distinct m.ressource) as num_res FROM Mandate m GROUP BY m.project.client ORDER BY num_res DESC";
-		Query q = em.createQuery(sql);
-		q.setMaxResults(5);
-		List<Object> mostSkills=(List<Object>) q.getResultList();
-		return mostSkills;
-	}
-
-	@Override
-	public float mandateEfficiency(int mandateId) {
-		Mandate m=em.find(Mandate.class, mandateId);
-		float optimumDuration=(m.getEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-		float actualDuration=(m.getActualEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-		return (optimumDuration/actualDuration)*100;
-		
-	}
-
-	@Override
-	public float resourceEfficiency(int resourceId) {
-		float sum=0;
-		int i=0;
-		Ressource r = em.find(Ressource.class,resourceId);
-		for (Mandate m : r.getMandate()) {
-			float optimumDuration=(m.getEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-			float actualDuration=(m.getActualEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-			sum+=(optimumDuration/actualDuration)*100;
-			i++;
-		}
-		return sum/i;
-	}
-
-	@Override
-	public float projectEfficiency(int projectID) {
-		float sum=0;
-		int i=0;
-		Project p = em.find(Project.class,projectID);
-		for (Mandate m : p.getMandates()) {
-			float optimumDuration=(m.getEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-			float actualDuration=(m.getActualEndDate().getTime()-m.getStartDate().getTime())/ (24 * 60 * 60 * 1000);
-			sum+=(optimumDuration/actualDuration)*100;
-			i++;
-		}
-		return sum/i;
-	}
-	
 }
+
