@@ -1,5 +1,8 @@
 package tn.esprit.twin.ninja.services;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -176,9 +179,13 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="Rating : "+s.getRating()+"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
-		HtmlToPdf.create()
+		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		bw.write(html);
+		bw.close();
+		/*HtmlToPdf.create()
 	    .object(HtmlToPdfObject.forHtml(html))
-	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
+	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");*/
 	}
 
 	@Override
@@ -244,4 +251,3 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 	
 }
-
