@@ -1,5 +1,6 @@
 package tn.esprit.twin.ninja.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import javax.persistence.Query;
 
 import io.woo.htmltopdf.HtmlToPdf;
 import io.woo.htmltopdf.HtmlToPdfObject;
-import tn.esprit.twin.ninja.interfaces.DashboardServicesRemote;
+import tn.esprit.twin.ninja.interfaces.DashboardServicesLocal;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Mandate;
@@ -18,7 +19,7 @@ import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 @Stateless
-public class DashboardService implements DashboardServicesRemote {
+public class DashboardService implements DashboardServicesLocal {
 	@PersistenceContext
 	private EntityManager em;
 	
