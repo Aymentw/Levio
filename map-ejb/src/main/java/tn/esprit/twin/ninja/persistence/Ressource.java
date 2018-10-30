@@ -9,10 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import javax.persistence.*;
@@ -21,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-@JsonIgnoreProperties({ "mandate"})
+@JsonIgnoreProperties({ "mandate" })
 @Entity
 public class Ressource extends User implements Serializable {
 
@@ -29,24 +25,19 @@ public class Ressource extends User implements Serializable {
 	private String sector;
 	@Enumerated(EnumType.STRING)
 	private RessourceState state;
-	private String profile;
-	private String contract_type;
+	@Enumerated(EnumType.STRING)
+	private ContractType contract_type;
 	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)
 	private List<Leave> leaves;
-	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)	
+	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)
 	private List<Skill> skills;
 	@JsonIgnore
-	@OneToMany (mappedBy = "ressource")
+	@OneToMany(mappedBy = "ressource")
 	private List<Mandate> mandate;
 	@ManyToOne
 	private Project project;
-	@ManyToOne
-	private Ressource assigned;
-	@OneToMany(mappedBy="assigned")
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Ressource> listAssigned;
 
-	@JsonBackReference(value="RessourceProject")
+	@JsonBackReference(value = "RessourceProject")
 	public Project getProject() {
 		return project;
 	}
@@ -55,22 +46,15 @@ public class Ressource extends User implements Serializable {
 		this.project = project;
 	}
 
-	
-	
-	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
-			List<Leave> leaves, List<Skill> skills) {
-		super();
-		this.seniority = seniority;
-		this.sector = sector;
-		this.state = state;
-		this.profile = profile;
-		this.contract_type = contract_type;
-		this.leaves = leaves;
-		this.skills = skills;
-	}
-
 	public Ressource() {
 		super();
+	}
+
+	
+
+	public Ressource(String firstname, String photo) {
+		this.first_name = firstname;
+		this.photo = photo;
 	}
 
 	public int getSeniority() {
@@ -97,19 +81,11 @@ public class Ressource extends User implements Serializable {
 		this.state = state;
 	}
 
-	public String getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
-	public String getContract_type() {
+	public ContractType getContract_type() {
 		return contract_type;
 	}
 
-	public void setContract_type(String contract_type) {
+	public void setContract_type(ContractType contract_type) {
 		this.contract_type = contract_type;
 	}
 
@@ -120,7 +96,6 @@ public class Ressource extends User implements Serializable {
 	public void setLeaves(List<Leave> leaves) {
 		this.leaves = leaves;
 	}
-
 
 	public List<Skill> getSkills() {
 		return skills;
@@ -138,20 +113,4 @@ public class Ressource extends User implements Serializable {
 		this.mandate = mandate;
 	}
 
-	public Ressource getAssigned() {
-		return assigned;
-	}
-
-	public void setAssigned(Ressource assigned) {
-		this.assigned = assigned;
-	}
-
-	public List<Ressource> getListAssigned() {
-		return listAssigned;
-	}
-
-	public void setListAssigned(List<Ressource> listAssigned) {
-		this.listAssigned = listAssigned;
-	}
-	
 }
