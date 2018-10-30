@@ -8,8 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import io.woo.htmltopdf.HtmlToPdf;
-import io.woo.htmltopdf.HtmlToPdfObject;
+//import io.woo.htmltopdf.HtmlToPdf;
+//import io.woo.htmltopdf.HtmlToPdfObject;
 import tn.esprit.twin.ninja.interfaces.DashboardServicesRemote;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Leave;
@@ -174,9 +174,9 @@ public class DashboardService implements DashboardServicesRemote {
 			html+="Rating : "+s.getRating()+"<br>";
 			html+="-------------------------------------------------------------------<br>";
 		}
-		HtmlToPdf.create()
-	    .object(HtmlToPdfObject.forHtml(html))
-	    .convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
+		//HtmlToPdf.create()
+	    //.object(HtmlToPdfObject.forHtml(html))
+	    //.convert("C:/Users/Firassov/Desktop/pdf/file.pdf");
 	}
 
 	@Override

@@ -95,7 +95,6 @@ public class RessourceService implements RessourceServiceLocal {
 	public void evaluateSkills(Skill skill) {
 		Skill s = em.find(Skill.class, skill.getId());
 		s.setRating(skill.getRating());
-
 	}
 
 

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,7 @@ public class Project implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	@Enumerated(EnumType.STRING)
 	private projectType type;
 	private int num_ressource_all;
 	private int num_ressource_levio;
@@ -42,11 +45,13 @@ public class Project implements Serializable{
 	private Date end_date;
 	private String adress;
 	private String photo;
+	private boolean archived;
 	@ManyToOne
 	private Client client;
 	@JsonIgnore
 	@OneToMany (mappedBy="project")
 	List<Mandate> mandates;
+	@JsonIgnore
 	@OneToMany(mappedBy="project")
 	private List<Ressource> ressources;
 	
@@ -124,5 +129,12 @@ public class Project implements Serializable{
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	public boolean isArchived() {
+		return archived;
+	}
+	public void setArchived(boolean archived) {
+		this.archived = archived;
+	}
 
+	
 }
