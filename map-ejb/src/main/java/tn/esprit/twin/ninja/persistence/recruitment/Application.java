@@ -28,6 +28,8 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import tn.esprit.twin.ninja.persistence.Ressource;
 @Entity
 @Table
 
@@ -39,7 +41,7 @@ public class Application implements Serializable {
 	private Date date_app= new Date();
 	@Enumerated(EnumType.STRING)
 	private State state=State.notApplay;
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	private Folder folder;
 	@OneToMany(mappedBy="application")
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -51,6 +53,9 @@ public class Application implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	private JobOffer jobOffer;
+	@ManyToOne
+	@JsonIgnore
+	private Ressource ressource;
 	
 	
 	public JobOffer getJobOffer() {
@@ -114,6 +119,12 @@ public class Application implements Serializable {
 		ApplicationTest ap= new ApplicationTest(this, test);
 		listTest.add(ap);
 		test.getListApllication().add(ap);
+	}
+	public Ressource getRessource() {
+		return ressource;
+	}
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
 	}
 	
 	

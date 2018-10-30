@@ -32,18 +32,27 @@ public class ApplicationResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addApplication(Application a){
-		ApplicationService.addApplication(a);
+	@Path("{idJob}/{idRess}")
+	public Response addApplication(Application a,@PathParam("idJob") int idJob,@PathParam("idRess") int idRess){
+		ApplicationService.addApplication(a,idJob,idRess);
 			return Response.status(Status.CREATED).entity(a).build();
 
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getapplication")
-	public Response getApplication(@QueryParam("idressource") int idRessource) {
+	public Response getApplication(@QueryParam("idapplication") int idapplication) {
 		
 		return Response.status(Status.ACCEPTED)
-				.entity(ApplicationService.getApplication(idRessource)).build();
+				.entity(ApplicationService.getApplication(idapplication)).build();
+	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("getapplicationid")
+	public Response getApplicationId(@QueryParam("idressource") int idressource) {
+		
+		return Response.status(Status.ACCEPTED)
+				.entity(ApplicationService.getApplicationId(idressource)).build();
 	}
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
