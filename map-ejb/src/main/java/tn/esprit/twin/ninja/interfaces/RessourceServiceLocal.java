@@ -1,12 +1,14 @@
 package tn.esprit.twin.ninja.interfaces;
 
 import java.util.List;
+import java.util.Set;
 
-import tn.esprit.twin.ninja.persistence.Leave;
-import tn.esprit.twin.ninja.persistence.Message;
-import tn.esprit.twin.ninja.persistence.Ressource;
-import tn.esprit.twin.ninja.persistence.Skill;
+import tn.esprit.twin.ninja.persistence.*;
 
+import javax.ejb.Local;
+import javax.mail.MessagingException;
+
+@Local
 public interface RessourceServiceLocal {
 
 	public void addRessource(Ressource r);
@@ -27,7 +29,15 @@ public interface RessourceServiceLocal {
 
 	public boolean evaluateSkills(Skill skill);
 
-	public void sendMessageToClient(Message message, int clientId);
+	public void sendMessageToClient(Message message,int currentResource, int clientId) throws MessagingException;
+
+	public List<Conversation> getOpenedConversations(int ResourceId);
+
+	public void respondToAMessage(int conversationId,int currencResource, Message message) throws MessagingException;
+
+	public List<Conversation> getConversationByType(int currentResource, MessageType messageType);
+
+	public List<Conversation> getConversationBySubject(String subject, int currentResource);
 
 	public boolean affectRessourceToProject(int projectId, int ressourceId);
 
@@ -42,5 +52,8 @@ public interface RessourceServiceLocal {
 	public List<Leave> getAllLeaves();
 
 	public List<Ressource> getRessourceByName(String FirstName);
+
+	public List<Ressource> getRessourceBySkills(Set<Skill> skills);
+
 
 }

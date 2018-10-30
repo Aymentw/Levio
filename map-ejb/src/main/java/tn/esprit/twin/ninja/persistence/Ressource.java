@@ -45,8 +45,6 @@ public class Ressource extends User implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
-	
 	
 	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {

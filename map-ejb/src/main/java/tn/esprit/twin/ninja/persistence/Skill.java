@@ -2,19 +2,11 @@ package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
@@ -26,14 +18,21 @@ public class Skill implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private SkillName name;
 	private int rating;
-	@ManyToOne	
+	@ManyToOne
 	private Ressource ressource;
-	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "request_id")
+	private Request request;
 	public Skill() {
 		super();
 	}
-
-	
+	public Request getRequest() {
+		return request;
+	}
+	public void setRequest(Request request) {
+		this.request = request;
+	}
 	public Ressource getRessource() {
 		return ressource;
 	}
