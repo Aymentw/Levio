@@ -21,19 +21,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import tn.esprit.twin.ninja.persistence.recruitment.Application;
+
 @JsonIgnoreProperties({ "mandate"})
 @Entity
 public class Ressource extends User implements Serializable {
 
-	private int seniority;
+	private String seniority;
 	private String sector;
 	@Enumerated(EnumType.STRING)
 	private RessourceState state;
 	private String profile;
 	private String contract_type;
-	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ressource")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Leave> leaves;
-	@OneToMany(mappedBy = "ressource", fetch = FetchType.EAGER)	
+	@OneToMany(mappedBy = "ressource")	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> skills;
 	@JsonIgnore
 	@OneToMany (mappedBy = "ressource")
@@ -45,6 +49,9 @@ public class Ressource extends User implements Serializable {
 	@OneToMany(mappedBy="assigned")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Ressource> listAssigned;
+	@OneToMany(mappedBy="ressource")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Application> listApplication;
 
 	@JsonBackReference(value="RessourceProject")
 	public Project getProject() {
@@ -57,7 +64,7 @@ public class Ressource extends User implements Serializable {
 
 	
 	
-	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
+	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();
 		this.seniority = seniority;
@@ -73,11 +80,11 @@ public class Ressource extends User implements Serializable {
 		super();
 	}
 
-	public int getSeniority() {
+	public String getSeniority() {
 		return seniority;
 	}
 
-	public void setSeniority(int seniority) {
+	public void setSeniority(String seniority) {
 		this.seniority = seniority;
 	}
 
@@ -152,6 +159,14 @@ public class Ressource extends User implements Serializable {
 
 	public void setListAssigned(List<Ressource> listAssigned) {
 		this.listAssigned = listAssigned;
+	}
+
+	public List<Application> getListApplication() {
+		return listApplication;
+	}
+
+	public void setListApplication(List<Application> listApplication) {
+		this.listApplication = listApplication;
 	}
 	
 	

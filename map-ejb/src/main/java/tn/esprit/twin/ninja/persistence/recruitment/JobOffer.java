@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -26,10 +28,13 @@ public class JobOffer implements Serializable {
 	private int id;
 	private String mission;
 	private String required_profile;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginning;
 	private String experience;
 	private String function;
 	private int nbPoste;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date expDate;
 	@OneToMany(mappedBy = "jobOffer")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> listSkills;

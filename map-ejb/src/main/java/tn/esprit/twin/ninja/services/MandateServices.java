@@ -54,24 +54,41 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
 
     @Override
     public void AssignResource(int projetId,int resourceId) {
-    	Project projetEntity = em.find(Project.class, projetId);
-    	Ressource resourceEntity = em.find(Ressource.class, resourceId);
-    	Mandate mand=new Mandate();
+        Project projetEntity = em.find(Project.class, projetId);
+        Ressource resourceEntity = em.find(Ressource.class, resourceId);
+        Mandate mand=new Mandate();
  
-    	mand.setStartDate(projetEntity.getStart_date());
-    	mand.setEndDate(projetEntity.getEnd_date());
-    	mand.setProject(projetEntity);
-    	mand.setRessource(resourceEntity);
-    	em.persist(mand);
-    	SendMail("notifmaplevio@gmail.com","NinjaC0ders","notifmaplevio@gmail.com","slimen.mami@esprit.tn","Assign Notification","You have new assignation ");
+        mand.setStartDate(projetEntity.getStart_date());
+        mand.setEndDate(projetEntity.getEnd_date());
+        mand.setProject(projetEntity);
+        mand.setRessource(resourceEntity);
+        em.persist(mand);
+        SendMail("notifmaplevio@gmail.com","NinjaC0ders","notifmaplevio@gmail.com","slimen.mami@esprit.tn","Assign Notification","You have new assignation ");
+    
+    }
+    
+     @Override
+    public void EditMandate(Mandate m)
+    {
+        Mandate mand = em.find(Mandate.class, m.getId());
+        if(m.getStartDate()!=null)
+        mand.setStartDate(m.getStartDate());
+        if(m.getEndDate()!=null)
+        mand.setEndDate(m.getEndDate());
+        if(m.getMontant()>0)
+        mand.setMontant(m.getMontant());
+
+        em.merge(mand);
+    
+        
     
     }
 
     @Override
     public void CalculateFees(int mandateID,float taux,float NbrH) {
-    	Mandate mandateEntity = em.find(Mandate.class, mandateID);
-    	float montant=taux*NbrH;
-    	mandateEntity.setMontant(montant);
+        Mandate mandateEntity = em.find(Mandate.class, mandateID);
+        float montant=taux*NbrH; 
+        mandateEntity.setMontant(montant);
     }
 
     @Override
@@ -83,8 +100,8 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
 
     @Override
     public void ArchiveMandate(int mandateID) {
-    	Mandate mandateEntity = em.find(Mandate.class, mandateID);
-    	mandateEntity.setArchived(true);
+        Mandate mandateEntity = em.find(Mandate.class, mandateID);
+        mandateEntity.setArchived(true);
     }
 
     @Override
@@ -101,39 +118,39 @@ public class MandateServices implements MandateServicesRemote, MandateServicesLo
     @Override
     public String SendMail(String username,String password,String from,String to,String subject,String msg)
     {
-     // user=	notifmaplevio@gmail.com
-    // pass=NinjaC0ders	
+     // user=   notifmaplevio@gmail.com
+    // pass=NinjaC0ders 
 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
+        Session session = Session.getInstance(props,
+          new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+          });
 
-		try {
+        try {
 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(to));
-			message.setSubject(subject);
-			message.setText(msg);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(msg);
 
-			Transport.send(message);
+            Transport.send(message);
 
-			return "Done";
+            return "Done";
 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-	
-    	
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    
+        
     }
 }

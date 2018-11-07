@@ -25,16 +25,12 @@ enum clientType {
 }
 
 @Entity
-public class Client implements Serializable {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+public class Client extends User implements Serializable {
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private clientCategory category;
 	@Enumerated(EnumType.STRING)
 	private clientType type;
-	private boolean archived;
 	@JsonIgnore
 	@ManyToMany
 	private List<Request> requests;
@@ -42,9 +38,6 @@ public class Client implements Serializable {
 	@OneToMany(mappedBy="client")
 	private List<Project> projects;
 	
-	public Integer getId() {
-		return id;
-	}
 	public List<Request> getRequests() {
 		return requests;
 	}

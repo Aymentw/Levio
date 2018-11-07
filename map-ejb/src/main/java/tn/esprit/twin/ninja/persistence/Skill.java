@@ -2,25 +2,16 @@ package tn.esprit.twin.ninja.persistence;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import org.hibernate.annotations.Cascade;
 import tn.esprit.twin.ninja.persistence.recruitment.JobOffer;
-
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
+import org.hibernate.annotations.CascadeType;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 public class Skill implements Serializable {
@@ -37,7 +28,12 @@ public class Skill implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	JobOffer jobOffer;
-	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "request_id")
+	@JsonIgnore
+	@Cascade(CascadeType.DELETE)
+	private Request request;
 	public Skill() {
 		super();
 	}
@@ -76,7 +72,12 @@ public class Skill implements Serializable {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
+	public Request getRequest() {
+		return request;
+	}
+	public void setRequest(Request request) {
+		this.request = request;
+	}
 
 	public JobOffer getJobOffer() {
 		return jobOffer;

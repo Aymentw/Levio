@@ -1,41 +1,91 @@
 package tn.esprit.twin.ninja.persistence;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	protected int id;
+	@Column(nullable = true)
 	protected String last_name;
+	@Column(nullable = true)
 	protected String first_name;
 	protected String note;
 	protected String photo;
 	protected boolean archived;
-	protected String type;
-	protected String role;
-	
-	
-	public String getRole() {
-		return role;
+	private String username;
+	private String password;
+	private String token;
+	@Enumerated(EnumType.STRING)
+	protected UserRoles role;
+	protected String email;
+    @OneToMany (mappedBy = "fromUser", fetch=FetchType.EAGER)
+    protected Set<Conversation> sentCnversations = new HashSet<>();
+	@OneToMany (mappedBy = "toUser", fetch=FetchType.EAGER)
+	protected Set<Conversation> recievedConversations = new HashSet<>();
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Set<Conversation> getSentCnversations() {
+		return sentCnversations;
+	}
+
+	public void setSentCnversations(Set<Conversation> sentCnversations) {
+		this.sentCnversations = sentCnversations;
+	}
+
+	public Set<Conversation> getRecievedConversations() {
+		return recievedConversations;
+	}
+
+	public void setRecievedConversations(Set<Conversation> recievedConversations) {
+		this.recievedConversations = recievedConversations;
+	}
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public User() {
 		super();
+	}
+
+	public UserRoles getRole() {
+		return role;
+	}
+
+	public void setRole(UserRoles role) {
+		this.role = role;
 	}
 
 	public int getId() {
@@ -86,12 +136,6 @@ public class User implements Serializable {
 		this.archived = archived;
 	}
 
-	public String getType() {
-		return type;
-	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
 
 }

@@ -18,6 +18,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 enum projectType {
-	currentClient, newClient, finishedContract;
+	runningProject, newProject, finishedProject;
 }
 
 @JsonIgnoreProperties({ "mandates"})
@@ -43,6 +47,8 @@ public class Project implements Serializable{
 	private projectType type;
 	private int num_ressource_all;
 	private int num_ressource_levio;
+	@Temporal(TemporalType.DATE)
+	private Date start_date;
 	@Temporal(TemporalType.DATE)
 	private Date start_date;
 	@Temporal(TemporalType.DATE)

@@ -31,6 +31,7 @@ public class Folder implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@OneToMany(mappedBy="folder",cascade=CascadeType.PERSIST)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Letter> listeLetter;
 	@Enumerated(EnumType.STRING)
 	private StateLetter stateLetter=StateLetter.notSigned;

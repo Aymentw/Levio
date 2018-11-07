@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import tn.esprit.filters.Secured;
 import tn.esprit.twin.ninja.interfaces.recruitement.JobOfferLocal;
 import tn.esprit.twin.ninja.interfaces.recruitement.QuestionServiceLocal;
 import tn.esprit.twin.ninja.persistence.recruitment.JobOffer;
@@ -56,6 +57,7 @@ public class QuestionResource {
 			return Response.ok(l,MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}
+	@Secured
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

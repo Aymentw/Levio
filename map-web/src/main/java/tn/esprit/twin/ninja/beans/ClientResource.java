@@ -2,6 +2,7 @@ package tn.esprit.twin.ninja.beans;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.mail.MessagingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,7 +18,11 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.esprit.twin.ninja.interfaces.ClientServiceLocal;
 import tn.esprit.twin.ninja.persistence.Client;
+import tn.esprit.twin.ninja.persistence.Message;
 import tn.esprit.twin.ninja.persistence.Project;
+import tn.esprit.twin.ninja.persistence.Request;
+
+import java.io.FileNotFoundException;
 
 @Path("client")
 @RequestScoped
@@ -73,6 +78,72 @@ public class ClientResource {
 		if (clientLocal.getClientById(idClient) == null)
 			return Response.status(Status.NOT_FOUND).build();
 		return Response.ok(clientLocal.getClientById(idClient)).build();
+	}
+
+	/* Mohamed */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOpenedConversations/{id}")
+	public Response getOpenedConversations(@PathParam("id") int id) {
+		return Response.ok(clientLocal.getOpenedConversations(id)).build();
+	}
+
+	/* Mohamed */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/sendMessageToResource")
+	public void sendMessageToResource(Message msg, @QueryParam("cu") int currentUser, @QueryParam("resource") int resourceId) throws MessagingException {
+		clientLocal.sendMessageToRessource(msg, currentUser, resourceId);
+	}
+
+	/* Mohamed */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/AddRequest")
+	public void addRequest(@QueryParam("clientId") int clientId, Request request) throws MessagingException {
+		clientLocal.addRequest(clientId, request);
+	}
+
+	/* Mohamed */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/DeleteRequest")
+	public String deleteRequest(@QueryParam("id") int requestId) throws MessagingException {
+		clientLocal.deleteRequestById(requestId);
+		return "Request deleted ! ";
+	}
+
+	/* Mohamed */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOpenedConversations")
+	public Response gedtOpenedConversations(@QueryParam("clientId") int clientId) {
+		return Response.ok(clientLocal.getOpenedConversations(clientId)).build();
+	}
+
+	/* Mohamed */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getConversationBySubject")
+	public Response getConversationBySubject(@QueryParam("subject") String subject, @QueryParam("current") int current) {
+		return Response.ok(clientLocal.getConversationBySubject(subject, current)).build();
+	}
+
+	/* Mohamed */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getConversationMessages")
+	public Response getConversationMessages(@QueryParam("id") int conversation, @QueryParam("current") int current) {
+		return Response.ok(clientLocal.getConversationMessages(conversation, current)).build();
+	}
+
+	/* Mohamed */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/extractMessagesToCsv")
+	public String extractMessagesToCsv(@QueryParam("id") int conversation, @QueryParam("current") int current) throws FileNotFoundException {
+		clientLocal.extractConversationMessages(conversation, current);
+		return "extraction done!";
 	}
 
 }

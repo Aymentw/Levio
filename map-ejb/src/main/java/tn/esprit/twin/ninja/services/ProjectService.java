@@ -75,9 +75,5 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 		Project p = em.find(Project.class, id);
 		p.setPhoto(fileName);
 		
-	}
-
-	
-
-	
+	}	
 }
