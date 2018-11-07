@@ -34,6 +34,8 @@ public class MailSender implements MailSenderInterface{
         mailServerProperties.put("mail.smtp.auth", auth);
         mailServerProperties.put("mail.smtp.starttls.enable", starttls);
         mailServerProperties.put("mail.smtp.host", "smtp.gmail.com");
+        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
         /*
          *Session Configuration
          */

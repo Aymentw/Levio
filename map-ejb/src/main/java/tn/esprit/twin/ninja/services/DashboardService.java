@@ -59,7 +59,7 @@ public class DashboardService implements DashboardServicesLocal {
 
 	@Override
 	public Long getNumberEmployeesInterMandate() {
-		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.state='available' and r.admin=false";
+		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.state='available' and r.role<>'ROLE_ADMIN_AGENT'";
 		Query q = em.createQuery(sql);
 		Long count =(Long) q.getSingleResult();
 		return count;
@@ -67,72 +67,42 @@ public class DashboardService implements DashboardServicesLocal {
 
 	@Override
 	public Long getNumberEmployeesAdministration() {
-		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.admin=true";
+		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.role='ROLE_ADMIN_AGENT'";
 		Query q = em.createQuery(sql);
 		Long count =(Long) q.getSingleResult();
 		return count;
 	}
 
 	@Override
-	public Long reclamationsPerTarget(Object o) {
+	public Long reclamationsCount() {
 		Long count = null;
-		if(o instanceof Ressource){
-		Ressource r =(Ressource)o;
-		String sql = "Select count(m.id) from Message m where m.targetId="+r.getId()+" and m.messageType=reclamation";
+		String sql = "Select count(m.id) from Message m where m.type='reclamation'";
 		Query q = em.createQuery(sql);
 		count =(Long) q.getSingleResult();
-		}
-		else if(o instanceof Project){
-			Project p =(Project)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=reclamation";
-			Query q = em.createQuery(sql);
-			count =(Long) q.getSingleResult();
-			}
-		else if(o instanceof Client){
-			Client c =(Client)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+c.getId()+" and m.messageType=reclamation";
-			Query q = em.createQuery(sql);
-			count =(Long) q.getSingleResult();
-			}
 		return count;
 	}
 
 	@Override
-	public Long satisfactionsPerTarget(Object o) {
+	public Long satisfactionsCount() {
 		Long count = null;
-		if(o instanceof Ressource){
-		Ressource r =(Ressource)o;
-		String sql = "Select count(m.id) from Message m where m.targetId="+r.getId()+" and m.messageType=satisfaction";
-		Query q = em.createQuery(sql);
-		count =(Long) q.getSingleResult();
-		}
-		else if(o instanceof Project){
-			Project p =(Project)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+p.getId()+" and m.messageType=satisfactionn";
+			String sql = "Select count(m.id) from Message m where m.type='satisfaction'";
 			Query q = em.createQuery(sql);
 			count =(Long) q.getSingleResult();
-			}
-		else if(o instanceof Client){
-			Client c =(Client)o;
-			String sql = "Select count(m.id) from Message m where m.targetId="+c.getId()+" and m.messageType=satisfaction";
-			Query q = em.createQuery(sql);
-			count =(Long) q.getSingleResult();
-			}
 		return count;
 	}
 
 	@Override
-	public float satisfactionRate(Object o) {
-		Long reclamation = reclamationsPerTarget(o);
-		Long satisfaction = satisfactionsPerTarget(o);
-		return (satisfaction/satisfaction+reclamation)*100;
+	public float satisfactionRate() {
+		Long reclamation = reclamationsCount();
+		Long satisfaction = satisfactionsCount();
+		return (satisfaction/(satisfaction+reclamation))*100;
 	}
 
 	@Override
 	public int numberOfResourcesToClient(int clientId) {//ok
 		Client c=em.find(Client.class, clientId);
 		int numRes=0;
-		String sql = "Select p from Peoject p where p.client.id="+c.getId();
+		String sql = "Select p from Project p where p.client.id="+c.getId();
 		Query q = em.createQuery(sql);
 		List<Project> projects  =(List<Project>) q.getResultList();
 		for (Project p : projects){
@@ -145,7 +115,7 @@ public class DashboardService implements DashboardServicesLocal {
 	}
 
 	@Override
-	public void reportResource(int ressourceId) throws IOException {//okish
+	public void reportResource(int ressourceId) throws IOException {//ok
 		Ressource r=em.find(Ressource.class, ressourceId);
 		String html="<html><head><style type=\"text/css\">\r\n" + 
 				"        * { margin: 0; padding: 0; }\r\n" + 
@@ -200,7 +170,7 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="<p>Start Date : "+m.getStartDate()+"<br>";
 			html+="End Date : "+m.getEndDate()+"<br>";
 			html+="Charges : "+m.getMontant()+"<br>";
-			html+="Project <strong>"+m.getProject().getName()+"</strong> for Client <strong>"+m.getProject().getClients().getName()+"</strong><br></p>";
+			html+="Project <strong>"+m.getProject().getName()+"</strong> for Client <strong>"+m.getProject().getClient().getName()+"</strong><br></p>";
 			html+="-------------------------------------------------------------------<br>";
 		}
 		html+="</dd>"
@@ -215,7 +185,7 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="</ul>";
 		}
 		html+="</dd></dl><div class=\"clear\"></div></div></body></html>";
-		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
+		File file = new File("C:/Users/COMPUTER/workspace/integrated/Levio/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
 		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 		bw.write(html);
 		bw.close();

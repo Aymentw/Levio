@@ -129,3 +129,4 @@ map-ejb/target/classes/META-INF/MANIFEST.MF
 map-ejb/target/classes/META-INF/maven/tn.esprit.twin.ninja/map-ejb/pom.properties
 map-web/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 map-web/target/m2e-wtp/web-resources/META-INF/maven/tn.esprit.twin.ninja/map-web/pom.properties
+map-ear/target/m2e-wtp/ear-resources/META-INF/maven/tn.esprit.twin.ninja/map-ear/pom.properties

@@ -27,7 +27,7 @@ import tn.esprit.twin.ninja.persistence.recruitment.Application;
 @Entity
 public class Ressource extends User implements Serializable {
 
-	private int seniority;
+	private String seniority;
 	private String sector;
 	@Enumerated(EnumType.STRING)
 	private RessourceState state;
@@ -64,7 +64,7 @@ public class Ressource extends User implements Serializable {
 
 	
 	
-	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
+	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();
 		this.seniority = seniority;
@@ -80,11 +80,11 @@ public class Ressource extends User implements Serializable {
 		super();
 	}
 
-	public int getSeniority() {
+	public String getSeniority() {
 		return seniority;
 	}
 
-	public void setSeniority(int seniority) {
+	public void setSeniority(String seniority) {
 		this.seniority = seniority;
 	}
 

@@ -25,6 +25,7 @@ public class Message implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "conversation", referencedColumnName = "id")
 	private Conversation conversation;
+	@Enumerated(EnumType.STRING)
 	private MessageType type;
 	private String subject;
 	private String message;

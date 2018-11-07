@@ -1,11 +1,14 @@
 package tn.esprit.twin.ninja.persistence;
 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 
 @Entity
@@ -18,8 +21,12 @@ public class Request implements Serializable {
 	private Date deliveryDate;
 	private String context;
 	private Boolean status;
+
 	@OneToMany(mappedBy = "request",fetch = FetchType.EAGER)
+	@Cascade(CascadeType.DELETE)
 	private Set<Skill> skills = new HashSet<>();
+	@ManyToMany (mappedBy="requests", fetch = FetchType.EAGER)
+	private List<Client> clients;
 
 	public String getContext() {
 		return context;
@@ -64,8 +71,5 @@ public class Request implements Serializable {
 	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
-
-	@ManyToMany (mappedBy="requests")
-	private List<Client> clients;
 
 }

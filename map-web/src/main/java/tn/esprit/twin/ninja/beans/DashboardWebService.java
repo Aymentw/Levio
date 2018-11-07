@@ -90,4 +90,36 @@ public class DashboardWebService {
 		return Response.ok(dashboardService.resourceEfficiency(resourceId),MediaType.APPLICATION_JSON).build(); 
 
 	}
+	@Path("getnumempintermand")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberEmployeesInterMandate() {
+		return Response.ok(dashboardService.getNumberEmployeesInterMandate(),MediaType.APPLICATION_JSON).build(); 
+
+	}
+	@Path("getnumempadmin")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNumberEmployeesAdministration() {
+		return Response.ok(dashboardService.getNumberEmployeesAdministration(),MediaType.APPLICATION_JSON).build(); 
+
+	}
+	@Path("reclamations")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response reclamationsPerTarget() {
+		return Response.ok(dashboardService.reclamationsCount(),MediaType.APPLICATION_JSON).build();
+	}
+	@Path("satisfactions")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response satisfactionsPerTarget() {
+		return Response.ok(dashboardService.satisfactionsCount(),MediaType.APPLICATION_JSON).build();
+	}
+	@Path("satisfactionrate")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response satisfactionRate() {
+		return Response.ok(dashboardService.satisfactionRate(),MediaType.APPLICATION_JSON).build();
+	}
 }

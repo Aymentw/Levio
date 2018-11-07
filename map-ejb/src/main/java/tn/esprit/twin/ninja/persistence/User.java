@@ -23,17 +23,23 @@ public class User implements Serializable {
 	private String password;
 	private String token;
 	@Enumerated(EnumType.STRING)
-	protected UserType type;
-	@Enumerated(EnumType.STRING)
 	protected UserRoles role;
 	protected String email;
-    @OneToMany (mappedBy = "fromUser")
+    @OneToMany (mappedBy = "fromUser", fetch=FetchType.EAGER)
     protected Set<Conversation> sentCnversations = new HashSet<>();
-	@OneToMany (mappedBy = "toUser")
+	@OneToMany (mappedBy = "toUser", fetch=FetchType.EAGER)
 	protected Set<Conversation> recievedConversations = new HashSet<>();
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public void setEmail(String email) {
@@ -128,14 +134,6 @@ public class User implements Serializable {
 
 	public void setArchived(boolean archived) {
 		this.archived = archived;
-	}
-
-	public UserType getType() {
-		return type;
-	}
-
-	public void setType(UserType type) {
-		this.type = type;
 	}
 
 

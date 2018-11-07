@@ -17,5 +17,5 @@ public interface MailSenderInterface {
 			String recipient,
 			String subject,
 			String messageBody
-			) throws MessagingException;
+	) throws MessagingException;
 }
