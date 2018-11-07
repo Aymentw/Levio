@@ -15,4 +15,6 @@ public interface ProjectServiceRemote {
 	public List<Project> getAllProject();
 	public List<Project> getProjectByClient(int idClient);
 	public List<Project> getProjectByAdress(String adress);
+	public void addPhotoProject(int id, String fileName);
+	
 }

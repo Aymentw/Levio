@@ -65,7 +65,7 @@ public class ClientService implements ClientServiceRemote, ClientServiceLocal{
 
 	@Override
 	public Client getClientById(int idClient) {
-		return em.createQuery("SELECT c FROM Client c WHERE c.id=:idClient", Client.class)
+		return em.createQuery("SELECT c FROM Client c WHERE c.id=:idClient and archived=false", Client.class)
 				.setParameter("idClient", idClient).getSingleResult();
 	}
 	
