@@ -17,8 +17,17 @@ public interface UserServiceLocal {
 	public List<Request> getAllRequests();
 	public List<Request> getTreatedRequests();
 	public List<Request> getUnTreatedRequests();
+
+	public int addUser(User u);
+	public boolean updateUser(User u);
+	boolean modifyUser(User oldUser, User newUser);
+	public User findOne(int id);
+	public User Authenticate(String email, String pwd);
+
+
 	public List<Ressource> getRessourceBySkills(Set<Skill> skills);
 	public void deleteTreatedRequests();
+
 
 
 }
