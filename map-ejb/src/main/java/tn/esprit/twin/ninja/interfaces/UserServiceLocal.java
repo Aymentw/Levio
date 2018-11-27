@@ -13,7 +13,7 @@ public interface UserServiceLocal {
 
 
 	public boolean hasRole(int userId, UserRoles role);
-	public void treatClientRequest(int userId, int requestId);
+	public void treatClientRequest(int requestId);
 	public List<Request> getAllRequests();
 	public List<Request> getTreatedRequests();
 	public List<Request> getUnTreatedRequests();
@@ -27,6 +27,7 @@ public interface UserServiceLocal {
 
 	public List<Ressource> getRessourceBySkills(Set<Skill> skills);
 	public void deleteTreatedRequests();
+	public void deleteRequest(int requestId);
 
 
 

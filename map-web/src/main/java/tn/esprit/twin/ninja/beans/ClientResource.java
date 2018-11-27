@@ -105,7 +105,7 @@ public class ClientResource {
 	}
 
 	/* Mohamed */
-	@POST
+	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/DeleteRequest")
 	public String deleteRequest(@QueryParam("id") int requestId) throws MessagingException {

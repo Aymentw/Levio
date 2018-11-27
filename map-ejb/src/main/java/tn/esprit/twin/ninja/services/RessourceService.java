@@ -22,8 +22,8 @@ public class RessourceService implements RessourceServiceLocal {
 		Ressource ressource = em.find(Ressource.class, currentResource);
 		Client client = em.find(Client.class, clientId);
 		Conversation conversation = new Conversation();
-		conversation.setFromUser(ressource);
-		conversation.setToUser(client);
+		message.setFromUser(ressource);
+		message.setToUser(client);
 		conversation.setState("open");
 		em.persist(conversation);
 		em.flush();
@@ -52,9 +52,9 @@ public class RessourceService implements RessourceServiceLocal {
 
 	@Override
 	public void respondToAMessage(int conversationId,int currencResource, Message message) throws MessagingException {
+		//rigel reciepient
 		Conversation conversation = em.find(Conversation.class, conversationId);
 		Ressource cr = em.find(Ressource.class, currencResource);
-		String recipient = (conversation.getToUser().getEmail().equals(cr.getEmail())) ? conversation.getFromUser().getEmail() : conversation.getToUser().getEmail();
 		message.setConversation(conversation);
 		em.persist(message);
 		MailSender mailSender = new MailSender();
@@ -65,7 +65,7 @@ public class RessourceService implements RessourceServiceLocal {
 				"587",
 				"true",
 				"true",
-				recipient,
+				"mohamed.abdelhafidh@esprit.tn",
 				message.getSubject()+ ": " + message.getType(),
 				message.getMessage()
 		);

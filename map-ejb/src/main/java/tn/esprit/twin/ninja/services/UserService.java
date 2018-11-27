@@ -31,11 +31,9 @@ public class UserService implements UserServiceLocal {
 
 
 	@Override
-	public void treatClientRequest(int userId, int requestId) {
-		if (this.hasRole(userId, UserRoles.ROLE_SUPERVISOR)) {
+	public void treatClientRequest(int requestId) {
 			Request request = em.find(Request.class, requestId);
 			request.setStatus(true);
-		}
 	}
 
 	@Override
@@ -168,6 +166,12 @@ public class UserService implements UserServiceLocal {
 			em.remove(r);
 		}
 		
+	}
+	@Override
+	public void deleteRequest(int requestId) {
+		System.out.println(requestId);
+		//Request request = em.find(Request.class, requestId);
+	//	em.remove(request);
 	}
 
 

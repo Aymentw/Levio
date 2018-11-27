@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +31,30 @@ public class Message implements Serializable{
 	private MessageType type;
 	private String subject;
 	private String message;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "from_user")
+    @JsonIgnore
+    private User fromUser;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "to_user")
+    @JsonIgnore
+    private  User toUser;
+
+	public User getFromUser() {
+		return fromUser;
+	}
+
+	public void setFromUser(User fromUser) {
+		this.fromUser = fromUser;
+	}
+
+	public User getToUser() {
+		return toUser;
+	}
+
+	public void setToUser(User toUser) {
+		this.toUser = toUser;
+	}
 
 	public Conversation getConversation() {
 		return conversation;

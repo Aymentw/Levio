@@ -50,8 +50,6 @@ public class Project implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date start_date;
 	@Temporal(TemporalType.DATE)
-	private Date start_date;
-	@Temporal(TemporalType.DATE)
 	private Date end_date;
 	private String adress;
 	private String photo;

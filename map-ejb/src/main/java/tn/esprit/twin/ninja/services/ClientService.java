@@ -68,17 +68,19 @@ public class ClientService implements ClientServiceLocal{
 		}
 		request.getSkills().clear();
 		em.remove(request);
+		em.flush();
+		System.out.println(requestId);
 	}
 	@Override
 	public void sendMessageToRessource(Message message,int currentClient, int ressourceId) throws MessagingException {
 		Ressource resource = em.find(Ressource.class, ressourceId);
 		Client client = em.find(Client.class, currentClient);
 		Conversation conversation = new Conversation();
-		conversation.setFromUser(client);
-		conversation.setToUser(resource);
 		conversation.setState("open");
 		em.persist(conversation);
 		em.flush();
+		message.setFromUser(client);
+		message.setToUser(resource);
 		message.setConversation(conversation);
 		em.persist(message);
 		em.flush();
@@ -103,9 +105,9 @@ public class ClientService implements ClientServiceLocal{
 
 	@Override
 	public void respondToAMessage(int conversationId,int currencClient, Message message) throws MessagingException {
+		//Rigel reciepient
 		Conversation conversation = em.find(Conversation.class, conversationId);
 		Client cc = em.find(Client.class, currencClient);
-		String recipient = (conversation.getToUser().getEmail().equals(cc.getEmail())) ? conversation.getFromUser().getEmail() : conversation.getToUser().getEmail();
 		message.setConversation(conversation);
 		em.persist(message);
 		MailSender mailSender = new MailSender();
@@ -116,7 +118,7 @@ public class ClientService implements ClientServiceLocal{
 				"587",
 				"true",
 				"true",
-				recipient,
+				"mohamed.abdelhafidh@esprit.tn",
 				message.getSubject()+ ": " + message.getType(),
 				message.getMessage()
 		);
