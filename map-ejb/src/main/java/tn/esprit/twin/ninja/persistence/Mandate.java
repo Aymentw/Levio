@@ -27,8 +27,7 @@ public class Mandate implements Serializable {
     @Column(nullable = true)
     private float Montant ;
     @Column(nullable = true)
-    private Boolean Archived=false;
-    
+    private Boolean Archived=false;   
     @ManyToOne
     private Ressource ressource;
     @ManyToOne

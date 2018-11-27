@@ -23,6 +23,7 @@ import tn.esprit.twin.ninja.persistence.recruitment.Application;
 
 @JsonIgnoreProperties({ "mandate" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@Entity
 public class Ressource extends User implements Serializable {
 
 	private String seniority;
@@ -55,16 +56,16 @@ public class Ressource extends User implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+
 	public Project getProject() {
 		return project;
 	}
 
+	
 	public void setProject(Project project) {
 		this.project = project;
 	}
+	
 	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();

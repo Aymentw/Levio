@@ -23,7 +23,6 @@ public class LeaveService implements LeaveServiceLocal {
 		Ressource r = em.find(Ressource.class, ressourceId);
 		em.persist(l);
 		l.setRessource(r);
-		l.setThemeColor("blue");
 		r.setState(RessourceState.notAvailable);
 
 	}
