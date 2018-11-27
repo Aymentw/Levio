@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
 import tn.esprit.twin.ninja.persistence.recruitment.JobOffer;
 import org.hibernate.annotations.CascadeType;
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Skill implements Serializable {
 
@@ -21,28 +22,29 @@ public class Skill implements Serializable {
 	private int id;
 	@Enumerated(EnumType.STRING)
 	private SkillName name;
-	@Column(nullable=true)
+	@Column(nullable = true)
 	private int rating;
-	@ManyToOne	
+	@JsonIgnore
+	@ManyToOne
 	private Ressource ressource;
 	@ManyToOne
 	@JsonIgnore
 	JobOffer jobOffer;
+	private String photo;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "request_id")
 	@JsonIgnore
 	@Cascade(CascadeType.DELETE)
 	private Request request;
+
 	public Skill() {
 		super();
 	}
 
-	
 	public Ressource getRessource() {
 		return ressource;
 	}
-
 
 	public SkillName getName() {
 		return name;
@@ -64,7 +66,6 @@ public class Skill implements Serializable {
 		this.id = id;
 	}
 
-
 	public int getRating() {
 		return rating;
 	}
@@ -72,9 +73,11 @@ public class Skill implements Serializable {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
 	public Request getRequest() {
 		return request;
 	}
+
 	public void setRequest(Request request) {
 		this.request = request;
 	}
@@ -83,10 +86,16 @@ public class Skill implements Serializable {
 		return jobOffer;
 	}
 
-
 	public void setJobOffer(JobOffer jobOffer) {
 		this.jobOffer = jobOffer;
 	}
-	
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
 }

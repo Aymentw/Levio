@@ -17,11 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,16 +24,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 enum projectType {
 	runningProject, newProject, finishedProject;
 }
 
-@JsonIgnoreProperties({ "mandates"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
-@Table(name="project")
-public class Project implements Serializable{
-	
+@Table(name = "project")
+public class Project implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -57,23 +51,19 @@ public class Project implements Serializable{
 	@ManyToOne
 	private Client client;
 	@JsonIgnore
-	@OneToMany (mappedBy="project")
+	@OneToMany(mappedBy = "project")
 	List<Mandate> mandates;
 	@JsonIgnore
-	@OneToMany(mappedBy="project")
+	@OneToMany(mappedBy = "project")
 	private List<Ressource> ressources;
-	
-	@JsonManagedReference(value="RessourceProject")
-	public List<Ressource> getRessources() {
-		return ressources;
-	}
-	
-	
 
 	public Project() {
 		super();
 	}
 
+	public List<Ressource> getRessources() {
+		return ressources;
+	}
 
 
 	public Project(String photo) {
@@ -182,5 +172,5 @@ public class Project implements Serializable{
 	public void setRessources(List<Ressource> ressources) {
 		this.ressources = ressources;
 	}
-	
+
 }

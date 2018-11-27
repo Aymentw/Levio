@@ -6,7 +6,7 @@ import tn.esprit.twin.ninja.persistence.Skill;
 
 public interface SkillServiceLocal {
 
-	public void addSkill(Skill s);
+	public void addSkill(int ressourceId, Skill s);
 
 	public boolean updateSkills(Skill skill);
 
@@ -17,5 +17,8 @@ public interface SkillServiceLocal {
 	public boolean evaluateSkills(Skill skill);
 
 	public List<Skill> getBestSkills();
+
+	public List<Skill> getSkillsByRessource(int ressourceId);
+
 
 }

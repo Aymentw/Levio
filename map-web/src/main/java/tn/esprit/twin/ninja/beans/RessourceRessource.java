@@ -53,17 +53,18 @@ public class RessourceRessource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateRessource(Ressource res) {
-		if (ressourceService.updateRessource(res))
+	@Path("{id}")
+	public Response updateRessource(Ressource res,@PathParam("id")int id) {
+		if (ressourceService.updateRessource(res,id))
 			return Response.status(Status.ACCEPTED).build();
 		return Response.status(Status.BAD_REQUEST).entity("Empty fields, check").build();
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/archiver")
-	public Response deleteRessource(Ressource res) {
-		if (ressourceService.deleteRessource(res))
+	@Path("/archiver/{ressourceId}")
+	public Response deleteRessource(@PathParam(value="ressourceId")int ressourceId) {
+		if (ressourceService.deleteRessource(ressourceId))
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();
 	}
@@ -117,6 +118,7 @@ public class RessourceRessource {
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();
 
+		
 	}
 
 	@POST

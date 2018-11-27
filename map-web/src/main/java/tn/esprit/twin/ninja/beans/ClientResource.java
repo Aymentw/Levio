@@ -79,7 +79,6 @@ public class ClientResource {
 			return Response.status(Status.NOT_FOUND).build();
 		return Response.ok(clientLocal.getClientById(idClient)).build();
 	}
-
 	/* Mohamed */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

@@ -19,7 +19,6 @@ public class User implements Serializable {
 	protected String note;
 	protected String photo;
 	protected boolean archived;
-	private String username;
 	private String password;
 	private String token;
 	@Enumerated(EnumType.STRING)
@@ -61,15 +60,7 @@ public class User implements Serializable {
 	public void setRecievedMessages(Set<Message> recievedMessages) {
 		this.recievedMessages = recievedMessages;
 	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}

@@ -1,12 +1,10 @@
 package tn.esprit.twin.ninja.beans;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
@@ -23,11 +21,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
 import tn.esprit.twin.ninja.interfaces.ProjectServiceLocal;
 import tn.esprit.twin.ninja.interfaces.recruitement.ApplicationServiceLocal;
 import tn.esprit.twin.ninja.persistence.Project;
@@ -178,8 +174,5 @@ public class ProjectResource {
 		fop.close();
 
 	}
-
-
-
 
 }
