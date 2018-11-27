@@ -17,11 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,6 +44,8 @@ public class Project implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date start_date;
 	@Temporal(TemporalType.DATE)
+	private Date start_date;
+	@Temporal(TemporalType.DATE)
 	private Date end_date;
 	private String adress;
 	private String photo;
@@ -70,10 +67,13 @@ public class Project implements Serializable {
 		return ressources;
 	}
 
+
 	public Project(String photo) {
 		super();
 		this.photo = photo;
 	}
+
+
 
 	public int getId() {
 		return id;

@@ -1,7 +1,5 @@
 package tn.esprit.twin.ninja.interfaces;
-
 import java.util.List;
-
 import javax.ejb.Local;
 import tn.esprit.twin.ninja.persistence.Project;
 

@@ -1,3 +1,4 @@
+
 package tn.esprit.twin.ninja.services;
 
 import java.util.List;
@@ -47,7 +48,6 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 		Project p = em.find(Project.class, projectId);
 		Client c = em.find(Client.class, clientId);
 		p.setClient(c);
-		//em.merge(p);
 	}
 
 	@Override

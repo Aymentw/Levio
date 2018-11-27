@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import javax.persistence.*;
@@ -20,13 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
-
 
 @JsonIgnoreProperties({ "mandate" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-@Entity
 public class Ressource extends User implements Serializable {
 
 	private String seniority;
@@ -62,15 +58,13 @@ public class Ressource extends User implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	
-	
-
 	public Project getProject() {
 		return project;
 	}
 
-
-
+	public void setProject(Project project) {
+		this.project = project;
+	}
 	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();

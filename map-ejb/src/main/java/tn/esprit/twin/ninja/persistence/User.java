@@ -59,7 +59,6 @@ public class User implements Serializable {
 	public void setRecievedConversations(Set<Conversation> recievedConversations) {
 		this.recievedConversations = recievedConversations;
 	}
-	
 
 	public String getPassword() {
 		return password;
