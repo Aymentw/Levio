@@ -8,6 +8,8 @@ import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -16,9 +18,8 @@ public class RessourceService implements RessourceServiceLocal {
 	@PersistenceContext(unitName = "LevioMap-ejb")
 	EntityManager em;
 
-
 	@Override
-	public void sendMessageToClient(Message message,int currentResource, int clientId) throws MessagingException {
+	public void sendMessageToClient(Message message, int currentResource, int clientId) throws MessagingException {
 		Ressource ressource = em.find(Ressource.class, currentResource);
 		Client client = em.find(Client.class, clientId);
 		Conversation conversation = new Conversation();
@@ -31,101 +32,74 @@ public class RessourceService implements RessourceServiceLocal {
 		em.persist(message);
 		em.flush();
 		MailSender mailSender = new MailSender();
-		mailSender.sendMessage(
-				"smtp.gmail.com",
-				"mohamed@pixelwilderness.com",
-				"V4Vendetta",
-				"587",
-				"true",
-				"true",
-				client.getEmail(),
-				message.getSubject()+ ": " + message.getType(),
-				message.getMessage()
-		);
+		mailSender.sendMessage("smtp.gmail.com", "mohamed@pixelwilderness.com", "V4Vendetta", "587", "true", "true",
+				client.getEmail(), message.getSubject() + ": " + message.getType(), message.getMessage());
 
 	}
 
 	@Override
 	public List<Conversation> getOpenedConversations(int resourceId) {
-		return em.createQuery("SELECT c FROM Conversation c where c.state = 'open' and (c.fromUser.id = :user OR c.toUser.id = :user)", Conversation.class).setParameter("user", resourceId).getResultList();
+		return em.createQuery(
+				"SELECT c FROM Conversation c where c.state = 'open' and (c.fromUser.id = :user OR c.toUser.id = :user)",
+				Conversation.class).setParameter("user", resourceId).getResultList();
 	}
 
 	@Override
-	public void respondToAMessage(int conversationId,int currencResource, Message message) throws MessagingException {
+	public void respondToAMessage(int conversationId, int currencResource, Message message) throws MessagingException {
 		Conversation conversation = em.find(Conversation.class, conversationId);
 		Ressource cr = em.find(Ressource.class, currencResource);
-		String recipient = (conversation.getToUser().getEmail().equals(cr.getEmail())) ? conversation.getFromUser().getEmail() : conversation.getToUser().getEmail();
+		String recipient = (conversation.getToUser().getEmail().equals(cr.getEmail()))
+				? conversation.getFromUser().getEmail() : conversation.getToUser().getEmail();
 		message.setConversation(conversation);
 		em.persist(message);
 		MailSender mailSender = new MailSender();
-		mailSender.sendMessage(
-				"smtp.gmail.com",
-				"mohamed@pixelwilderness.com",
-				"V4Vendetta",
-				"587",
-				"true",
-				"true",
-				recipient,
-				message.getSubject()+ ": " + message.getType(),
-				message.getMessage()
-		);
+		mailSender.sendMessage("smtp.gmail.com", "mohamed@pixelwilderness.com", "V4Vendetta", "587", "true", "true",
+				recipient, message.getSubject() + ": " + message.getType(), message.getMessage());
 
 	}
+
 	@Override
 	public List<Conversation> getConversationByType(int currentResource, MessageType messageType) {
 		Ressource cr = em.find(Ressource.class, currentResource);
-		return  em.createQuery("SELECT  m.conversation from Message m where m.conversation.state = 'open' and m.type = :msgType and (m.conversation.toUser.email = :user or m.conversation.fromUser.email = :user) order by m.createDate", Conversation.class).setParameter("msgType" , messageType).setParameter("user", cr.getEmail()).getResultList();
+		return em
+				.createQuery(
+						"SELECT  m.conversation from Message m where m.conversation.state = 'open' and m.type = :msgType and (m.conversation.toUser.email = :user or m.conversation.fromUser.email = :user) order by m.createDate",
+						Conversation.class)
+				.setParameter("msgType", messageType).setParameter("user", cr.getEmail()).getResultList();
 	}
 
 	@Override
 	public List<Conversation> getConversationBySubject(String subject, int currentResource) {
 		Ressource cr = em.find(Ressource.class, currentResource);
-		return  em.createQuery("select m.conversation from Message m where m.subject LIKE :sub and (m.conversation.fromUser.id = :current or m.conversation.toUser.id = :current)", Conversation.class).setParameter("sub", "%"+subject+"%").setParameter("current", cr.getId()).getResultList();
+		return em
+				.createQuery(
+						"select m.conversation from Message m where m.subject LIKE :sub and (m.conversation.fromUser.id = :current or m.conversation.toUser.id = :current)",
+						Conversation.class)
+				.setParameter("sub", "%" + subject + "%").setParameter("current", cr.getId()).getResultList();
 	}
+
 	@Override
 	public boolean addRessource(Ressource r) {
 
 		if (r.getFirst_name() == null || r.getLast_name() == null || r.getSector() == null
-				|| r.getContract_type() == null) {
+				|| r.getContract_type() == null || r.getEmail() == null) {
 			return false;
 		} else
 			em.persist(r);
+		r.setRole(UserRoles.ROLE_RESOURCE);
 		r.setState(RessourceState.available);
+		Leave l = new Leave();
+		em.persist(l);
+		l.setRessource(r);
+		l.setDescription("No leaves");
+		l.setSubject("No leaves");
+		l.setStart(new Date(1970, 11, 11));
+		l.setEnd(new Date(1970, 11, 11));
+		l.setThemeColor("Black");
 		return true;
 
 	}
-	@Override
-	public boolean deleteSkills(int skillId) {
-		try {
-			Skill s = em.find(Skill.class, skillId);
-			em.remove(s);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean evaluateSkills(Skill skill) {
-		try {
-			Skill s = em.find(Skill.class, skill.getId());
-			s.setRating(skill.getRating());
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	@Override
-	public boolean addSkills(int ressourceId, int skillId) {
-		try {
-			Ressource r = em.find(Ressource.class, ressourceId);
-			Skill s = em.find(Skill.class, skillId);
-			s.setRessource(r);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+	
 	@Override
 	public void addPhotoRessource(int ressourceId, String photo) {
 
@@ -135,27 +109,25 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public boolean updateRessource(Ressource res) {
+	public boolean updateRessource(Ressource res,int id) {
 
-		Ressource r = em.find(Ressource.class, res.getId());
-		if (res.getFirst_name() == null || res.getLast_name() == null || res.getSector() == null
-				|| res.getContract_type() == null) {
-			return false;
-		} else
-			r.setFirst_name(res.getFirst_name());
+		Ressource r = em.find(Ressource.class, id);
+		
+		r.setFirst_name(res.getFirst_name());
 		r.setLast_name(res.getLast_name());
-		r.setSector(res.getSector());
 		r.setContract_type(res.getContract_type());
+		r.setEmail(res.getEmail());
+		r.setProfile(res.getProfile());
+		r.setSector(res.getSector());
 
-		em.merge(r);
 		return true;
 
 	}
 
 	@Override
-	public boolean deleteRessource(Ressource res) {
+	public boolean deleteRessource(int ressourceId) {
 		try {
-			Ressource r = em.find(Ressource.class, res.getId());
+			Ressource r = em.find(Ressource.class, ressourceId);
 			r.setArchived(true);
 			return true;
 
@@ -186,7 +158,6 @@ public class RessourceService implements RessourceServiceLocal {
 				Ressource.class).setParameter("FirstName", "%" + FirstName + "%").getResultList();
 	}
 
-
 	@Override
 	public boolean affectRessourceToProject(int projectId, int ressourceId) {
 		try {
@@ -198,54 +169,5 @@ public class RessourceService implements RessourceServiceLocal {
 			return false;
 		}
 	}
-
-	@Override
-	public boolean addLeave(int ressourceId, Leave l) {
-		Ressource r = em.find(Ressource.class, ressourceId);
-		if (l.getStart_date().compareTo(l.getEnd_date()) > 0 || l.getStart_date().compareTo(l.getEnd_date()) == 0) {
-			return false;
-		}
-		em.persist(l);
-		l.setRessource(r);
-		return true;
-
-	}
-
-	@Override
-	public boolean updateLeave(Leave l) {
-		try {
-			Leave leave = em.find(Leave.class, l.getId());
-			leave.setStart_date(l.getStart_date());
-			leave.setEnd_date(l.getEnd_date());
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean deleteLeave(int leaveId) {
-		try {
-			Leave l = em.find(Leave.class, leaveId);
-			em.remove(l);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	@Override
-	public List<Leave> getLeavesByRessource(int ressourceId) {
-		return em.createQuery("SELECT l FROM Leave l WHERE l.ressource=:ressourceId", Leave.class)
-				.setParameter("ressourceId", ressourceId).getResultList();
-	}
-
-	@Override
-	public List<Leave> getAllLeaves() {
-
-		return em.createQuery("SELECT l FROM Leave l", Leave.class).getResultList();
-
-	}
-
 
 }

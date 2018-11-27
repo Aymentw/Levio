@@ -7,23 +7,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import tn.esprit.twin.ninja.interfaces.SkillServiceLocal;
+import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.Skill;
 
-
 @Stateless
 public class SkillService implements SkillServiceLocal {
-	
-	@PersistenceContext(unitName="LevioMap-ejb")
+
+	@PersistenceContext(unitName = "LevioMap-ejb")
 	EntityManager em;
 
 	@Override
-	public void addSkill(Skill s) {
+	public void addSkill(int ressourceId,Skill s) {
+		Ressource r = em.find(Ressource.class, ressourceId);
 		em.persist(s);
-		
+		s.setRessource(r);
+
 	}
-	
-	
+
 	@Override
 	public boolean affectSkills(int ressourceId, int skillId) {
 		try {
@@ -68,12 +69,19 @@ public class SkillService implements SkillServiceLocal {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public List<Skill> getBestSkills() {
-		return em.createQuery("SELECT s FROM Skill s ORDER BY s.rating DESC",Skill.class).getResultList();
+		return em.createQuery("SELECT s FROM Skill s ORDER BY s.rating DESC", Skill.class).getResultList();
 	}
 
-	
+	@Override
+	public List<Skill> getSkillsByRessource(int ressourceId) {
+		return em.createQuery("SELECT s FROM Skill s WHERE l.ressource_id=:ressourceId", Skill.class)
+				.setParameter("ressourceId", ressourceId).getResultList();
+
+	}
+
+
 
 }

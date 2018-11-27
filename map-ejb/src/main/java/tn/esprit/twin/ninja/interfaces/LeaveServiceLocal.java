@@ -6,9 +6,9 @@ import tn.esprit.twin.ninja.persistence.Leave;
 
 public interface LeaveServiceLocal {
 
+	public void addLeave(int ressourceId,Leave l) ;
+	
 	public List<Leave> getAllLeave();
-
-	public boolean addLeave(int ressourceId, Leave l);
 
 	public boolean updateLeave(Leave l);
 

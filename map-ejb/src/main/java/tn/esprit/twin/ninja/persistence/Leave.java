@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
@@ -26,45 +27,65 @@ public class Leave implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Temporal(TemporalType.DATE)
-	private Date start_date;
-	@Temporal(TemporalType.DATE)
-	private Date end_date;
-	@Enumerated(EnumType.STRING)
-	private TypeLeave type;
-	public TypeLeave getType() {
-		return type;
-	}
-
-	public void setType(TypeLeave type) {
-		this.type = type;
-	}
-
+	private String subject;
+	private String description;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date start;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date end;
+	private String themeColor;
 	@ManyToOne
+	@JsonIgnore
 	private Ressource ressource;
 
 	public int getId() {
 		return id;
 	}
 
+	public String getThemeColor() {
+		return themeColor;
+	}
+
+	
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
-
-	public Date getEnd_date() {
-		return end_date;
-	}
-
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setThemeColor(String themeColor) {
+		this.themeColor = themeColor;
 	}
 
 	public Ressource getRessource() {

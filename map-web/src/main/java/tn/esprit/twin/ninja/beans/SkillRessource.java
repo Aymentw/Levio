@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -27,12 +28,13 @@ public class SkillRessource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addSkill(Skill s) {
-		skillService.addSkill(s);
+	@Path("{ressourceId}")
+	public Response addSkill(@PathParam(value="ressourceId")int ressourceId,Skill s) {
+		skillService.addSkill(ressourceId,s);
 		return Response.status(Status.CREATED).entity(s).build();
 	}
 	
-	@PUT
+	/*@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/affectSkills")
@@ -42,7 +44,7 @@ public class SkillRessource {
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();
 
-	}
+	}*/
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -58,7 +60,8 @@ public class SkillRessource {
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteSkill(@QueryParam("id") int skillId) {
+	@Path("{skillId}")
+	public Response deleteSkill(@PathParam("skillId") int skillId) {
 		if (skillService.deleteSkills(skillId))
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();
@@ -81,9 +84,10 @@ public class SkillRessource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBestSkills(){
+	@Path("{ressourceId}")
+	public Response getSkills(@PathParam("ressourceId")int ressourceId){
 		
-		skillService.getBestSkills();
+		skillService.getSkillsByRessource(ressourceId);
 		return Response.ok(skillService.getBestSkills()).build();
 		
 	}

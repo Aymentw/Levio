@@ -11,25 +11,20 @@ import tn.esprit.twin.ninja.persistence.Leave;
 import tn.esprit.twin.ninja.persistence.Ressource;
 import tn.esprit.twin.ninja.persistence.RessourceState;
 
-
 @Stateless
 public class LeaveService implements LeaveServiceLocal {
-	
-	@PersistenceContext(unitName="LevioMap-ejb")
+
+	@PersistenceContext(unitName = "LevioMap-ejb")
 	EntityManager em;
 
 	@Override
-	public boolean addLeave(int ressourceId, Leave l) {
+	public void addLeave(int ressourceId,Leave l) {
+		
 		Ressource r = em.find(Ressource.class, ressourceId);
-
-		if (l.getStart_date().compareTo(l.getEnd_date()) > 0 || l.getStart_date().compareTo(l.getEnd_date()) == 0
-				|| l.getStart_date() == null || l.getEnd_date() == null || l.getType() == null) {
-			return false;
-		}
 		em.persist(l);
 		l.setRessource(r);
+		l.setThemeColor("blue");
 		r.setState(RessourceState.notAvailable);
-		return true;
 
 	}
 
@@ -37,12 +32,8 @@ public class LeaveService implements LeaveServiceLocal {
 	public boolean updateLeave(Leave l) {
 
 		Leave leave = em.find(Leave.class, l.getId());
-		if (leave.getStart_date() == null || leave.getEnd_date() == null) {
-			return false;
-		}
-
-		leave.setStart_date(l.getStart_date());
-		leave.setEnd_date(l.getEnd_date());
+		leave.setStart(l.getStart());
+		leave.setEnd(l.getEnd());
 		return true;
 	}
 
@@ -59,17 +50,14 @@ public class LeaveService implements LeaveServiceLocal {
 
 	@Override
 	public List<Leave> getLeavesByRessource(int ressourceId) {
-		return em.createQuery("SELECT l FROM Leave l WHERE l.ressource=:ressourceId", Leave.class)
+		return em.createQuery("SELECT l FROM Leave l WHERE l.ressource.id=:ressourceId", Leave.class)
 				.setParameter("ressourceId", ressourceId).getResultList();
 	}
-
-	
 
 	@Override
 	public List<Leave> getAllLeave() {
 		return em.createQuery("SELECT l from Leave l", Leave.class).getResultList();
-		
+
 	}
 
-	
 }

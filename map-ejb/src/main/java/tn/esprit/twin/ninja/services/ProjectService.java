@@ -52,23 +52,28 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 
 	@Override
 	public List<Project> getAllProject() {
-		return em.createQuery("SELECT p FROM Project p", Project.class).getResultList();
+		return em.createQuery("SELECT p FROM Project p where archived=false", Project.class).getResultList();
 	}
 
 	@Override
 	public List<Project> getProjectByClient(int idClient) {
 		Client client = em.find(Client.class, idClient);
 		return em.createQuery(
-				"SELECT p FROM Project p WHERE p.client =:client",Project.class)
+				"SELECT p FROM Project p WHERE p.client =:client and archived=false",Project.class)
 				.setParameter("client", client).getResultList();
 	}
 
 	@Override
 	public List<Project> getProjectByAdress(String adress) {
 		return em.createQuery(
-				"SELECT p FROM Project p WHERE p.adress =:adress",Project.class)
+				"SELECT p FROM Project p WHERE p.adress =:adress and archived=false",Project.class)
 				.setParameter("adress", adress).getResultList();
 	}
 
-	
+	@Override
+	public void addPhotoProject(int id, String fileName) {
+		Project p = em.find(Project.class, id);
+		p.setPhoto(fileName);
+		
+	}	
 }

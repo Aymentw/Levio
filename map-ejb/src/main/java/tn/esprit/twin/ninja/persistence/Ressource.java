@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import tn.esprit.twin.ninja.persistence.recruitment.Application;
 
-@JsonIgnoreProperties({ "mandate"})
+
+@JsonIgnoreProperties({ "mandate" })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 public class Ressource extends User implements Serializable {
 
@@ -35,35 +37,40 @@ public class Ressource extends User implements Serializable {
 	private String contract_type;
 	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
 	private List<Leave> leaves;
-	@OneToMany(mappedBy = "ressource")	
+	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Skill> skills;
 	@JsonIgnore
-	@OneToMany (mappedBy = "ressource")
+	@OneToMany(mappedBy = "ressource")
 	private List<Mandate> mandate;
 	@ManyToOne
 	private Project project;
+	@JsonIgnore
 	@ManyToOne
 	private Ressource assigned;
-	@OneToMany(mappedBy="assigned")
+	@JsonIgnore
+	@OneToMany(mappedBy = "assigned")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Ressource> listAssigned;
-	@OneToMany(mappedBy="ressource")
+	@JsonIgnore
+	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
-
-	@JsonBackReference(value="RessourceProject")
-	public Project getProject() {
-		return project;
-	}
 
 	public void setProject(Project project) {
 		this.project = project;
 	}
+	
+	
 
-	
-	
+	public Project getProject() {
+		return project;
+	}
+
+
+
 	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();
@@ -128,7 +135,6 @@ public class Ressource extends User implements Serializable {
 		this.leaves = leaves;
 	}
 
-
 	public List<Skill> getSkills() {
 		return skills;
 	}
@@ -168,6 +174,5 @@ public class Ressource extends User implements Serializable {
 	public void setListApplication(List<Application> listApplication) {
 		this.listApplication = listApplication;
 	}
-	
-	
+
 }

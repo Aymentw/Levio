@@ -22,25 +22,18 @@ import tn.esprit.twin.ninja.interfaces.UserServiceLocal;
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Message;
 import tn.esprit.twin.ninja.persistence.Request;
-<<<<<<< HEAD
 import tn.esprit.twin.ninja.persistence.User;
-=======
 import tn.esprit.twin.ninja.persistence.Skill;
 
 import java.util.Set;
 
->>>>>>> 28db4d90b5a3e966fa9a70d2de1d302a8afd5cec
 @Path("User")
 @RequestScoped
 public class UserResource {
 
 	@EJB(beanName = "UserService")
 	UserServiceLocal userLocal;
-<<<<<<< HEAD
-	
-	
-	
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,38 +41,31 @@ public class UserResource {
 		userLocal.addUser(u);
 		return Response.ok(u).build();
 	}
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateMember(User u) {
 		if (userLocal.updateUser(u))
 			return Response.status(Status.ACCEPTED).entity("member updated: => ").build();
-		else return Response.status(Status.BAD_REQUEST).entity("member not updated: => ").build();
+		else
+			return Response.status(Status.BAD_REQUEST).entity("member not updated: => ").build();
 	}
-=======
 
-
-
-	/* Mohamed */
-
->>>>>>> 28db4d90b5a3e966fa9a70d2de1d302a8afd5cec
 	@GET
 	@Path("/authen")
 	@Produces(MediaType.APPLICATION_JSON)
+
 	public Response treatClientRequest(@QueryParam("email") String email, @QueryParam("password") String password) {
-		User u=userLocal.Authenticate(email, password);
-		return Response.status(Status.ACCEPTED)
-				.entity(u).build();
+		User u = userLocal.Authenticate(email, password);
+		return Response.status(Status.ACCEPTED).entity(u).build();
 	}
 
-	/* Mohamed */
 	@POST
 	@Path("/getAllRequests")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllRequests() {
 		return Response.ok(userLocal.getAllRequests()).build();
 	}
-
-	/* Mohamed */
 
 	@POST
 	@Path("/getTreatedRequests")
@@ -88,8 +74,6 @@ public class UserResource {
 		return Response.ok(userLocal.getTreatedRequests()).build();
 	}
 
-	/* Mohamed */
-
 	@POST
 	@Path("/getUnTreatedRequests")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -97,7 +81,6 @@ public class UserResource {
 		return Response.ok(userLocal.getUnTreatedRequests()).build();
 	}
 
-	/* Mohamed */
 	@POST
 	@Path("/getResourcesBySkills")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -105,16 +88,10 @@ public class UserResource {
 	public Response getResourcesBySkills(Set<Skill> skills) {
 		return Response.ok(userLocal.getRessourceBySkills(skills)).build();
 	}
-	
-<<<<<<< HEAD
-	
-	
-=======
-	/* Mohamed */
+
 	@GET
 	@Path("/deleteTreatedRequets")
 	public void deleteTreatedRequests() {
 		userLocal.deleteTreatedRequests();
 	}
->>>>>>> 28db4d90b5a3e966fa9a70d2de1d302a8afd5cec
 }
