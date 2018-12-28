@@ -95,14 +95,26 @@ public class MandateResource {
 		return Response.status(Status.NOT_FOUND).build();
 
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("resproj")
+	public Response getListResourceByProject(@QueryParam(value = "cid") int cid) throws ParseException {
+
+		if (!mandateService.GetListResource(mandateService.GetProjectByClient(cid).getId()).isEmpty())
+			return Response.ok(mandateService.GetListResource(mandateService.GetProjectByClient(cid).getId()), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("assign/{projetId}/{resourceId}")
-	public Response AssignResource(@PathParam(value = "projetId") int projetId,
-			@PathParam(value = "resourceId") int resourceId) {
-		mandateService.AssignResource(projetId, resourceId);
+	@Path("assign")
+	public Response AssignResource(@QueryParam(value = "projtid") int projtid,@QueryParam(value = "resid") int resid
+			,@QueryParam(value = "sdate") String sdate,@QueryParam(value = "edate") String edate,
+			@QueryParam(value = "cost") float cost) throws ParseException {
+		mandateService.AssignResource(projtid,resid,sdate,edate,cost);
 		return Response.status(Status.OK).build();
 
 	}
@@ -110,8 +122,8 @@ public class MandateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("delete/{mandateid}")
-	public Response deleteMandate(@PathParam(value = "mandateid") int mandateid) {
+	@Path("delete")
+	public Response deleteMandate(@QueryParam(value = "mandateid") int mandateid) {
 		mandateService.ArchiveMandate(mandateid);
 		return Response.status(Status.OK).build();
 
@@ -136,6 +148,27 @@ public class MandateResource {
 		if (!mandateService.ArchivedMandate().isEmpty())
 			return Response.ok(mandateService.ArchivedMandate(), MediaType.APPLICATION_JSON).build();
 		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("allclient")
+	public Response getAllClient() throws ParseException {
+
+		if (!mandateService.getAllClient().isEmpty())
+			return Response.ok(mandateService.getAllClient(), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("boss")
+	public Response setBoss(@QueryParam(value = "resid") int resid,@QueryParam(value = "parent") int parent) {
+		mandateService.setBoss(resid, parent);
+		return Response.status(Status.OK).build();
 
 	}
 

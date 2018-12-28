@@ -44,12 +44,14 @@ public class Ressource extends User implements Serializable {
 	private List<Mandate> mandate;
 	@ManyToOne
 	private Project project;
-	@JsonIgnore
+ 
 	@ManyToOne
+	@JsonIgnore
 	private Ressource assigned;
 	@JsonIgnore
 	@OneToMany(mappedBy = "assigned")
 	@LazyCollection(LazyCollectionOption.FALSE)
+	 
 	private List<Ressource> listAssigned;
 	@JsonIgnore
 	@OneToMany(mappedBy = "ressource")

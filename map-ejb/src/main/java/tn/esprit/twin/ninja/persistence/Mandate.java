@@ -2,6 +2,8 @@ package tn.esprit.twin.ninja.persistence;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
@@ -27,7 +29,8 @@ public class Mandate implements Serializable {
     @Column(nullable = true)
     private float Montant ;
     @Column(nullable = true)
-    private Boolean Archived=false;   
+    private Boolean Archived=false;
+    
     @ManyToOne
     private Ressource ressource;
     @ManyToOne
