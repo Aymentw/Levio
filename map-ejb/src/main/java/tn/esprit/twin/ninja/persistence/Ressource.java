@@ -26,7 +26,7 @@ import tn.esprit.twin.ninja.persistence.recruitment.Application;
 @Entity
 public class Ressource extends User implements Serializable {
 
-	private String seniority;
+	private int seniority;
 	private String sector;
 	@Enumerated(EnumType.STRING)
 	private RessourceState state;
@@ -34,7 +34,7 @@ public class Ressource extends User implements Serializable {
 	private String contract_type;
 	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JsonIgnore
+	//@JsonIgnore
 	private List<Leave> leaves;
 	@OneToMany(mappedBy = "ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -61,7 +61,7 @@ public class Ressource extends User implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
 
-
+	@JsonBackReference(value="RessourceProject")	
 	public Project getProject() {
 		return project;
 	}
@@ -96,11 +96,11 @@ public class Ressource extends User implements Serializable {
 		super();
 	}
 
-	public String getSeniority() {
+	public int getSeniority() {
 		return seniority;
 	}
 
-	public void setSeniority(String seniority) {
+	public void setSeniority(int seniority) {
 		this.seniority = seniority;
 	}
 

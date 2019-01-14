@@ -32,7 +32,7 @@ enum projectEtat {
 }
 @JsonIgnoreProperties({ "mandates"})
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
@@ -66,7 +66,7 @@ public class Project implements Serializable {
 	public Project() {
 		super();
 	}
-
+	@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
 	}

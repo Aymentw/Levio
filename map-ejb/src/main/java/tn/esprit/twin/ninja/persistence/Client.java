@@ -97,6 +97,18 @@ public class Client extends User implements Serializable {
 	public void setArchived(boolean archived) {
 		this.archived = archived;
 	}
+	public clientType getType() {
+		return type;
+	}
+	public void setType(clientType type) {
+		this.type = type;
+	}
+	public List<Project> getProjects() {
+		return projects;
+	}
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
 	
 	
 }
