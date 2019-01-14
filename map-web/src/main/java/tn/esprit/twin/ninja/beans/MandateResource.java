@@ -95,7 +95,96 @@ public class MandateResource {
 		return Response.status(Status.NOT_FOUND).build();
 
 	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("project")
+	public Response getProjectByID(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getProjetById(id)!=null)
+			return Response.ok(mandateService.getProjetById(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("resource")
+	public Response getResourceByID(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getResourceById(id)!=null)
+			return Response.ok(mandateService.getResourceById(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("mand")
+	public Response getMandateByID(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getMandateById(id)!=null)
+			return Response.ok(mandateService.getMandateById(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("listresource")
+	public Response getResource() throws ParseException {
+
+		if (mandateService.getAllResource().size()>0)
+			return Response.ok(mandateService.getAllResource(), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("getmandbyres")
+	public Response getFMandateByResource(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getFMandateByResource(id)!=null)
+			return Response.ok(mandateService.getFMandateByResource(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("getorg")
+	public Response getOrganimByClient(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getOrganim(id)!=null)
+			return Response.ok(mandateService.getOrganim(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("getclientbymand")
+	public Response getClientByMandate(@QueryParam(value = "id") int id) throws ParseException {
+
+		if (mandateService.getClientByMandate(id)!=null)
+			return Response.ok(mandateService.getClientByMandate(id), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("listproject")
+	public Response getProject() throws ParseException {
+
+		if (mandateService.getAllProject().size()>0)
+			return Response.ok(mandateService.getAllProject(), MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.NOT_FOUND).build();
+
+	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("resproj")
@@ -119,6 +208,18 @@ public class MandateResource {
 
 	}
 	
+
+	@POST
+
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("assignation")
+	public Response AssignationResource(@QueryParam(value = "projtid") int projtid,@QueryParam(value = "resid") int resid
+			,@QueryParam(value = "sdate") String sdate,@QueryParam(value = "edate") String edate) throws ParseException {
+		mandateService.AssignationResource(projtid,resid,sdate,edate);
+		return Response.status(Status.OK).build();
+
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -136,6 +237,20 @@ public class MandateResource {
 	@Path("edit")
 	public Response editMandate(Mandate m) {
 		mandateService.EditMandate(m);
+		return Response.status(Status.OK).build();
+
+	}
+	
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("edits")
+	public Response editMandates(@QueryParam(value = "id") int id,@QueryParam(value = "startdate") String startdate,@QueryParam(value = "enddate") String enddate,@QueryParam(value = "project") int project,@QueryParam(value = "resource") int resource) throws ParseException {
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date SDate = simpleDateFormat.parse(startdate);
+		Date EDate = simpleDateFormat.parse(enddate);
+
+		mandateService.EditMandates(id, SDate, EDate, project, resource);
 		return Response.status(Status.OK).build();
 
 	}

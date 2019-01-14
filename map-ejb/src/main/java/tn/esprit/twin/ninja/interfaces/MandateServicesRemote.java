@@ -2,6 +2,7 @@ package tn.esprit.twin.ninja.interfaces;
 
 import tn.esprit.twin.ninja.persistence.Client;
 import tn.esprit.twin.ninja.persistence.Mandate;
+import tn.esprit.twin.ninja.persistence.Organigramme;
 import tn.esprit.twin.ninja.persistence.Project;
 import tn.esprit.twin.ninja.persistence.Ressource;
 
@@ -29,4 +30,14 @@ public interface MandateServicesRemote {
     public List<Ressource> GetListResource(int idproj);
     public List<Client> getAllClient();
     public void setBoss(int idres,int parent);
+    public void EditMandates(int id,Date startdate,Date enddate,int project,int resource);
+    public void AssignationResource(int projtid,int resid,String sdate,String edate) ;
+    public Project getProjetById(int projtid) ;
+    public Ressource getResourceById(int resourceId) ;
+    public List<Project> getAllProject();
+    public List<Ressource> getAllResource();
+    public Mandate getMandateById(int Id);
+    public  Mandate  getFMandateByResource(int resourceId);
+    public  Client  getClientByMandate(int projid) ;
+    public   List<Organigramme>   getOrganim(int clientid);
 }

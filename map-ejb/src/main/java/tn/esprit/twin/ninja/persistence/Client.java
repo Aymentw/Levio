@@ -40,7 +40,9 @@ public class Client extends User implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="client")
 	private List<Project> projects;
-	
+	@JsonIgnore
+	@OneToMany(mappedBy="client")
+	private List<Organigramme> organigramme;
 	public List<Request> getRequests() {
 		return requests;
 	}
@@ -62,11 +64,14 @@ public class Client extends User implements Serializable {
 	public void setCategory(clientCategory category) {
 		this.category = category;
 	}
-	public clientType getType() {
-		return type;
+	
+
+ 
+	public List<Organigramme> getOrganigramme() {
+		return organigramme;
 	}
-	public void setType(clientType type) {
-		this.type = type;
+	public void setOrganigramme(List<Organigramme> organigramme) {
+		this.organigramme = organigramme;
 	}
 	public String getLogo() {
 		return Logo;

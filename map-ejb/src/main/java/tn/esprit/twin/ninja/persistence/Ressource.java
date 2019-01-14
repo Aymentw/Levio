@@ -49,12 +49,15 @@ public class Ressource extends User implements Serializable {
 	@JsonIgnore
 	private Ressource assigned;
 	@JsonIgnore
-	@OneToMany(mappedBy = "assigned")
+	@OneToMany(mappedBy="assigned")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	 
 	private List<Ressource> listAssigned;
 	@JsonIgnore
-	@OneToMany(mappedBy = "ressource")
+	@OneToMany(mappedBy="resource")
+	private List<Organigramme> organigramme;
+	@JsonIgnore
+	@OneToMany(mappedBy="ressource")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
 
@@ -68,7 +71,16 @@ public class Ressource extends User implements Serializable {
 		this.project = project;
 	}
 	
-	public Ressource(String seniority, String sector, RessourceState state, String profile, String contract_type,
+	
+	public List<Organigramme> getOrganigramme() {
+		return organigramme;
+	}
+
+	public void setOrganigramme(List<Organigramme> organigramme) {
+		this.organigramme = organigramme;
+	}
+
+	public Ressource(int seniority, String sector, RessourceState state, String profile, String contract_type,
 			List<Leave> leaves, List<Skill> skills) {
 		super();
 		this.seniority = seniority;
