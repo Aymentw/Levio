@@ -37,16 +37,16 @@ public class ClientResource {
 	public String addClient(Client c){
 			
 		clientLocal.addClient(c);
-		return "client added";
-	}
+		return "client added"+ c.getLatitude() + c.getLongitude();
+		}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("update")
-	public String updateProject(Client c){
+	@Path("update/{id}")
+	public String updateProject(@PathParam(value="id")int id,Client c){
 			
-		clientLocal.updateClient(c);
+		clientLocal.updateClient(id,c);
 		return "client updated";
 	}
 	
@@ -54,10 +54,10 @@ public class ClientResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("delete")
-	public String DeleteClient(Client client) {
+	@Path("delete/{id}")
+	public String DeleteClient(@PathParam ("id") int id) {
 		
-		clientLocal.deleteClient(client);
+		clientLocal.deleteClient(id);
 		return "client deleted";	
 	}
 	

@@ -182,15 +182,15 @@ public class ClientService implements ClientServiceLocal{
 	}
 
 	@Override
-	public void deleteClient(Client c) {
+	public void deleteClient(int id) {
 		//em.remove(em.find(Client.class, idClient));
-		Client client = em.find(Client.class, c.getId());
+		Client client = em.find(Client.class, id);
 		client.setArchived(true);
 	}
 
 	@Override
-	public void updateClient(Client c) {
-		Client client = em.find(Client.class, c.getId());
+	public void updateClient(int id,Client c) {
+		Client client = em.find(Client.class, id);
 		client.setName(c.getName());
 		client.setArchived(c.isArchived());
 		client.setCategory(c.getCategory());

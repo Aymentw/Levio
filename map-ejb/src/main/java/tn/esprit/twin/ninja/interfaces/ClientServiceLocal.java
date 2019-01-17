@@ -14,8 +14,8 @@ public interface ClientServiceLocal {
 	public void addRequest(int clientId, Request request) throws MessagingException;
 	public void sendMessageToRessource(Message message, int currentClient, int resourceId) throws MessagingException;
 	public void addClient(Client c);
-	public void deleteClient(Client c);
-	public void updateClient(Client c);
+	public void deleteClient(int id);
+	public void updateClient(int id,Client c);
 	public List<Client> getAllClients();
 	public Client getClientById(int idClient);
 	public List<Conversation> getOpenedConversations(int clientId);

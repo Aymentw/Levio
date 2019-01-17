@@ -36,7 +36,16 @@ public class ProjectResource {
 	ProjectServiceLocal projectLocal;
 	private final String UPLOADED_FILE_PATH = "e:\\";
 
-	
+	@POST
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.TEXT_PLAIN)
+		@Path("add/{idClient}")
+		public String addProjectDotnet(Project p, @PathParam("idClient") int idClient){
+				
+			projectLocal.addProjectDotnet(p, idClient);
+			return "project added";
+		}
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
@@ -56,7 +65,7 @@ public class ProjectResource {
 		return "project updated";
 	}
 	
-	@DELETE
+	@PUT
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("delete/{projectId}")
 	public String DeleteProject(@PathParam ("projectId") int projectId) {
@@ -143,6 +152,18 @@ public class ProjectResource {
 
 	}
 
+	@GET
+		@Produces(MediaType.APPLICATION_JSON)
+		@Path("{idProject}")
+		public Response getProjectById(@PathParam("idProject") int idProject) {
+			if (projectLocal.getProjectById(idProject) == null)
+				return Response.status(Status.NOT_FOUND).build();
+			return Response.ok(projectLocal.getProjectById(idProject)).build();
+		}	
+
+	
+	
+	
 	private String getFileName(MultivaluedMap<String, String> header) {
 
 		String[] contentDisposition = header.getFirst("Content-Disposition").split(";");

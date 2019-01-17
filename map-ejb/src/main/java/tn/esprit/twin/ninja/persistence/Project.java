@@ -22,28 +22,37 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-enum projectType {
-	runningProject, newProject, finishedProject;
-}
 enum projectEtat {
 	in_Progress, finished;
 }
 @JsonIgnoreProperties({ "mandates"})
 
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonProperty("start")
+	private Date start;
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonProperty("end")
+	private Date end;
+
 	private int id;
+	@JsonProperty("title")
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private projectType type;
@@ -64,18 +73,32 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy = "project")
 	List<Mandate> mandates;
 	@OneToMany(mappedBy = "project")
-	@LazyCollection(LazyCollectionOption.FALSE)
+//@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
+
 	private List<Ressource> ressources;
 
 	public Project() {
 		super();
 	}
-	@JsonManagedReference(value="RessourceProject")
+	//@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
 	}
 
 
+	public Date getStart() {
+		return start;
+	}
+	public void setStart(Date start) {
+		this.start = start;
+	}
+	public Date getEnd() {
+		return end;
+	}
+	public void setEnd(Date end) {
+		this.end = end;
+	}
 	public Project(String photo) {
 		super();
 		this.photo = photo;

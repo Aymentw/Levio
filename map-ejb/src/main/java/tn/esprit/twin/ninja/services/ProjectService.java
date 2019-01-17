@@ -26,7 +26,9 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 
 	@Override
 	public void deleteProject(int idProject) {
-		em.remove(em.find(Project.class, idProject));
+		//em.remove(em.find(Project.class, idProject));
+			Project p = em.find(Project.class, idProject);
+			p.setArchived(true);
 	}
 
 	@Override
@@ -41,6 +43,7 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 		project.setNum_ressource_all(p.getNum_ressource_all());
 		project.setNum_ressource_levio(p.getNum_ressource_levio());
 		project.setType(p.getType());
+		project.setClient(p.getClient());
 	}
 	
 	@Override
@@ -76,4 +79,19 @@ public class ProjectService implements ProjectServiceLocal, ProjectServiceRemote
 		p.setPhoto(fileName);
 		
 	}	
+	@Override
+		public void addProjectDotnet(Project p, int idClient) {
+			em.persist(p);
+			Client c = em.find(Client.class, idClient);
+			p.setClient(c);
+			
+		}		
+		
+		@Override
+	public Project getProjectById(int idProject) {
+			return em.createQuery("SELECT p FROM Project p WHERE p.id=:idProject", Project.class)
+					.setParameter("idProject", idProject).getSingleResult();
+		}
+	
+	
 }

@@ -33,6 +33,9 @@ public class Client extends User implements Serializable {
 	private clientType type;
 	private String Logo;
 	private Float Latitude ;
+	private String adress;
+	private double latitude;
+	private double longitude;
 	private Float Longitude ;
 	@JsonIgnore
 	@ManyToMany
@@ -99,6 +102,18 @@ public class Client extends User implements Serializable {
 	}
 	public clientType getType() {
 		return type;
+	}
+	public String getAdress() {
+		return adress;
+	}
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	public void setType(clientType type) {
 		this.type = type;
