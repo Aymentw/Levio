@@ -50,7 +50,7 @@ public class DashboardService implements DashboardServicesLocal {
 		Query q2 = em.createQuery(sql2);
 		List<Leave> leaves  =(List<Leave>) q2.getResultList();
 		for (Leave l : leaves){
-			if (d.after(l.getStart_date()) && d.before(l.getEnd_date())){
+			if (d.after(l.getStart()) && d.before(l.getEnd())){
 				leavescounter++;
 			}
 		}
@@ -158,8 +158,8 @@ public class DashboardService implements DashboardServicesLocal {
 		for(Leave l : r.getLeaves()){
 			i++;
 			html+="<li>";
-			html+="<strong>Start Date :</strong> "+l.getStart_date();
-			html+="		<strong>End Date :</strong> "+l.getEnd_date()+"</li>";
+			html+="<strong>Start Date :</strong> "+l.getStart();
+			html+="		<strong>End Date :</strong> "+l.getEnd()+"</li>";
 		}
 		html+="</ul></dd>"
 				+ "<dd class=\"clear\"></dd>"
