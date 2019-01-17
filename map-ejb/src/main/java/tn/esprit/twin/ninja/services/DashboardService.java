@@ -95,7 +95,7 @@ public class DashboardService implements DashboardServicesLocal {
 	public float satisfactionRate() {
 		Long reclamation = reclamationsCount();
 		Long satisfaction = satisfactionsCount();
-		return (satisfaction/(satisfaction+reclamation))*100;
+		return (satisfaction.floatValue()/(satisfaction.floatValue()+reclamation.floatValue()))*100;
 	}
 
 	@Override
@@ -158,8 +158,8 @@ public class DashboardService implements DashboardServicesLocal {
 		for(Leave l : r.getLeaves()){
 			i++;
 			html+="<li>";
-			html+="<strong>Start Date :</strong> "+l.getEnd();
-			html+="		<strong>End Date :</strong> "+l.getStart()+"</li>";
+			html+="<strong>Start Date :</strong> "+l.getStart();
+			html+="		<strong>End Date :</strong> "+l.getEnd()+"</li>";
 		}
 		html+="</ul></dd>"
 				+ "<dd class=\"clear\"></dd>"
@@ -185,8 +185,8 @@ public class DashboardService implements DashboardServicesLocal {
 			html+="<li><strong>Rating :</strong> "+s.getRating()+"</li>";
 			html+="</ul>";
 		}
-		html+="</dd></dl><div class=\"clear\"></div></div></body></html>";
-		File file = new File("C:/Users/COMPUTER/workspace/integrated/Levio/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
+		html+="</dd></dl><div class=\"clear\"></div></div><footer>"+new Date().toString()+"</footer></body></html>";
+		File file = new File("C:/Users/Firassov/Desktop/reports/report_"+r.getFirst_name()+"_"+r.getLast_name()+".html");
 		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 		bw.write(html);
 		bw.close();
