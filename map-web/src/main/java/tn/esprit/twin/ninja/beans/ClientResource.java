@@ -79,7 +79,6 @@ public class ClientResource {
 			return Response.status(Status.NOT_FOUND).build();
 		return Response.ok(clientLocal.getClientById(idClient)).build();
 	}
-
 	/* Mohamed */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -105,7 +104,7 @@ public class ClientResource {
 	}
 
 	/* Mohamed */
-	@POST
+	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/DeleteRequest")
 	public String deleteRequest(@QueryParam("id") int requestId) throws MessagingException {

@@ -25,9 +25,9 @@ public class User implements Serializable {
 	protected UserRoles role;
 	protected String email;
     @OneToMany (mappedBy = "fromUser", fetch=FetchType.EAGER)
-    protected Set<Conversation> sentCnversations = new HashSet<>();
+    protected Set<Message> sentMessages = new HashSet<>();
 	@OneToMany (mappedBy = "toUser", fetch=FetchType.EAGER)
-	protected Set<Conversation> recievedConversations = new HashSet<>();
+	protected Set<Message> recievedMessages = new HashSet<>();
 
 	public String getEmail() {
 		return email;
@@ -44,22 +44,23 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Set<Conversation> getSentCnversations() {
-		return sentCnversations;
+	
+	public Set<Message> getSentMessages() {
+		return sentMessages;
 	}
 
-	public void setSentCnversations(Set<Conversation> sentCnversations) {
-		this.sentCnversations = sentCnversations;
+	public void setSentMessages(Set<Message> sentMessages) {
+		this.sentMessages = sentMessages;
 	}
 
-	public Set<Conversation> getRecievedConversations() {
-		return recievedConversations;
+	public Set<Message> getRecievedMessages() {
+		return recievedMessages;
 	}
 
-	public void setRecievedConversations(Set<Conversation> recievedConversations) {
-		this.recievedConversations = recievedConversations;
+	public void setRecievedMessages(Set<Message> recievedMessages) {
+		this.recievedMessages = recievedMessages;
 	}
-
+	
 	public String getPassword() {
 		return password;
 	}

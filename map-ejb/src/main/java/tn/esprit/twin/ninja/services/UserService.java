@@ -1,13 +1,16 @@
 package tn.esprit.twin.ninja.services;
 
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
 
 import javax.persistence.TypedQuery;
 
+import tn.esprit.twin.ninja.communication.MailSender;
 import tn.esprit.twin.ninja.interfaces.UserServiceLocal;
 import tn.esprit.twin.ninja.interfaces.UserServiceRemote;
 import tn.esprit.twin.ninja.persistence.*;
@@ -31,11 +34,9 @@ public class UserService implements UserServiceLocal {
 
 
 	@Override
-	public void treatClientRequest(int userId, int requestId) {
-		if (this.hasRole(userId, UserRoles.ROLE_SUPERVISOR)) {
+	public void treatClientRequest(int requestId) {
 			Request request = em.find(Request.class, requestId);
 			request.setStatus(true);
-		}
 	}
 
 	@Override
@@ -48,7 +49,12 @@ public class UserService implements UserServiceLocal {
 		return  em.createQuery("select r from Request r where r.status = true", Request.class).getResultList();
 	}
 
-
+	@Override
+	public void sendMessageToClient(Message message) throws MessagingException {
+		MailSender mailSender = new MailSender();
+		mailSender.sendMessage("smtp.gmail.com", "mohamed@pixelwilderness.com", "V4Vendetta", "587", "true", "true",
+		message.getToUserEmail(), message.getSubject() + ": " + message.getType(), message.getMessage());
+	}
 	@Override
 	public List<Request> getUnTreatedRequests() {
 		return  em.createQuery("select r from Request r where r.status = false or r.status is null", Request.class).getResultList();
@@ -169,6 +175,37 @@ public class UserService implements UserServiceLocal {
 		}
 		
 	}
+	@Override
+	public void deleteRequest(int requestId) {
+		System.out.println(requestId);
+		//Request request = em.find(Request.class, requestId);
+	//	em.remove(request);
+	}
 
 
+	@Override
+	public boolean login(String email, String password) {
+		try {
+			User u =  em.createQuery("select e from User e where e.email = :email", User.class).setParameter("email", email).getSingleResult();
+			 if(u == null) {
+				 return false;
+			 } else {
+				 if (u.getPassword().equals(password)) {
+					 return true;
+				 } else {
+					 return false;
+				 }
+			 }
+		} catch (NoResultException e) {
+			System.out.println("no result found in login");
+			return false;
+		}
+	
+		
+	}
+	@Override
+	public User getUserInfo(String email, String password) {
+		return em.createQuery("select e from User e where e.email = :email", User.class).setParameter("email", email).getSingleResult();
+	}
+	
 }

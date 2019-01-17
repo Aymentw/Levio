@@ -31,8 +31,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 enum projectType {
 	runningProject, newProject, finishedProject;
 }
+enum projectEtat {
+	in_Progress, finished;
+}
+@JsonIgnoreProperties({ "mandates"})
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
@@ -51,6 +55,8 @@ public class Project implements Serializable {
 	private Date end_date;
 	private String adress;
 	private String photo;
+	@Enumerated(EnumType.STRING)
+	private projectEtat etat;
 	private boolean archived;
 	@ManyToOne
 	private Client client;
@@ -64,7 +70,7 @@ public class Project implements Serializable {
 	public Project() {
 		super();
 	}
-
+	@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
 	}
@@ -85,6 +91,19 @@ public class Project implements Serializable {
 		this.id = id;
 	}
 
+		
+	public projectEtat getEtat() {
+		return etat;
+	}
+	public void setEtat(projectEtat etat) {
+		this.etat = etat;
+	}
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
 	public String getName() {
 		return name;
 	}
@@ -157,13 +176,7 @@ public class Project implements Serializable {
 		this.archived = archived;
 	}
 
-	public Client getClient() {
-		return client;
-	}
 
-	public void setClient(Client client) {
-		this.client = client;
-	}
 
 	public List<Mandate> getMandates() {
 		return mandates;
