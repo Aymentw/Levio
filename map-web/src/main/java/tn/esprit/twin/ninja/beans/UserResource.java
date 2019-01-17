@@ -2,6 +2,7 @@ package tn.esprit.twin.ninja.beans;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.mail.MessagingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import tn.esprit.twin.ninja.interfaces.UserServiceLocal;
 import tn.esprit.twin.ninja.persistence.User;
+import tn.esprit.twin.ninja.persistence.Message;
 import tn.esprit.twin.ninja.persistence.Skill;
 
 import java.util.Set;
@@ -61,6 +63,17 @@ public class UserResource {
 	}
 
 	/* Mohamed */
+	@POST
+	@Path("/sendMsgToClient")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void sendMessageToClient(Message message) {
+		try {
+			userLocal.sendMessageToClient(message);
+		} catch (MessagingException e) {
+			System.out.println("error sending message");
+		}
+	}
+	/* Mohamed */
 	@GET
 	@POST
 	@Path("/getAllRequests")
@@ -95,7 +108,7 @@ public class UserResource {
 	/* Mohamed */
 
 	@GET
-	@Path("/deleteTreatedRequets")
+	@Path("/deleteTreatedRequests")
 	public void deleteTreatedRequests() {
 		userLocal.deleteTreatedRequests();
 	}
@@ -109,4 +122,14 @@ public class UserResource {
 		userLocal.deleteRequest(id);
 	}
 
+	/* Mohamed */
+	@GET
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response login(@QueryParam("email") String email, @QueryParam("password") String pass) {
+		if(userLocal.login(email, pass) == true) {
+			return Response.ok(userLocal.getUserInfo(email, pass)).build();
+			}
+		return Response.ok(new User()).build();
+	}
 }

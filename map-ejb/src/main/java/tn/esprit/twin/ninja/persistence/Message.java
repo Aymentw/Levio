@@ -39,9 +39,17 @@ public class Message implements Serializable{
     @JoinColumn(name = "to_user")
     @JsonIgnore
     private  User toUser;
-
+    private String toUserEmail;
 	public User getFromUser() {
 		return fromUser;
+	}
+
+	public String getToUserEmail() {
+		return toUserEmail;
+	}
+
+	public void setToUserEmail(String toUserEmail) {
+		this.toUserEmail = toUserEmail;
 	}
 
 	public void setFromUser(User fromUser) {

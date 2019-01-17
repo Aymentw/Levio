@@ -35,7 +35,7 @@ public class RessourceService implements RessourceServiceLocal {
 		mailSender.sendMessage("smtp.gmail.com", "mohamed@pixelwilderness.com", "V4Vendetta", "587", "true", "true",
 				client.getEmail(), message.getSubject() + ": " + message.getType(), message.getMessage());
 
-	}
+}
 
 	@Override
 	public List<Conversation> getOpenedConversations(int resourceId) {

@@ -191,13 +191,15 @@ public class RessourceRessource {
 		fop.close();
 
 	}
+
 	/* Mohamed */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/sendMessageToClient")
 	public void sendMessageToResource(Message msg, @QueryParam("cu") int currentUser, @QueryParam("client") int clientId) throws MessagingException {
 		ressourceService.sendMessageToClient(msg, currentUser, clientId);
-	}
+		}
+	
 	/* Mohamed */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

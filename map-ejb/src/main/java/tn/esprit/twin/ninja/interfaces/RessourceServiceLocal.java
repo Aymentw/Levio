@@ -25,7 +25,7 @@ public interface RessourceServiceLocal {
 	public void addPhotoRessource(int ressourceId, String photo);
 
 	public void sendMessageToClient(Message message,int currentResource, int clientId) throws MessagingException;
-
+	
 	public List<Conversation> getOpenedConversations(int ResourceId);
 
 	public void respondToAMessage(int conversationId,int currencResource, Message message) throws MessagingException;
