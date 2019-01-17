@@ -15,8 +15,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
@@ -27,20 +29,38 @@ public class Leave implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@JsonProperty("title")
 	private String subject;
 	private String description;
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date start;
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date end;
 	private String themeColor;
 	@ManyToOne
 	@JsonIgnore
 	private Ressource ressource;
+	private boolean allDay;
 
 	public int getId() {
 		return id;
 	}
+	
+
+
+	public boolean isAllDay() {
+		return allDay;
+	}
+
+
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
+	}
+
+
 
 	public String getThemeColor() {
 		return themeColor;

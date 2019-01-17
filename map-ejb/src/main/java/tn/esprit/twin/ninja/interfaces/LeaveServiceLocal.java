@@ -10,7 +10,7 @@ public interface LeaveServiceLocal {
 	
 	public List<Leave> getAllLeave();
 
-	public boolean updateLeave(Leave l);
+	public boolean updateLeave(Leave l,int id);
 
 	public boolean deleteLeave(int leaveId);
 

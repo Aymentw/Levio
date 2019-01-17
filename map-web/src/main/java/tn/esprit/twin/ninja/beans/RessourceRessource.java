@@ -60,7 +60,7 @@ public class RessourceRessource {
 		return Response.status(Status.BAD_REQUEST).entity("Empty fields, check").build();
 	}
 
-	@PUT
+	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/archiver/{ressourceId}")
 	public Response deleteRessource(@PathParam(value="ressourceId")int ressourceId) {
@@ -107,12 +107,11 @@ public class RessourceRessource {
 
 	}
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/artp")
-	public Response affectRessourceToProject(@QueryParam("projectId") int projectId,
-			@QueryParam("ressourceId") int ressourceId) {
+	@Path("/artp/{projectId}/{ressourceId}")
+	public Response affectRessourceToProject(@PathParam(value="projectId") int projectId,
+			@PathParam(value="ressourceId") int ressourceId) {
 
 		if (ressourceService.affectRessourceToProject(projectId, ressourceId))
 			return Response.status(Status.OK).build();
@@ -124,7 +123,7 @@ public class RessourceRessource {
 	@POST
 	@Consumes("multipart/form-data")
 	@Path("/upload")
-	public Response uploadFile(MultipartFormDataInput input, @QueryParam("id") int id) {
+	public Response uploadFile(MultipartFormDataInput input) {
 
 		String fileName = "";
 
@@ -147,7 +146,6 @@ public class RessourceRessource {
 				fileName = UPLOADED_FILE_PATH + fileName;
 
 				writeFile(bytes, fileName);
-				ressourceService.addPhotoRessource(id, fileName);
 				System.out.println("Done");
 
 			} catch (IOException e) {
@@ -191,6 +189,35 @@ public class RessourceRessource {
 		fop.close();
 
 	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("AvailableProjects/{ressourceId}")
+	public Response getAvailableProjects(@PathParam(value="ressourceId")int ressourceId){
+		
+		
+		return Response.ok(ressourceService.getAvailableProjects(ressourceId)).build();
+		
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("ProjectsByRessource/{ressourceId}")
+	public Response getProjectsByRessource(@PathParam(value="ressourceId")int ressourceId){
+		
+		
+		return Response.ok(ressourceService.getProjectsByRessource(ressourceId)).build();
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/* Mohamed */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

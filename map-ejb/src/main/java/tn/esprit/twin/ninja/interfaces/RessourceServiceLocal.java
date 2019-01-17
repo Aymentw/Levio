@@ -18,7 +18,7 @@ public interface RessourceServiceLocal {
 
 	public Ressource getRessourceById(int ressourceId);
 
-	public boolean affectRessourceToProject(int projectId, int ressourceId);
+	boolean affectRessourceToProject(int projectId, int ressourceId);
 
 	public List<Ressource> getRessourceByName(String FirstName);
 
@@ -33,6 +33,13 @@ public interface RessourceServiceLocal {
 	public List<Conversation> getConversationByType(int currentResource, MessageType messageType);
 
 	public List<Conversation> getConversationBySubject(String subject, int currentResource);
+
+	public List<Project> getAvailableProjects(int ressourceId);
+
+	public List<Project> getProjectsByRessource(int ressourceId);
+
+
+
 
 
 

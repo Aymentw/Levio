@@ -88,7 +88,7 @@ public class SkillRessource {
 	public Response getSkills(@PathParam("ressourceId")int ressourceId){
 		
 		skillService.getSkillsByRessource(ressourceId);
-		return Response.ok(skillService.getBestSkills()).build();
+		return Response.ok(skillService.getSkillsByRessource(ressourceId)).build();
 		
 	}
 

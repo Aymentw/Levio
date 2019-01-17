@@ -77,7 +77,7 @@ public class SkillService implements SkillServiceLocal {
 
 	@Override
 	public List<Skill> getSkillsByRessource(int ressourceId) {
-		return em.createQuery("SELECT s FROM Skill s WHERE l.ressource_id=:ressourceId", Skill.class)
+		return em.createQuery("SELECT s FROM Skill s WHERE s.ressource.id=:ressourceId", Skill.class)
 				.setParameter("ressourceId", ressourceId).getResultList();
 
 	}

@@ -42,9 +42,10 @@ public class LeaveRessource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateLeave(Leave l) {
+	@Path("{id}")
+	public Response updateLeave(Leave l,@PathParam(value="id")int id) {
 
-		if (leaveService.updateLeave(l))
+		if (leaveService.updateLeave(l,id))
 			return Response.status(Status.OK).build();
 		return Response.status(Status.BAD_REQUEST).build();
 

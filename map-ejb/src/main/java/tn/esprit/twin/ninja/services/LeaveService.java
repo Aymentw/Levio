@@ -23,14 +23,15 @@ public class LeaveService implements LeaveServiceLocal {
 		Ressource r = em.find(Ressource.class, ressourceId);
 		em.persist(l);
 		l.setRessource(r);
+		l.setAllDay(true);
 		r.setState(RessourceState.notAvailable);
 
 	}
 
 	@Override
-	public boolean updateLeave(Leave l) {
+	public boolean updateLeave(Leave l,int id) {
 
-		Leave leave = em.find(Leave.class, l.getId());
+		Leave leave = em.find(Leave.class, id);
 		leave.setStart(l.getStart());
 		leave.setEnd(l.getEnd());
 		return true;

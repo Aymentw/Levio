@@ -17,6 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -53,8 +57,8 @@ public class Project implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "project")
 	List<Mandate> mandates;
-	@JsonIgnore
 	@OneToMany(mappedBy = "project")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Ressource> ressources;
 
 	public Project() {

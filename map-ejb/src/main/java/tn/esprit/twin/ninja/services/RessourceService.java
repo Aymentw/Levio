@@ -99,7 +99,7 @@ public class RessourceService implements RessourceServiceLocal {
 		return true;
 
 	}
-	
+
 	@Override
 	public void addPhotoRessource(int ressourceId, String photo) {
 
@@ -109,10 +109,10 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public boolean updateRessource(Ressource res,int id) {
+	public boolean updateRessource(Ressource res, int id) {
 
 		Ressource r = em.find(Ressource.class, id);
-		
+
 		r.setFirst_name(res.getFirst_name());
 		r.setLast_name(res.getLast_name());
 		r.setContract_type(res.getContract_type());
@@ -159,15 +159,34 @@ public class RessourceService implements RessourceServiceLocal {
 	}
 
 	@Override
-	public boolean affectRessourceToProject(int projectId, int ressourceId) {
+	public boolean affectRessourceToProject(int projectId,int ressourceId) {
 		try {
 			Project p = em.find(Project.class, projectId);
 			Ressource r = em.find(Ressource.class, ressourceId);
+			r.getProject().setNum_ressource_all(r.getProject().getNum_ressource_all()-1);
+			r.getProject().setNum_ressource_levio(r.getProject().getNum_ressource_levio()-1);
 			r.setProject(p);
+			p.setNum_ressource_all(p.getNum_ressource_all()+1);
+			p.setNum_ressource_levio(p.getNum_ressource_levio()+1);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Project> getAvailableProjects(int ressourceId) {
+
+		return em.createQuery("SELECT p FROM Project p WHERE p.id in (SELECT r.project.id FROM Ressource r WHERE r.id != :ressourceId "
+				+ "and r.project.id != (select r.project.id from Ressource r where r.id = :ressourceId))" , Project.class)
+				.setParameter("ressourceId", ressourceId).getResultList();
+	}
+
+	@Override
+	public List<Project> getProjectsByRessource(int ressourceId) {
+
+		return em.createQuery("SELECT p FROM Project p WHERE p.id in (SELECT r.project.id FROM Ressource r WHERE r.id = :ressourceId)" , Project.class)
+				.setParameter("ressourceId", ressourceId).getResultList();
 	}
 
 }
