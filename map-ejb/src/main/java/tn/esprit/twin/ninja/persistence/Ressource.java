@@ -61,7 +61,6 @@ public class Ressource extends User implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Application> listApplication;
 
-	@JsonBackReference(value="RessourceProject")	
 	public Project getProject() {
 		return project;
 	}

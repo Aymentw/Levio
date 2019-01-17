@@ -37,21 +37,12 @@ enum projectEtat {
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Entity
-@Table(name = "project")
 public class Project implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonProperty("start")
-	private Date start;
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonProperty("end")
-	private Date end;
-
 	private int id;
+	
 	@JsonProperty("title")
 	private String name;
 	@Enumerated(EnumType.STRING)
@@ -75,7 +66,6 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy = "project")
 //@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
-
 	private List<Ressource> ressources;
 
 	public Project() {
