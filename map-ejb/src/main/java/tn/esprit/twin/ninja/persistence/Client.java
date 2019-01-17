@@ -31,13 +31,18 @@ public class Client extends User implements Serializable {
 	private clientCategory category;
 	@Enumerated(EnumType.STRING)
 	private clientType type;
+	private String Logo;
+	private Float Latitude ;
+	private Float Longitude ;
 	@JsonIgnore
 	@ManyToMany
 	private List<Request> requests;
 	@JsonIgnore
 	@OneToMany(mappedBy="client")
 	private List<Project> projects;
-	
+	@JsonIgnore
+	@OneToMany(mappedBy="client")
+	private List<Organigramme> organigramme;
 	public List<Request> getRequests() {
 		return requests;
 	}
@@ -59,17 +64,50 @@ public class Client extends User implements Serializable {
 	public void setCategory(clientCategory category) {
 		this.category = category;
 	}
-	public clientType getType() {
-		return type;
+	
+
+ 
+	public List<Organigramme> getOrganigramme() {
+		return organigramme;
 	}
-	public void setType(clientType type) {
-		this.type = type;
+	public void setOrganigramme(List<Organigramme> organigramme) {
+		this.organigramme = organigramme;
+	}
+	public String getLogo() {
+		return Logo;
+	}
+	public void setLogo(String logo) {
+		Logo = logo;
+	}
+	public Float getLatitude() {
+		return Latitude;
+	}
+	public void setLatitude(Float latitude) {
+		Latitude = latitude;
+	}
+	public Float getLongitude() {
+		return Longitude;
+	}
+	public void setLongitude(Float longitude) {
+		Longitude = longitude;
 	}
 	public boolean isArchived() {
 		return archived;
 	}
 	public void setArchived(boolean archived) {
 		this.archived = archived;
+	}
+	public clientType getType() {
+		return type;
+	}
+	public void setType(clientType type) {
+		this.type = type;
+	}
+	public List<Project> getProjects() {
+		return projects;
+	}
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
 	}
 	
 	
