@@ -71,7 +71,6 @@ public class Project implements Serializable {
 	public Project() {
 		super();
 	}
-	//@JsonManagedReference(value="RessourceProject")
 	public List<Ressource> getRessources() {
 		return ressources;
 	}

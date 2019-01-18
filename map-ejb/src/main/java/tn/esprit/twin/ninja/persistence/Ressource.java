@@ -183,4 +183,7 @@ public class Ressource extends User implements Serializable {
 		this.listApplication = listApplication;
 	}
 
+	
+	
+	
 }
