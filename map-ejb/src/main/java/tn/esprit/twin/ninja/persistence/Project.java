@@ -51,6 +51,10 @@ public class Project implements Serializable {
 	private int num_ressource_levio;
 	@Temporal(TemporalType.DATE)
 	private Date start_date;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date start;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date end;
 	@Temporal(TemporalType.DATE)
 	private Date end_date;
 	private String adress;
